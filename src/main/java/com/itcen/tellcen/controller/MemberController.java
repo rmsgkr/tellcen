@@ -98,24 +98,28 @@ public class MemberController {
 		map.put("id", id);
 		map.put("pwd", pwd);
 		MemberDTO member = memberService.login(map);
-
-		boolean passMatch = passEncoder.matches(pwd, member.getPwd());
-		int authKey = member.getEmailAuthCheck();
-		if (passMatch && authKey == 1) { // 로그인
-			session.setAttribute("member", member);
-			return "redirect:/";
-		} else if (passMatch) { // 아직 인증 안됨
-			return "member/authNotYet";
-		} else { // 로그인실패
-			return "redirect:/member/login";
+		
+		// DB에 정보가 없는 경우(아이디/패스워드 잘못됐을 때와 동일한 것이 좋음)
+		// ID 및 PW 체크해서 안맞을 경우 (matches를 이용한 암호화 체크를 해야함)
+		if (member==null || !id.equals(member.getId()) ||!passEncoder.matches(pwd, member.getPwd()) ) { 
+			return "member/loginFail";
 		}
+		// 이메일 인증 안됨
+		else if (member.getEmailAuthCheck() != 1) { 
+			return "member/authNotYet";
+		}
+		// 로그인 성공
+		else { 
+			session.setAttribute("member", member); 
+			return "member/loginSuccess";
+		}	
 	}
 
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/";
+		return "member/logout";
 	}
 
 	// 회원 정보 수정

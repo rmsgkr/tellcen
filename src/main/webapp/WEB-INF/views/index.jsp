@@ -26,7 +26,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="landing.jsp" class="link">청원하기</a>
+					<a href="/tellcen/petition/petitionWrite" class="link">청원하기</a>
 				</h3>
 				<p>Petition</p>
 			</header>
@@ -36,7 +36,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="landing.jsp" class="link">민원신청</a>
+					<a href="/tellcen/petition/petitionList" class="link">민원신청</a>
 				</h3>
 				<p>Complaint</p>
 			</header>

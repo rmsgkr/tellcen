@@ -20,7 +20,7 @@
               <a class="nav-link" href="/easycook/admin">관리자Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/easycook">이지쿡</a>
+              <a class="nav-link" href="/easycook">말해주센</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,8 +45,7 @@
         <th width="7%">이름</th>
         <th width="10%">이메일</th>
         <th width="15%">전화번호</th>
-        <th width="10%">생일</th>
-        <th width="8%">포인트</th>
+        <th width="10%">생년월일</th>
         <th width="15%">가입일</th>
         <th width="15%">탈퇴일</th>
         <th width="10%"></th>
@@ -59,10 +58,9 @@
 	      <td>${infoList.email}</td>
 	      <td>${infoList.tel}</td>
 	      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${infoList.birthday}"/></td>
-	      <td>${infoList.point}</td>
 	      <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${infoList.regDate}"/></td>
 	      <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${infoList.wdrDate}"/></td>
-	      <td><button class="btn btn-primary" onclick="window.location.href='http://localhost:8089/easycook/admin/member/${infoList.id}'">주문목록</button></td>
+	      <td><button class="btn btn-primary" onclick="window.location.href='http://localhost:8089/easycook/admin/member/${infoList.id}'">활동내역</button></td>
 	    </tr>
     </c:forEach>
   </table>

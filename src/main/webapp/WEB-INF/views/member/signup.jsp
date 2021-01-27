@@ -10,7 +10,6 @@
 	<!-- One -->
 	<section id="one">
 		<div class="inner">
-
 			<header class="major">
 				<h1>회원가입</h1>
 			</header>

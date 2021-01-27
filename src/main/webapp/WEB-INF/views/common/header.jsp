@@ -31,7 +31,7 @@
 		<!-- Menu -->
 		<nav id="menu">
 			<ul class="actions stacked">
-				<li><a href="#" class="button fit">청원하기</a></li>
+				<li><a href="/tellcen/petition/petitionWrite" class="button fit">청원하기</a></li>
 				<li><a href="#" class="button fit">민원신청</a></li>
 				<li><a href="#" class="button fit">국민제안</a></li>
 				<li><a href="#" class="button fit">공지사항</a></li>

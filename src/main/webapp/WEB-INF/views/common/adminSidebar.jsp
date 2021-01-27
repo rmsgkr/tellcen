@@ -34,10 +34,11 @@
       <div class="sidebar-heading">관리자페이지</div>
       <div class="list-group list-group-flush">
         <a href="/tellcen/admin/member" class="list-group-item list-group-item-action bg-light">회원관리</a>
-        <a href="/tellcen/admin/product" class="list-group-item list-group-item-action bg-light">상품관리</a>
-        <a href="/tellcen/admin/orders" class="list-group-item list-group-item-action bg-light">주문관리</a>
-        <a href="/tellcen/admin/notice" class="list-group-item list-group-item-action bg-light">공지사항</a>
-        <a href="/tellcen/admin/event" class="list-group-item list-group-item-action bg-light">이벤트</a>
+        <a href="/tellcen/admin/product" class="list-group-item list-group-item-action bg-light">청원관리</a>
+        <a href="/tellcen/admin/orders" class="list-group-item list-group-item-action bg-light">민원관리</a>
+        <a href="/tellcen/admin/orders" class="list-group-item list-group-item-action bg-light">제안관리</a>
+        <a href="/tellcen/admin/orders" class="list-group-item list-group-item-action bg-light">문의관리</a>
+        <a href="/tellcen/admin/notice" class="list-group-item list-group-item-action bg-light">공지사항관리</a>
       </div>
     </div>
     <!-- /#sidebar-wrapper -->

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="petitionMapper">
+	
+	<!--카운트, 검색 -->
+	<select id="getArticleCount" parameterType="hashmap" resultType="int">
+	 	select nvl(count(*),0) from petition 
+	  <if test="category!=null and category !='' ">
+	  where ${category} like '%${sentence}%'
+	  </if>
+	</select>
+	
+	<!-- 청원 목록 -->
+   <select id="getPetitionInfo" resultType="Petition">
+		SELECT petition_no AS petitionNo, petition_title AS petitionTitle,
+		 petition_content AS petitionContent, petition_area AS petitionArea,
+		 petition_field AS petitionField, petition_date AS petitionDate,
+		 petition_agreement AS petitionAgreement, petition_status AS petitionStatus 
+		FROM (
+			SELECT ROWNUM RN, A.* 
+				FROM (
+						SELECT * 
+						FROM petition 
+						ORDER BY petition_no DESC) A
+				)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 청원 작성 -->
+	<insert id="petitionWrite" parameterType="Petition">
+			INSERT INTO petition
+			VALUES (petitionseq.nextval, #{id}, #{petitionTitle}, #{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
+	</insert>
+</mapper>

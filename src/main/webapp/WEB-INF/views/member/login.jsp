@@ -18,8 +18,8 @@
 			<div class="row gtr-200">
 				<!-- Content -->
 				<div class="col-9 col-12-medium">
-					<input type="text" name="id" id="loginId" value="" placeholder="아이디" /> 
-					<input type="password" name="pwd" id="loginPwd" value="" placeholder="비밀번호" />
+					<input type="text" name="id" id="id" value="" placeholder="아이디" /> 
+					<input type="password" name="pwd" id="pwd" value="" placeholder="비밀번호" />
 				</div>
 				<div class="col-3 col-12-medium">
 					<button type="button" class="button primary large" onclick="button();">Login</button>

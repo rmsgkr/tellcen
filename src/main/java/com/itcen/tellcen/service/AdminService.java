@@ -20,7 +20,7 @@ public class AdminService {
 		return adminDao.getFullInfo(vo);
 	}
 
-	public int countNumber() {
+	public int countMember() {
 		return adminDao.countMember();
 	}
 
@@ -28,7 +28,7 @@ public class AdminService {
 		return adminDao.getDelInfo(vo);
 	}
 
-	public int countDelNumber() {
+	public int countDelMember() {
 		return adminDao.countDelMember();
 	}
 
