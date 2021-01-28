@@ -10,10 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itcen.tellcen.domain.CommentPDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.service.PetitionService;
@@ -22,10 +24,10 @@ import com.itcen.tellcen.util.PagingVO;
 @Controller
 @RequestMapping("/petition")
 public class PetitionController {
-	
+
 	@Autowired
 	PetitionService petitionService;
-	
+
 	// 청원 목록
 	@GetMapping("/petitionList")
 	public String notice(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
@@ -45,8 +47,41 @@ public class PetitionController {
 
 		List<PetitionDTO> list = petitionService.getPetitionInfo(vo);
 		model.addAttribute("petition", list);
-		
+
 		return "petition/petitionList";
+	}
+
+	// 각각의 청원 보기
+	@GetMapping("/{petitionNo}")
+	public String noticeModifyForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
+		
+		PetitionDTO petition = petitionService.getArticle(petitionNo);
+		model.addAttribute("petition", petition);
+		
+		List<CommentPDTO> commentP = petitionService.getCommentP(petitionNo);
+		model.addAttribute("commentP", commentP);
+		
+		return "petition/petitionDetail";
+	}
+
+	// 청원 댓글(동의) 작성
+	@PostMapping("/{petitionNo}/agree")
+	public String commentPWrite(Model model, HttpServletRequest request, @ModelAttribute CommentPDTO commentP, @PathVariable("petitionNo") int petitionNo) {
+		HttpSession session = request.getSession();
+		String id = null;
+		try {
+			MemberDTO member = (MemberDTO) session.getAttribute("member");
+			id = member.getId();
+			commentP.setId(id);
+			commentP.setPetitionNo(petitionNo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		petitionService.agreementPlus(petitionNo);
+		petitionService.commentPWrite(commentP);
+		model.addAttribute("petitionNo",petitionNo);
+		
+		return "/petition/agreeSuccess";
 	}
 	
 	// 청원 작성
@@ -54,19 +89,19 @@ public class PetitionController {
 	public String petitionWriteForm() {
 		return "petition/petitionWrite";
 	}
+
 	// 청원 작성
 	@PostMapping("/petitionWrite")
 	public String petitionWrite(HttpServletRequest request, @ModelAttribute PetitionDTO petition) {
 		HttpSession session = request.getSession();
 		String id = null;
 		try {
-		 	MemberDTO member = (MemberDTO) session.getAttribute("member");
+			MemberDTO member = (MemberDTO) session.getAttribute("member");
 			id = member.getId();
 			petition.setId(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println(petition);
 		petitionService.petitionWrite(petition);
 		return "redirect:/";
 	}

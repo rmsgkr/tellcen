@@ -14,7 +14,7 @@
 	
 	<!-- 청원 목록 -->
    <select id="getPetitionInfo" resultType="Petition">
-		SELECT petition_no AS petitionNo, petition_title AS petitionTitle,
+		SELECT petition_no AS petitionNo,id, petition_title AS petitionTitle,
 		 petition_content AS petitionContent, petition_area AS petitionArea,
 		 petition_field AS petitionField, petition_date AS petitionDate,
 		 petition_agreement AS petitionAgreement, petition_status AS petitionStatus 
@@ -28,9 +28,36 @@
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 	
+	<!-- 각각의 청원 보기 -->
+   <select id="getArticle" parameterType="hashmap"  resultType="Petition">
+	   SELECT petition_no AS petitionNo,id, petition_title AS petitionTitle,
+		 petition_content AS petitionContent, petition_area AS petitionArea,
+		 petition_field AS petitionField, petition_date AS petitionDate,
+		 petition_agreement AS petitionAgreement, petition_status AS petitionStatus 
+	   FROM petition where petition_no = #{petitionNo} 
+   </select>
+   
+	<!-- 각각의 청원 보기(댓글-동의) -->
+   <select id="getCommentP" resultType="CommentP">
+	   SELECT commentP_no AS commentPNo, petition_no AS petitionNo, id, 
+	   		 commentP_content AS commentPContent, commentP_date AS commentPDate
+	   FROM commentP 
+	   WHERE petition_no = #{petitionNo} 
+   </select>
+   
+   <!-- 청원 댓글(동의) 작성 --> 
+	<insert id="commentPWrite" parameterType="CommentP">
+		INSERT INTO commentP
+		VALUES (commentPseq.nextval, #{petitionNo}, #{id}, #{commentPContent}, sysdate)
+	</insert>
+	<update id="agreementPlus" parameterType="int">
+		UPDATE petition SET petition_agreement = petition_agreement +1 
+		WHERE petition_no = #{petitionNo}
+	</update>
+	
 	<!-- 청원 작성 -->
 	<insert id="petitionWrite" parameterType="Petition">
-			INSERT INTO petition
-			VALUES (petitionseq.nextval, #{id}, #{petitionTitle}, #{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
+		INSERT INTO petition
+		VALUES (petitionseq.nextval, #{id}, #{petitionTitle}, #{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
 	</insert>
 </mapper>

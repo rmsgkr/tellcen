@@ -29,14 +29,16 @@
 					</thead>
 					<tbody>
 					<c:forEach items="${petition }" var="list">
+						
 						<tr>
 							<td>${list.petitionNo }</td>
 							<td>${list.petitionArea }</td>
 							<td>${list.petitionField }</td>
-							<td>${list.petitionTitle }</td>
+							<td><a href="/tellcen/petition/${list.petitionNo}" >[ ${list.petitionTitle } ]</a></td>
 							<td>${list.petitionDate }</td>
 							<td>${list.petitionAgreement }</td>
 						</tr>
+						
 					</c:forEach>
 					</tbody>
 					<!-- <tfoot>
@@ -78,28 +80,5 @@
 
 </div>
  <script>
-	function button() {
-		if (writeForm.petitionArea.value == "") {
-			alert('지역을 선택해주세요.');
-			writeForm.petitionArea.focus();
-			return;
-		}
-		if (writeForm.petitionField.value == "") {
-			alert('분야를 선택해주세요.');
-			writeForm.petitionField.focus();
-			return;
-		}
-		if (writeForm.petitionTitle.value == "") {
-			alert('제목을 입력해주세요.');
-			writeForm.petitionTitle.focus();
-			return;
-		}
-		if (writeForm.petitionContent.value == "") {
-			alert('내용을 입력해주세요.');
-			writeForm.petitionContent.focus();
-			return;
-		}
-		writeForm.submit();
-	}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />

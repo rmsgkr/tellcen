@@ -17,18 +17,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="/easycook/admin">관리자Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/tellcen/admin">관리자Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/easycook">말해주센</a>
+              <a class="nav-link" href="/tellcen">말해주센</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 회원관리
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              	<a class="dropdown-item" href="/easycook/admin/member">회원목록</a>
-                <a class="dropdown-item" href="/easycook/admin/member/delete">탈퇴회원</a>
+              	<a class="dropdown-item" href="/tellcen/admin/member">회원목록</a>
+                <a class="dropdown-item" href="/tellcen/admin/member/delete">탈퇴회원</a>
               </div>
             </li>
           </ul>
@@ -60,7 +60,7 @@
 	      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${infoList.birthday}"/></td>
 	      <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${infoList.regDate}"/></td>
 	      <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${infoList.wdrDate}"/></td>
-	      <td><button class="btn btn-primary" onclick="window.location.href='http://localhost:8089/easycook/admin/member/${infoList.id}'">활동내역</button></td>
+	      <td><button class="btn btn-primary" onclick="window.location.href='http://localhost:8089/tellcen/admin/member/${infoList.id}'">활동내역</button></td>
 	    </tr>
     </c:forEach>
   </table>
@@ -69,7 +69,7 @@
 <!-- 페이징 -->
 <div style="display: block; text-align: center;">		
 		<c:if test="${paging.startPage != 1 }">
-			<a href="/easycook/admin/member?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
+			<a href="/tellcen/admin/member?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
 		</c:if>
 		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 			<c:choose>
@@ -77,12 +77,12 @@
 					<b>${p }</b>
 				</c:when>
 				<c:when test="${p != paging.nowPage }">
-					<a href="/easycook/admin/member?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
+					<a href="/tellcen/admin/member?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
 				</c:when>
 			</c:choose>
 		</c:forEach>
 		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="/easycook/admin/member?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
+			<a href="/tellcen/admin/member?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
 		</c:if>
 	</div>
 
@@ -90,8 +90,8 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="/easycook/resources/admin/vendor/jquery/jquery.min.js"></script>
-  <script src="/easycook/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/tellcen/resources/admin/vendor/jquery/jquery.min.js"></script>
+  <script src="/tellcen/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Menu Toggle Script -->
   <script>

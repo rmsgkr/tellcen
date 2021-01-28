@@ -17,18 +17,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" href="/easycook/admin">관리자Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/tellcen/admin">관리자Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/easycook">이지쿡</a>
+              <a class="nav-link" href="/tellcen">이지쿡</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 회원관리
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              	<a class="dropdown-item" href="/easycook/admin/member">회원목록</a>
-                <a class="dropdown-item" href="/easycook/admin/member/delete">탈퇴회원</a>
+              	<a class="dropdown-item" href="/tellcen/admin/member">회원목록</a>
+                <a class="dropdown-item" href="/tellcen/admin/member/delete">탈퇴회원</a>
               </div>
             </li>
           </ul>
@@ -75,8 +75,8 @@
   <!-- /#wrapper -->
 
   <!-- Bootstrap core JavaScript -->
-  <script src="/easycook/resources/admin/vendor/jquery/jquery.min.js"></script>
-  <script src="/easycook/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/tellcen/resources/admin/vendor/jquery/jquery.min.js"></script>
+  <script src="/tellcen/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Menu Toggle Script -->
   <script>

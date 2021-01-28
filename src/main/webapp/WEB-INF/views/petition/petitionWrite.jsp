@@ -32,7 +32,7 @@
 					<br>5. 정치적 목적이 있거나 영리목적의 상업적인 내용 
 					<br>6. 사인간의 권리관계 또는 개인의 사생활에 관한 사항 
 					<br>7. 동일 이용자가 동일한 내용의 청원서를 2회 이상 제출한 경우 나중에 제출된 것 
-					<br>8. 그밖에 공익을 저해하거나 법령에 위배되는 등 게시판 운영 취지에 맞지 아니하는 게시물 등</p>
+					<br>8. 그밖에 공익을 저해하거나 법령에 위배되는 등 게시판 운영 취지에 맞지 아니하는 게시물 등
 			</div>
 			<form method="post" class="petitionWrite" name="writeForm" action="petitionWrite">
 				<div class="fields">
@@ -80,8 +80,8 @@
 				</div>
 			</form>
 			<input type="button" class="button primary large" value="신청하기"
-					onclick="button()"> 
-			<hr class="major" />
+					onclick="button()" style="float:right"> 
+		 	<br><br><br><br>
 		</div>
 	</section>
 </div>

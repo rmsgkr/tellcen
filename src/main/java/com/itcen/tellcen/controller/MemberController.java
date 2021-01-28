@@ -38,6 +38,12 @@ public class MemberController {
 	 * @GetMapping("/signuplist") public String signuplist() { return
 	 * "member/signuplist"; }
 	 */
+	// 로그인 인터셉터
+	@GetMapping("/loginInterceptor")
+	public String Interceptor() {
+		return "member/loginInterceptor";
+	}
+	
 	// 회원가입
 	@GetMapping("/signup")
 	public String signup() {
@@ -110,7 +116,9 @@ public class MemberController {
 		}
 		// 로그인 성공
 		else { 
-			session.setAttribute("member", member); 
+			session.setAttribute("member", member);
+			// 세션 유지시간 30분
+		    session.setMaxInactiveInterval(60*30) ;
 			return "member/loginSuccess";
 		}	
 	}
