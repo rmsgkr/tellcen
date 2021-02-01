@@ -1,6 +1,8 @@
 package com.itcen.tellcen.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -51,11 +53,46 @@ public class PetitionController {
 		return "petition/petitionList";
 	}
 
+	// 청원 검색
+	@PostMapping("/search")
+	public String petitionSearch(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
+			) throws Exception {
+		
+		int total = petitionService.getArticleCount(null, null);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) { 
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+
+		List<PetitionDTO> list = petitionService.getSearchInfo(vo);
+		model.addAttribute("petition", list);
+ 
+		return "petition/search";
+	}
+	
 	// 각각의 청원 보기
 	@GetMapping("/{petitionNo}")
-	public String noticeModifyForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
+	public String noticeModifyForm(Model model, @PathVariable("petitionNo") int petitionNo, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		String id = null;
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		id = member.getId();
 		
-		PetitionDTO petition = petitionService.getArticle(petitionNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("petitionNo", petitionNo);
+		
+		PetitionDTO petition = petitionService.getArticle(map);
+		
+		System.out.println(petition);
 		model.addAttribute("petition", petition);
 		
 		List<CommentPDTO> commentP = petitionService.getCommentP(petitionNo);
@@ -103,6 +140,8 @@ public class PetitionController {
 			e.printStackTrace();
 		}
 		petitionService.petitionWrite(petition);
-		return "redirect:/";
+		return "/petition/petitionSuccess"; 
 	}
+	
+	
 }

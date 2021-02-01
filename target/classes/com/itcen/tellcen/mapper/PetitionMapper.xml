@@ -3,61 +3,91 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="petitionMapper">
-	
+
 	<!--카운트, 검색 -->
-	<select id="getArticleCount" parameterType="hashmap" resultType="int">
-	 	select nvl(count(*),0) from petition 
-	  <if test="category!=null and category !='' ">
-	  where ${category} like '%${sentence}%'
-	  </if>
+	<select id="getArticleCount" parameterType="hashmap"
+		resultType="int">
+		select nvl(count(*),0) from petition
+		<if test="category!=null and category !='' ">
+			where ${category} like '%${sentence}%'
+		</if>
 	</select>
-	
+
 	<!-- 청원 목록 -->
-   <select id="getPetitionInfo" resultType="Petition">
-		SELECT petition_no AS petitionNo,id, petition_title AS petitionTitle,
-		 petition_content AS petitionContent, petition_area AS petitionArea,
-		 petition_field AS petitionField, petition_date AS petitionDate,
-		 petition_agreement AS petitionAgreement, petition_status AS petitionStatus 
+	<select id="getPetitionInfo" resultType="Petition">
+		SELECT petition_no AS
+			petitionNo,id, petition_title AS petitionTitle,
+			petition_content AS petitionContent, petition_area AS petitionArea,
+			petition_field AS petitionField, petition_date AS petitionDate,
+			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
 		FROM (
-			SELECT ROWNUM RN, A.* 
-				FROM (
-						SELECT * 
-						FROM petition 
-						ORDER BY petition_no DESC) A
-				)
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM petition
+		ORDER BY petition_no DESC) A
+		)
 		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
-	
-	<!-- 각각의 청원 보기 -->
-   <select id="getArticle" parameterType="hashmap"  resultType="Petition">
-	   SELECT petition_no AS petitionNo,id, petition_title AS petitionTitle,
-		 petition_content AS petitionContent, petition_area AS petitionArea,
-		 petition_field AS petitionField, petition_date AS petitionDate,
-		 petition_agreement AS petitionAgreement, petition_status AS petitionStatus 
-	   FROM petition where petition_no = #{petitionNo} 
-   </select>
-   
+
+	<!-- 각각의 청원 보기, 동의 여부 알기 -->
+	<select id="getArticle" parameterType="hashmap" resultType="Petition">
+		SELECT A.petition_no AS petitionNo, A.id AS id, A.petition_title AS petitionTitle, 
+			A.petition_content AS petitionContent, A.petition_area AS petitionArea, 
+			A.petition_field AS petitionField, A.petition_date AS petitionDate,
+			A.petition_agreement AS petitionAgreement, A.petition_status AS petitionStatus,
+			CASE WHEN B.petition_no is null THEN 0 ELSE 1 END AS agreeCheck
+		FROM petition A
+		LEFT OUTER JOIN commentP B
+		ON A.petition_no = B.petition_no
+		AND B.id = #{id}
+		WHERE A.petition_no = #{petitionNo}
+	</select>
+
 	<!-- 각각의 청원 보기(댓글-동의) -->
-   <select id="getCommentP" resultType="CommentP">
-	   SELECT commentP_no AS commentPNo, petition_no AS petitionNo, id, 
-	   		 commentP_content AS commentPContent, commentP_date AS commentPDate
-	   FROM commentP 
-	   WHERE petition_no = #{petitionNo} 
-   </select>
-   
-   <!-- 청원 댓글(동의) 작성 --> 
+	<select id="getCommentP" resultType="CommentP">
+		SELECT commentP_no AS commentPNo, petition_no AS petitionNo, id,
+			commentP_content AS commentPContent, commentP_date AS commentPDate
+		FROM commentP
+		WHERE petition_no = #{petitionNo}
+	</select>
+
+	<!-- 청원 댓글(동의) 작성 -->
 	<insert id="commentPWrite" parameterType="CommentP">
 		INSERT INTO commentP
-		VALUES (commentPseq.nextval, #{petitionNo}, #{id}, #{commentPContent}, sysdate)
+		VALUES (commentPseq.nextval, #{petitionNo}, #{id}, #{commentPContent},
+		sysdate)
 	</insert>
 	<update id="agreementPlus" parameterType="int">
-		UPDATE petition SET petition_agreement = petition_agreement +1 
+		UPDATE petition SET
+		petition_agreement = petition_agreement +1
 		WHERE petition_no = #{petitionNo}
 	</update>
-	
+
 	<!-- 청원 작성 -->
 	<insert id="petitionWrite" parameterType="Petition">
 		INSERT INTO petition
-		VALUES (petitionseq.nextval, #{id}, #{petitionTitle}, #{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
+		VALUES (petitionseq.nextval, #{id}, #{petitionTitle},
+		#{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
 	</insert>
+	
+	<!-- 청원 검색 -->
+	<select id="getSearchInfo" resultType="Petition">
+		SELECT petition_no AS
+			petitionNo,id, petition_title AS petitionTitle,
+			petition_content AS petitionContent, petition_area AS petitionArea,
+			petition_field AS petitionField, petition_date AS petitionDate,
+			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM petition
+		ORDER BY petition_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end} 
+		AND petition_title like '%${petitionTitle}%'
+		AND petition_area like '%${petitionArea}%'
+		AND petition_field like '%${petitionField}%'
+	</select>
 </mapper>

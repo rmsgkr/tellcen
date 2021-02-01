@@ -24,4 +24,6 @@ public class PetitionDTO {
 	 *  3.완료
 	 *  )
 	 */
+    
+    private int agreeCheck; 
 }

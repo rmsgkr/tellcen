@@ -38,6 +38,7 @@
 			</h3>
 			<form id="formAgreement" method="post" action="${petition.petitionNo }/agree" class="agreeForm">
 				<div class="row gtr-200">
+					<c:if test="${petition.agreeCheck == 0 }">
 					<!-- Content -->
 					<div class="col-9 col-12-medium">
 						<input type="text" name="commentPContent" id="commentPContent" value="동의합니다." placeholder="동의합니다." />
@@ -46,6 +47,15 @@
 						<button type="button" class="button primary fit"
 							onclick="button();">동 의</button>
 					</div>
+					</c:if>
+					
+					<c:if test="${petition.agreeCheck == 1 }">
+					<!-- Content -->
+					<div class="col-12-medium">
+						<button type="button" class="button primary fit disabled"
+							onclick="button();">이미 동의하신 청원입니다.</button>
+					</div>
+					</c:if>
 				</div>
 			</form>
 			<hr />

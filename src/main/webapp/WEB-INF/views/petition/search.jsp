@@ -6,7 +6,7 @@
 <html>
 
 <!-- Main -->
-<div id="main" class="alt">
+<div id="main" class="alt"> 
 	<!-- One -->
 	<section id="one">
 		<div class="inner">
@@ -15,7 +15,7 @@
 			</header>
 			
 			<!-- 검색기능 -->
-			<form id="formSearch" method="post" action="search" class="searchForm">
+			<form id="formSearch" method="get" action="search" class="searchForm">
 			<div class="fields"> 
 					<div class="field half">
 				<select name="petitionArea" id="petitionArea">

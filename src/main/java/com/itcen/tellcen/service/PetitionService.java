@@ -2,6 +2,7 @@ package com.itcen.tellcen.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,8 @@ public class PetitionService {
 	}
 	
 	// 각각의 청원 보기
-	public PetitionDTO getArticle(int petitionNo) throws Exception	{
-		return petitionDao.getArticle(petitionNo);
+	public PetitionDTO getArticle(Map<String, Object> map) throws Exception	{
+		return petitionDao.getArticle(map);
 	}
 	
 	// 각각의 청원 보기(댓글-동의)
@@ -52,6 +53,9 @@ public class PetitionService {
 		petitionDao.petitionWrite(petition);
 	}
 	
-	
+	// 청원 목록
+	public List<PetitionDTO> getSearchInfo(PagingVO vo) {
+		return petitionDao.getSearchInfo(vo);
+	}
 
 }

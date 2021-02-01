@@ -2,6 +2,7 @@ package com.itcen.tellcen.repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -41,10 +42,8 @@ public class PetitionDAO extends AbstractMybatisDAO {
 	}
 	
 	// 각각의 청원 보기
-	public PetitionDTO getArticle(int petitionNo) throws Exception {
+	public PetitionDTO getArticle(Map<String, Object> map) throws Exception {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
-		map.clear();
-		map.put("petitionNo", petitionNo);
 		PetitionDTO article = new PetitionDTO();
 		try {
 			article = (PetitionDTO) sqlSession.selectOne(namespace + ".getArticle", map);
@@ -109,4 +108,13 @@ public class PetitionDAO extends AbstractMybatisDAO {
 	}
 
 
+	// 청원 목록
+	public List<PetitionDTO> getSearchInfo(PagingVO vo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getSearchInfo", vo);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }
