@@ -4,6 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html>
+<ul class="links" id="sidebar">
+	<li><a href="/tellcen/petition/petitionInfo" class="button large fit">청원이란?</a></li>
+	<li></li>
+	<li><a href="/tellcen/petition/petitionWrite" class="button large fit">청원하기</a></li>
+	<li><a href="/tellcen/petition/petitionList" class="button large fit">청원목록</a></li>
+</ul>
 <!-- Main -->
 <div id="main" class="alt">
 	<!-- One -->
@@ -12,10 +18,19 @@
 			<header class="major">
 				<h1>${petition.petitionTitle }</h1>
 			</header>
-			<!-- 진행 상태와 프로그래스 조건별 추가하기 -->
+			<!-- 0.신청 1.진행  / 2.종료 / 3.답변 -->
 			<h3>
-				진행상태&nbsp;&nbsp;-&nbsp;&nbsp;<b>${petition.petitionStatus }</b>&nbsp;&nbsp;[참여인원:<b
-					style="color: skyblue">${petition.petitionAgreement }</b>명]
+				진행상태&nbsp;&nbsp;-&nbsp;&nbsp;
+				<c:if test="${petition.petitionStatus == 0 || petition.petitionStatus == 1}">
+				<b style="color: #6495ED">청원 진행 중</b>
+				</c:if>
+				<c:if test="${petition.petitionStatus == 2}">
+				<b style="color: #B0C4DE">청원 종료(답변 대기 중)</b>
+				</c:if>
+				<c:if test="${petition.petitionStatus == 3}">
+				<b style="color: #00CED1">청원 답변 완료</b>
+				</c:if>
+				&nbsp;&nbsp;[참여인원:<b style="color: skyblue">${petition.petitionAgreement }</b>명]
 			</h3>
 			<!-- <div class="w3-light-grey w3-round-large">
 				<div class="w3-container w3-blue w3-round-large" style="width: 25%">&nbsp;</div>

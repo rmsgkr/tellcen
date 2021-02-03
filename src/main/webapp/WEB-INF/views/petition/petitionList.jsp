@@ -4,7 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html>
-
+<ul class="links" id="sidebar">
+	<li><a href="/tellcen/petition/petitionInfo" class="button large fit">청원이란?</a></li>
+	<li> </li>
+	<li><a href="/tellcen/petition/petitionWrite" class="button large fit">청원하기</a></li>
+	<li><a href="/tellcen/petition/petitionList" class="button large fit">청원목록</a></li>
+</ul>
 <!-- Main -->
 <div id="main" class="alt">
 	<!-- One -->
@@ -15,9 +20,9 @@
 			</header>
 			
 			<!-- 검색기능 -->
-			<form id="formSearch" method="post" action="search" class="searchForm">
-			<div class="fields"> 
-					<div class="field half">
+			<form id="formSearch" method="get" action="search" class="searchForm">
+			<div class="fields">  
+				<div class="field half">
 				<select name="petitionArea" id="petitionArea">
 					<option value="" disabled selected>지역</option>
 					<option value="서울">서울</option>
@@ -48,7 +53,7 @@
 					<option value="기타">기타</option>
 				</select>
 			</div>
-			</div>
+			</div> 
 				<div class="row gtr-200">
 					<!-- Content -->
 					<div class="col-9 col-12-medium">

@@ -17,13 +17,7 @@ public class PetitionDTO {
     private int petitionAgreement; //동의수
     private int petitionStatus; 
 	/*
-	 * 상태( 
-	 *  0.접수- 관리자가 승인 시 목록에 보여지게 됨
-	 *  1.진행 - 일정 동의 수 넘길시 대기상태로 변함
-	 *  2.대기 - 관리자가 답변을남기려는 상태 
-	 *  3.완료
-	 *  )
+	 * 0.신청 1.진행  2.종료 3.답변
 	 */
-    
     private int agreeCheck; 
 }

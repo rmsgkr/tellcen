@@ -17,20 +17,21 @@ public class PetitionDAO extends AbstractMybatisDAO {
 	HashMap<String, Object> map = new HashMap<String, Object>();
 
 	// 카운트
-	public int getArticleCount(String category, String sentence) throws Exception {
-		
+	public int getArticleCount(String petitionTitle, String petitionArea, String petitionField) throws Exception {
+
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("category", category);
-			map.put("sentence", sentence);
-			//null이 떠서 안됨?
+			map.put("petitionTitle", petitionTitle);
+			map.put("petitionArea", petitionArea);
+			map.put("petitionField", petitionField);
+
 			return sqlSession.selectOne(namespace + ".getArticleCount", map);
 		} finally {
 			sqlSession.close();
 		}
 	}
-	
+
 	// 청원 목록
 	public List<PetitionDTO> getPetitionInfo(PagingVO vo) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -40,7 +41,7 @@ public class PetitionDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
-	
+
 	// 각각의 청원 보기
 	public PetitionDTO getArticle(Map<String, Object> map) throws Exception {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -53,8 +54,7 @@ public class PetitionDAO extends AbstractMybatisDAO {
 		}
 		return article;
 	}
-	
-		
+
 	// 각각의 청원 보기(댓글-동의)
 	public List<CommentPDTO> getCommentP(int petitionNo) throws Exception {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -64,7 +64,7 @@ public class PetitionDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
-	
+
 	// 청원 댓글(동의) 작성
 	public void commentPWrite(CommentPDTO commentP) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -78,21 +78,21 @@ public class PetitionDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
+
 	// 청원 댓글(동의) 작성
-		public void agreementPlus(int petitionNo) {
-			SqlSession sqlSession = getSqlSessionFactory().openSession();
-			int result = 0;
-			try {
-				result = sqlSession.update(namespace + ".agreementPlus", petitionNo);
-				if (result != 0) {
-					sqlSession.commit();
-				}
-			} finally {
-				sqlSession.close();
+	public void agreementPlus(int petitionNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.update(namespace + ".agreementPlus", petitionNo);
+			if (result != 0) {
+				sqlSession.commit();
 			}
+		} finally {
+			sqlSession.close();
 		}
-	
-		
+	}
+
 	// 청원 작성
 	public void petitionWrite(PetitionDTO petition) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -107,8 +107,7 @@ public class PetitionDAO extends AbstractMybatisDAO {
 		}
 	}
 
-
-	// 청원 목록
+	// 청원 검색
 	public List<PetitionDTO> getSearchInfo(PagingVO vo) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		try {
@@ -117,4 +116,5 @@ public class PetitionDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
+
 }

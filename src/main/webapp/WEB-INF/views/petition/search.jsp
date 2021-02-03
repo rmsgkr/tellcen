@@ -4,7 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html>
-
+<ul class="links" id="sidebar">
+	<li><a href="/tellcen/petition/petitionInfo" class="button large fit">청원이란?</a></li>
+	<li> </li>
+	<li><a href="/tellcen/petition/petitionWrite" class="button large fit">청원하기</a></li>
+	<li><a href="/tellcen/petition/petitionList" class="button large fit">청원목록</a></li>
+</ul>
 <!-- Main -->
 <div id="main" class="alt"> 
 	<!-- One -->
@@ -94,7 +99,7 @@
 			<ul class="pagination" style="text-align: center;">
 				<c:if test="${paging.startPage != 1 }">
 					<li><a
-						href="/tellcen/petition/petitionList?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}"
+						href="/tellcen/petition/search?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&petitionTitle=${paging.petitionTitle}&petitionArea=${paging.petitionArea}&petitionField=${paging.petitionField}"
 						class="button small">Prev</a></li>
 				</c:if>
 
@@ -106,15 +111,15 @@
 						</c:when>
 						<c:when test="${p != paging.nowPage }">
 							<li><a
-								href="/tellcen/petition/petitionList?nowPage=${p }&cntPerPage=${paging.cntPerPage}"
+								href="/tellcen/petition/search?nowPage=${p }&cntPerPage=${paging.cntPerPage}&petitionTitle=${paging.petitionTitle}&petitionArea=${paging.petitionArea}&petitionField=${paging.petitionField}"
 								class="page">${p }</a></li>
 						</c:when>
-					</c:choose>
+					</c:choose> 
 				</c:forEach>
 
 				<c:if test="${paging.endPage != paging.lastPage}">
 					<li><a
-						href="/tellcen/petition/petitionList?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}"
+						href="/tellcen/petition/search?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&petitionTitle=${paging.petitionTitle}&petitionArea=${paging.petitionArea}&petitionField=${paging.petitionField}"
 						class="button small">Next</a></li>
 				</c:if>
 			</ul>

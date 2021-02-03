@@ -7,12 +7,12 @@
 	<!--카운트, 검색 -->
 	<select id="getArticleCount" parameterType="hashmap"
 		resultType="int">
-		select nvl(count(*),0) from petition
-		<if test="category!=null and category !='' ">
-			where ${category} like '%${sentence}%'
-		</if>
+		SELECT nvl(count(*),0) FROM petition
+		WHERE petition_title like '%${petitionTitle}%'
+		AND petition_area like '%${petitionArea}%'
+		AND petition_field like '%${petitionField}%'
 	</select>
-
+ 
 	<!-- 청원 목록 -->
 	<select id="getPetitionInfo" resultType="Petition">
 		SELECT petition_no AS
@@ -28,7 +28,27 @@
 		ORDER BY petition_no DESC) A
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
+	</select> 
+	
+	<!-- 청원 검색 -->
+	<select id="getSearchInfo" resultType="Petition">
+		SELECT petition_no AS
+			petitionNo,id, petition_title AS petitionTitle,
+			petition_content AS petitionContent, petition_area AS petitionArea,
+			petition_field AS petitionField, petition_date AS petitionDate,
+			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM petition
+		ORDER BY petition_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end} 
+		AND petition_title like '%${petitionTitle}%'
+		AND petition_area like '%${petitionArea}%'
+		AND petition_field like '%${petitionField}%'
+	</select> 
 
 	<!-- 각각의 청원 보기, 동의 여부 알기 -->
 	<select id="getArticle" parameterType="hashmap" resultType="Petition">
@@ -71,23 +91,5 @@
 		#{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
 	</insert>
 	
-	<!-- 청원 검색 -->
-	<select id="getSearchInfo" resultType="Petition">
-		SELECT petition_no AS
-			petitionNo,id, petition_title AS petitionTitle,
-			petition_content AS petitionContent, petition_area AS petitionArea,
-			petition_field AS petitionField, petition_date AS petitionDate,
-			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
-		FROM (
-		SELECT ROWNUM RN, A.*
-		FROM (
-		SELECT *
-		FROM petition
-		ORDER BY petition_no DESC) A
-		)
-		WHERE RN BETWEEN #{start} AND #{end} 
-		AND petition_title like '%${petitionTitle}%'
-		AND petition_area like '%${petitionArea}%'
-		AND petition_field like '%${petitionField}%'
-	</select>
+
 </mapper>

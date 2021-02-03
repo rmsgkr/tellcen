@@ -40,27 +40,23 @@
 			<c:if test="${member != null && member.author != 1}">
 				<li><a href="#" class="button fit">마이페이지</a></li>
 			</c:if>
-			
 			<!-- 관리자 로그인 시 -->
-			
 			<c:if test="${member.author == 1}">
-				<li><a href="/tellcen/admin" class="button fit">관리자페이지</a></li> 
+				<li><a href="/tellcen/admin" class="button primary">관리자페이지</a></li> 
 			</c:if>
 			
 			</ul>
-			
-			
 			<ul class="links">
 			<!-- 로그인 안했을 때 -->
 			<c:if test="${member == null }">
-				<li><a href="/tellcen/member/login">로그인</a></li>
-				<li><a href="/tellcen/member/signup">회원가입</a></li>
-				<li><a href="/tellcen/member/seekId">아이디찾기</a></li>
-				<li><a href="/tellcen/member/seekPwd">비밀번호찾기</a></li>
+				<li><a href="/tellcen/member/login" class="button primary">로그인</a></li>
+				<li><a href="/tellcen/member/signup" class="button primary">회원가입</a></li>
+				<li><a href="/tellcen/member/seekId" class="button primary">아이디찾기</a></li>
+				<li><a href="/tellcen/member/seekPwd" class="button primary">비밀번호찾기</a></li>
 			</c:if>
 			<!-- 일반 회원/관리자 로그인 시 -->
 			<c:if test="${member != null }">
-				<li><a href="/tellcen/member/logout">로그아웃</a></li>
+				<li><a href="/tellcen/member/logout" class="button primary">로그아웃</a></li>
 			</c:if>
 			</ul>
 			
