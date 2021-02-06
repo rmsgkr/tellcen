@@ -127,14 +127,54 @@
 		WHERE petition_no = #{petitionNo}
 	</select>
 	
+	<!-- 청원 마감 -->
+	<update id="updateStatus1" parameterType="int">
+		UPDATE petition SET
+		petition_status = 1
+		WHERE petition_no = #{petitionNo}
+	</update>
+	
 	<!-- 청원 답변 작성 -->
 	<insert id="answerPWrite" parameterType="AnswerP">
 		INSERT INTO answerP
 		VALUES (answerPseq.nextval, #{petitionNo}, #{answerPContent} ,sysdate)
 	</insert>
-	<update id="updateStatus" parameterType="int">
+	<update id="updateStatus2" parameterType="int">
 		UPDATE petition SET
 		petition_status = 2
 		WHERE petition_no = #{petitionNo}
 	</update>
+	
+	<!-- 청원 삭제 (3 = 거부된 청원) -->
+	<update id="updateStatus3" parameterType="int">
+		UPDATE petition SET
+		petition_status = 3
+		WHERE petition_no = #{petitionNo}
+	</update>
+	
+	<!--카운트, 검색 -->
+	<select id="getPetitionStatusCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM petition
+		WHERE petition_status = #{petitionStatus}
+	</select>
+	
+	<!-- 상태별 청원 목록 -->
+	<select id="getPetitionStatus" resultType="Petition">
+		SELECT petition_no AS
+			petitionNo,id, petition_title AS petitionTitle,
+			petition_content AS petitionContent, petition_area AS petitionArea,
+			petition_field AS petitionField, petition_sdate AS petitionSdate, petition_edate AS petitionEdate,
+			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM petition
+		WHERE petition_status = #{petitionStatus}
+		ORDER BY petition_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND petition_status = #{petitionStatus}
+	</select> 
 </mapper>

@@ -203,10 +203,67 @@ public class AdminController {
 		// answerP테이블에 insert
 		adminService.answerPWrite(answerP);
 		// 청원상태 2(답변완료)로 업데이트
-		adminService.updateStatus(petitionNo);
+		adminService.updateStatus2(petitionNo);
 		model.addAttribute("petitionNo", petitionNo);
 
 		return "/admin/answerPWriteSuccess";
+	}
+	
+	// 청원 마감 하기
+	@GetMapping("/{petitionNo}/finish")
+	public String petitionFinishForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("petitionNo", petitionNo);
+		PetitionDTO petition = adminService.getArticle(map);
+		model.addAttribute("petition", petition);
+		return "/admin/petitionFinish";
+	}
+	
+	// 청원 마감 하기
+	@PostMapping("/{petitionNo}/finish")
+	public String petitionFinish(@PathVariable("petitionNo") int petitionNo) throws Exception {
+		adminService.updateStatus1(petitionNo);
+		return "/admin/petitionFinishSuccess";
+	}
+	
+	// 청원 삭제 하기
+	@GetMapping("/{petitionNo}/delete")
+	public String petitionDeleteForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("petitionNo", petitionNo);
+		PetitionDTO petition = adminService.getArticle(map);
+		model.addAttribute("petition", petition);
+		return "/admin/petitionDelete";
+	}
+	
+	// 청원 삭제 하기
+	@PostMapping("/{petitionNo}/delete")
+	public String petitionDelete(@PathVariable("petitionNo") int petitionNo) throws Exception {
+		adminService.updateStatus3(petitionNo);
+		return "/admin/petitionDeleteSuccess";
+	}
+	
+	// 상태별 청원 보기
+	@GetMapping("/petition/{petitionStatus}")
+	public String petitionStatus(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@PathVariable("petitionStatus") int petitionStatus) throws Exception {
+		int total = adminService.getPetitionStatusCount(petitionStatus);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),petitionStatus);
+		model.addAttribute("paging", vo);
+
+		List<PetitionDTO> list = adminService.getPetitionStatus(vo);
+		model.addAttribute("petition", list);
+		return "admin/petitionStatus";
 	}
 
 }

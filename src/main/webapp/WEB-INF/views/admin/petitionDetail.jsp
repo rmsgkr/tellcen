@@ -26,8 +26,17 @@
 				<b style="color: #00CED1">청원 답변 완료</b>
 				</c:if>
 				&nbsp;&nbsp;[참여인원:<b style="color: skyblue">${petition.petitionAgreement }</b>명]
+			<jsp:useBean id="today" class="java.util.Date" />
+			<fmt:formatDate value='${today}' pattern='yyyy/MM/dd' var="nowDate"/>
+			<fmt:parseNumber value="${today.time / (1000*60*60*24)}" integerOnly="true" var="NowDate"></fmt:parseNumber>
+			
+			<fmt:formatDate value="${petition.petitionEdate }" pattern="yyyy/MM/dd" var="endDate"/>
+			<fmt:parseNumber value="${petition.petitionEdate.time / (1000*60*60*24)}" integerOnly="true" var="EndDate"></fmt:parseNumber>
 				
-				<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement >= 1}">&nbsp;&nbsp;&nbsp;&nbsp;
+			<c:if test="${list.petitionStatus == 0 && EndDate-NowDate < 0 }">
+			<button class="button" onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/answer'">마감하기</button>
+			</c:if>	
+			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement >= 1}">&nbsp;&nbsp;&nbsp;&nbsp;
 			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/${petition.petitionNo}/answer'">답변하기</button>
 			</c:if>
 			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement < 1}">&nbsp;&nbsp;&nbsp;&nbsp;

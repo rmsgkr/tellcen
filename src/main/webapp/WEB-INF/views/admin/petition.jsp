@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
 <!-- Main -->
@@ -13,41 +13,71 @@
 			<header class="major">
 				<h1>청원관리</h1>
 			</header>
+			<!-- 상태별 보기 기능 -->
+			<div class="box">
+
+				<div class="row">
+					<div class="col-6 col-12-small">
+						<button type="button" class="button fit"
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/0'">진행중인
+							청원보기</button>
+					</div>
+					<div class="col-6 col-12-small">
+						<button type="button" class="button fit"
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/1'">마감
+							청원보기</button>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<div class="col-6 col-12-small">
+						<button type="button" class="button fit"
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/2'">답변완료
+							청원보기</button>
+					</div>
+					<div class="col-6 col-12-small">
+						<button type="button" class="button fit"
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/3'">미승인(삭제)
+							청원보기</button>
+					</div>
+				</div>
+			</div>
 			<!-- 검색기능 -->
-			<form id="formSearch" method="get" action="searchPetition" class="searchForm">
-			<div class="fields">  
-				<div class="field half">
-				<select name="petitionArea" id="petitionArea">
-					<option value="" disabled selected>지역</option>
-					<option value="서울">서울</option>
-					<option value="인천">인천</option>
-					<option value="경기">경기</option>
-					<option value="강원">강원</option>
-					<option value="충남">충남</option>
-					<option value="충북">충북</option>
-					<option value="전남">전남</option>
-					<option value="전북">전북</option>
-					<option value="경남">경남</option>
-					<option value="경북">경북</option>
-					<option value="제주">제주</option>
-				</select>
-			</div>
-			<div class="field half">
-				<select name="petitionField" id="petitionField">
-					<option value="" disabled selected>분야</option>
-					<option value="가족ㆍ보건ㆍ복지">가족ㆍ보건ㆍ복지</option>
-					<option value="문화ㆍ관광ㆍ체육">문화ㆍ관광ㆍ체육</option>
-					<option value="교육ㆍ취업">교육ㆍ취업</option>
-					<option value="교통ㆍ건설ㆍ환경">교통ㆍ건설ㆍ환경</option>
-					<option value="농림ㆍ축산ㆍ해양">농림ㆍ축산ㆍ해양</option>
-					<option value="도시ㆍ주택">도시ㆍ주택</option>
-					<option value="산업ㆍ경제">산업ㆍ경제</option>
-					<option value="소방ㆍ재난ㆍ안전">소방ㆍ재난ㆍ안전</option>
-					<option value="조세ㆍ법무ㆍ행정">조세ㆍ법무ㆍ행정</option>
-					<option value="기타">기타</option>
-				</select>
-			</div>
-			</div> 
+			<form id="formSearch" method="get" action="searchPetition"
+				class="searchForm">
+				<div class="fields">
+					<div class="field half">
+						<select name="petitionArea" id="petitionArea">
+							<option value="" disabled selected>지역</option>
+							<option value="서울">서울</option>
+							<option value="인천">인천</option>
+							<option value="경기">경기</option>
+							<option value="강원">강원</option>
+							<option value="충남">충남</option>
+							<option value="충북">충북</option>
+							<option value="전남">전남</option>
+							<option value="전북">전북</option>
+							<option value="경남">경남</option>
+							<option value="경북">경북</option>
+							<option value="제주">제주</option>
+						</select>
+					</div>
+					<div class="field half">
+						<select name="petitionField" id="petitionField">
+							<option value="" disabled selected>분야</option>
+							<option value="가족ㆍ보건ㆍ복지">가족ㆍ보건ㆍ복지</option>
+							<option value="문화ㆍ관광ㆍ체육">문화ㆍ관광ㆍ체육</option>
+							<option value="교육ㆍ취업">교육ㆍ취업</option>
+							<option value="교통ㆍ건설ㆍ환경">교통ㆍ건설ㆍ환경</option>
+							<option value="농림ㆍ축산ㆍ해양">농림ㆍ축산ㆍ해양</option>
+							<option value="도시ㆍ주택">도시ㆍ주택</option>
+							<option value="산업ㆍ경제">산업ㆍ경제</option>
+							<option value="소방ㆍ재난ㆍ안전">소방ㆍ재난ㆍ안전</option>
+							<option value="조세ㆍ법무ㆍ행정">조세ㆍ법무ㆍ행정</option>
+							<option value="기타">기타</option>
+						</select>
+					</div>
+				</div>
 				<div class="row gtr-200">
 					<!-- Content -->
 					<div class="col-9 col-12-medium">
@@ -55,8 +85,9 @@
 							value="" placeholder="청원 제목을 검색하세요." />
 					</div>
 					<div class="col-3 col-12-medium">
-						<button type="button" class="button primary fit icon solid fa-search"
-							onclick="button();">검 색</button>
+						<button type="button"
+							class="button primary fit icon solid fa-search"
+							onclick="searchButton();">검 색</button>
 					</div>
 				</div>
 			</form>
@@ -75,27 +106,53 @@
 					</thead>
 					<tbody>
 						<c:forEach items="${petition }" var="list">
+							<jsp:useBean id="today" class="java.util.Date" />
+							<fmt:formatDate value='${today}' pattern='yyyy/MM/dd'
+								var="nowDate" />
+							<fmt:parseNumber value="${today.time / (1000*60*60*24)}"
+								integerOnly="true" var="NowDate"></fmt:parseNumber>
+
+							<fmt:formatDate value="${list.petitionEdate }"
+								pattern="yyyy/MM/dd" var="endDate" />
+							<fmt:parseNumber
+								value="${list.petitionEdate.time / (1000*60*60*24)}"
+								integerOnly="true" var="EndDate"></fmt:parseNumber>
+
 							<tr>
 								<td>${list.petitionNo }</td>
 								<td>${list.petitionArea }</td>
 								<td>${list.petitionField }</td>
-								<td><a href="/tellcen/admin/${list.petitionNo}">[${list.petitionTitle } ]</a></td>
-								<td><fmt:formatDate value="${list.petitionSdate }" pattern="yyyy/MM/dd" />~
-								<fmt:formatDate value="${list.petitionEdate }" pattern="yyyy/MM/dd" /></td>
+								<td><a href="/tellcen/admin/${list.petitionNo}">[${list.petitionTitle }
+										]</a></td>
+								<td><fmt:formatDate value="${list.petitionSdate }"
+										pattern="yyyy/MM/dd" />~ <fmt:formatDate
+										value="${list.petitionEdate }" pattern="yyyy/MM/dd" /></td>
 								<c:if test="${list.petitionAgreement < 1}">
-								<td><b>${list.petitionAgreement }</b></td>
+									<td><b>${list.petitionAgreement }</b></td>
 								</c:if>
 								<c:if test="${list.petitionAgreement >= 1}">
-								<td><b style="color: #6495ED">${list.petitionAgreement }</b></td>
+									<td><b style="color: #6495ED">${list.petitionAgreement }</b></td>
 								</c:if>
-								<c:if test="${list.petitionStatus == 1 && list.petitionAgreement >= 1}">
-								<td><button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/answer'">답변하기</button></td>
+
+								<c:if test="${list.petitionStatus == 0 && EndDate-NowDate < 0 }">
+									<td><button class="button"
+											onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/finish'">마감하기</button></td>
 								</c:if>
-								<c:if test="${list.petitionStatus == 1 && list.petitionAgreement < 1}">
-								<td><button onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/answer'">삭제하기</button></td>
+								<c:if
+									test="${list.petitionStatus == 1 && list.petitionAgreement >= 1}">
+									<td><button class="button primary"
+											onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/answer'">답변하기</button></td>
+								</c:if>
+								<c:if
+									test="${list.petitionStatus == 1 && list.petitionAgreement < 1}">
+									<td><button
+											onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/delete'">삭제하기</button></td>
 								</c:if>
 								<c:if test="${list.petitionStatus == 2}">
-								<td><button class="button disabled">답변완료</button></td>
+									<td><button class="button disabled">답변완료</button></td>
+								</c:if>
+								<c:if test="${list.petitionStatus == 3}">
+									<td><button class="button disabled">삭제완료</button></td>
 								</c:if>
 							</tr>
 						</c:forEach>
@@ -134,7 +191,7 @@
 	</section>
 </div>
 <script>
-function button() {
+function searchButton() {
 	const searchForm = document.querySelector('.searchForm');
 	searchForm.submit();
 }

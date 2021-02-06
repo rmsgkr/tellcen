@@ -160,6 +160,21 @@ public class AdminDAO extends AbstractMybatisDAO {
 		}
 	}
 	
+	
+	// 청원 마감
+	public void updateStatus1(int petitionNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.update(namespace + ".updateStatus1", petitionNo);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
 	// 청원 댓글(동의) 작성
 	public void answerPWrite(AnswerPDTO answerP) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -173,14 +188,52 @@ public class AdminDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
-	public void updateStatus(int petitionNo) {
+	public void updateStatus2(int petitionNo) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
 		int result = 0;
 		try {
-			result = sqlSession.update(namespace + ".updateStatus", petitionNo);
+			result = sqlSession.update(namespace + ".updateStatus2", petitionNo);
 			if (result != 0) {
 				sqlSession.commit();
 			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 청원 삭제
+	public void updateStatus3(int petitionNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.update(namespace + ".updateStatus3", petitionNo);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 청원 상태별 카운트
+	public int getPetitionStatusCount(int petitionStatus) throws Exception {
+
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("petitionStatus", petitionStatus);
+
+			return sqlSession.selectOne(namespace + ".getPetitionStatusCount", map);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 청원 상태별 리스트
+	public List<PetitionDTO> getPetitionStatus(PagingVO vo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getPetitionStatus", vo);
 		} finally {
 			sqlSession.close();
 		}

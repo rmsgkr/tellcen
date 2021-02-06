@@ -103,12 +103,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:if test="${petition.size() == 0}">
-							<tr>
-								<td colspan="6" align="center"><b>검색된 결과가 없습니다.</b></td>
-							</tr>
-						</c:if>
-						<c:if test="${petition.size() != 0}">
 						<c:forEach items="${petition }" var="list">
 							<jsp:useBean id="today" class="java.util.Date" />
 							<fmt:formatDate value='${today}' pattern='yyyy/MM/dd' var="nowDate"/>
@@ -147,7 +141,6 @@
 								</c:if>
 							</tr>
 						</c:forEach>
-						</c:if>
 					</tbody>
 				</table>
 			</div>
@@ -155,7 +148,7 @@
 			<ul class="pagination" style="text-align: center;">
 				<c:if test="${paging.startPage != 1 }">
 					<li><a
-						href="/tellcen/admin/searchPetition?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&petitionTitle=${paging.petitionTitle}&petitionArea=${paging.petitionArea}&petitionField=${paging.petitionField}"
+						href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&petitionStatus=${paging.petitionStatus}"
 						class="button small">Prev</a></li>
 				</c:if>
 
@@ -167,7 +160,7 @@
 						</c:when>
 						<c:when test="${p != paging.nowPage }">
 							<li><a
-								href="/tellcen/admin/searchPetition?nowPage=${p }&cntPerPage=${paging.cntPerPage}&petitionTitle=${paging.petitionTitle}&petitionArea=${paging.petitionArea}&petitionField=${paging.petitionField}"
+								href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${p }&cntPerPage=${paging.cntPerPage}&petitionStatus=${paging.petitionStatus}"
 								class="page">${p }</a></li>
 						</c:when>
 					</c:choose>
@@ -175,7 +168,7 @@
 
 				<c:if test="${paging.endPage != paging.lastPage}">
 					<li><a
-						href="/tellcen/admin/searchPetition?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&petitionTitle=${paging.petitionTitle}&petitionArea=${paging.petitionArea}&petitionField=${paging.petitionField}"
+						href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&petitionStatus=${paging.petitionStatus}"
 						class="button small">Next</a></li>
 				</c:if>
 			</ul>

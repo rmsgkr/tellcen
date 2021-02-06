@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
@@ -92,28 +92,49 @@
 
 						<c:if test="${petition.size() != 0}">
 							<c:forEach items="${petition }" var="list">
+								<jsp:useBean id="today" class="java.util.Date" />
+								<fmt:formatDate value='${today}' pattern='yyyy/MM/dd'
+									var="nowDate" />
+								<fmt:parseNumber value="${today.time / (1000*60*60*24)}"
+									integerOnly="true" var="NowDate"></fmt:parseNumber>
+
+								<fmt:formatDate value="${list.petitionEdate }"
+									pattern="yyyy/MM/dd" var="endDate" />
+								<fmt:parseNumber
+									value="${list.petitionEdate.time / (1000*60*60*24)}"
+									integerOnly="true" var="EndDate"></fmt:parseNumber>
+
 								<tr>
-									<td>${list.petitionNo }</td>
-									<td>${list.petitionArea }</td>
-									<td>${list.petitionField }</td>
-									<td><a href="/tellcen/petition/${list.petitionNo}">[${list.petitionTitle }]</a></td>
-									<td><fmt:formatDate value="${list.petitionSdate }" pattern="yyyy/MM/dd" />~
-									<fmt:formatDate value="${list.petitionEdate }" pattern="yyyy/MM/dd" /></td>
-									<c:if test="${list.petitionAgreement < 1}">
-									<td><b>${list.petitionAgreement }</b></td>
-									</c:if>
-									<c:if test="${list.petitionAgreement >= 1}">
-									<td><b style="color: #6495ED">${list.petitionAgreement }</b></td>
-									</c:if>
-									
-									<c:if test="${list.petitionStatus == 0}">
-									<td><b style="color: #6495ED">진행중</b></td>
-									</c:if>
-									<c:if test="${list.petitionStatus == 1}">
-									<td><b style="color: #B0C4DE">종료</b></td>
-									</c:if>
-									<c:if test="${list.petitionStatus == 2}">
-									<td><b style="color: #00CED1">답변완료</b></td>
+									<c:if test="${list.petitionStatus != 3}">
+										<td>${list.petitionNo }</td>
+										<td>${list.petitionArea }</td>
+										<td>${list.petitionField }</td>
+										<td><a href="/tellcen/petition/${list.petitionNo}">[${list.petitionTitle }]</a></td>
+										<td><fmt:formatDate value="${list.petitionSdate }"
+												pattern="yyyy/MM/dd" />~ <fmt:formatDate
+												value="${list.petitionEdate }" pattern="yyyy/MM/dd" /></td>
+										<c:if test="${list.petitionAgreement < 1}">
+											<td><b>${list.petitionAgreement }</b></td>
+										</c:if>
+										<c:if test="${list.petitionAgreement >= 1}">
+											<td><b style="color: #6495ED">${list.petitionAgreement }</b></td>
+										</c:if>
+
+										<c:if test="${EndDate-NowDate >= 0 }">
+											<td><b style="color: #6495ED">진행중</b></td>
+										</c:if>
+										<c:if
+											test="${EndDate-NowDate < 0  && list.petitionStatus == 0}">
+											<td><b style="color: #B0C4DE">종료</b></td>
+										</c:if>
+										<c:if
+											test="${EndDate-NowDate < 0  && list.petitionStatus == 1}">
+											<td><b style="color: #B0C4DE">종료</b></td>
+										</c:if>
+										<c:if
+											test="${EndDate-NowDate < 0  && list.petitionStatus == 2}">
+											<td><b style="color: #00CED1">답변완료</b></td>
+										</c:if>
 									</c:if>
 								</tr>
 							</c:forEach>

@@ -53,7 +53,7 @@ public class AdminService {
 	public int getSearchPetitionCount(String petitionTitle, String petitionArea, String petitionField) throws Exception {
 		return adminDao.getSearchPetitionCount(petitionTitle, petitionArea, petitionField);
 	}
-
+	
 	// 청원 목록
 	public List<PetitionDTO> getPetitionInfo(PagingVO vo) {
 		return adminDao.getPetitionInfo(vo);
@@ -63,7 +63,7 @@ public class AdminService {
 	public List<PetitionDTO> getSearchPetitionInfo(PagingVO vo) {
 		return adminDao.getSearchPetitionInfo(vo);
 	}
-
+	
 	// 각각의 청원 보기
 	public PetitionDTO getArticle(Map<String, Object> map) throws Exception {
 		return adminDao.getArticle(map);
@@ -79,11 +79,31 @@ public class AdminService {
 		return adminDao.getAnswerP(petitionNo);
 	}
 	
+	// 청원 마감
+	public void updateStatus1(int petitionNo) {
+		adminDao.updateStatus1(petitionNo);
+	}
+	
 	// 청원 답변 작성
 	public void answerPWrite(AnswerPDTO answerP) {
 		adminDao.answerPWrite(answerP);
 	}
-	public void updateStatus(int petitionNo) {
-		adminDao.updateStatus(petitionNo);
+	public void updateStatus2(int petitionNo) {
+		adminDao.updateStatus2(petitionNo);
 	}
+	
+	// 청원 삭제
+	public void updateStatus3(int petitionNo) {
+		adminDao.updateStatus3(petitionNo);
+	}
+	
+	// 청원 상태별 카운트
+	public int getPetitionStatusCount(int petitionStatus) throws Exception {
+		return adminDao.getPetitionStatusCount(petitionStatus);
+	}
+	// 청원 상태별 리스트
+	public List<PetitionDTO> getPetitionStatus(PagingVO vo) {
+		return adminDao.getPetitionStatus(vo);
+	}
+	
 }

@@ -7,6 +7,7 @@ public class PagingVO {
 		
 		private String petitionTitle, petitionArea, petitionField;
 		private String id;
+		private int petitionStatus;
 		// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
 		private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 		private int cntPage = 5;
@@ -34,8 +35,19 @@ public class PagingVO {
 			setPetitionTitle(petitionTitle);
 			setPetitionArea(petitionArea);
 			setPetitionField(petitionField);
-			
 		}
+		
+		// 상태별 청원 페이징
+		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus) {
+			setNowPage(nowPage);
+			setCntPerPage(cntPerPage);
+			setTotal(total);
+			calcLastPage(getTotal(), getCntPerPage());
+			calcStartEndPage(getNowPage(), cntPage);
+			calcStartEnd(getNowPage(), getCntPerPage());
+			setPetitionStatus(petitionStatus);
+		}
+		
 		// 관리자 회원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String id) {
 			setNowPage(nowPage);
