@@ -25,21 +25,12 @@
 </div>
 
 <!-- Scripts -->
-<script src="resources/js/jquery.min.js"></script>
-<script src="resources/js/jquery.scrolly.min.js"></script>
-<script src="resources/js/jquery.scrollex.min.js"></script>
-<script src="resources/js/browser.min.js"></script>
-<script src="resources/js/breakpoints.min.js"></script>
-<script src="resources/js/util.js"></script>
-<script src="resources/js/main.js"></script>
-
-<script src="../resources/js/jquery.min.js"></script>
-<script src="../resources/js/jquery.scrolly.min.js"></script>
-<script src="../resources/js/jquery.scrollex.min.js"></script>
-<script src="../resources/js/browser.min.js"></script>
-<script src="../resources/js/breakpoints.min.js"></script>
-<script src="../resources/js/util.js"></script>
-<script src="../resources/js/main.js"></script>
-
+<script src="/tellcen/resources/js/jquery.min.js"></script>
+<script src="/tellcen/resources/js/jquery.scrolly.min.js"></script>
+<script src="/tellcen/resources/js/jquery.scrollex.min.js"></script>
+<script src="/tellcen/resources/js/browser.min.js"></script>
+<script src="/tellcen/resources/js/breakpoints.min.js"></script>
+<script src="/tellcen/resources/js/util.js"></script>
+<script src="/tellcen/resources/js/main.js"></script>
 </body>
 </html>

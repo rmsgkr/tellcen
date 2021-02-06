@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.itcen.tellcen.domain.AnswerPDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
@@ -73,7 +74,7 @@ public class PetitionController {
 
 		int total = petitionService.getArticleCount(petitionTitle, petitionArea, petitionField);
 		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
+			nowPage = "1"; 
 			cntPerPage = "10";
 		} else if (nowPage == null) {
 			nowPage = "1";
@@ -81,11 +82,12 @@ public class PetitionController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionTitle, petitionArea, petitionField);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionTitle , petitionArea, petitionField);
 		model.addAttribute("paging", vo);
-		System.out.println(vo);
+		
 		List<PetitionDTO> list = petitionService.getSearchInfo(vo);
 		model.addAttribute("petition", list);
+		
 
 		return "petition/search";
 	}
@@ -97,16 +99,18 @@ public class PetitionController {
 		HttpSession session = request.getSession();
 		String id = null;
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
-		id = member.getId();
+		id = member.getId(); 
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("petitionNo", petitionNo);
 
 		PetitionDTO petition = petitionService.getArticle(map);
-
 		model.addAttribute("petition", petition);
 
+		List<AnswerPDTO> answerP = petitionService.getAnswerP(petitionNo);
+		model.addAttribute("answerP", answerP);
+		
 		List<CommentPDTO> commentP = petitionService.getCommentP(petitionNo);
 		model.addAttribute("commentP", commentP);
 

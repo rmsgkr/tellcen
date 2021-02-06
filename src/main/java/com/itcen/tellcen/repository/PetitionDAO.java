@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itcen.tellcen.domain.AnswerPDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.util.PagingVO;
@@ -41,6 +42,16 @@ public class PetitionDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
+	
+	// 청원 검색
+	public List<PetitionDTO> getSearchInfo(PagingVO vo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getSearchInfo", vo);
+		} finally {
+			sqlSession.close();
+		}
+	}
 
 	// 각각의 청원 보기
 	public PetitionDTO getArticle(Map<String, Object> map) throws Exception {
@@ -64,7 +75,15 @@ public class PetitionDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
-
+	// 각각의 청원 보기(답변)
+	public List<AnswerPDTO> getAnswerP(int petitionNo) throws Exception {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getAnswerP", petitionNo);
+		} finally {
+			sqlSession.close();
+		}
+	}
 	// 청원 댓글(동의) 작성
 	public void commentPWrite(CommentPDTO commentP) {
 		SqlSession sqlSession = getSqlSessionFactory().openSession();
@@ -107,14 +126,6 @@ public class PetitionDAO extends AbstractMybatisDAO {
 		}
 	}
 
-	// 청원 검색
-	public List<PetitionDTO> getSearchInfo(PagingVO vo) {
-		SqlSession sqlSession = getSqlSessionFactory().openSession();
-		try {
-			return sqlSession.selectList(namespace + ".getSearchInfo", vo);
-		} finally {
-			sqlSession.close();
-		}
-	}
+	
 
 }

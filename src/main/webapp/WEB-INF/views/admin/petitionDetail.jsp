@@ -1,16 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp" />
+<jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html>
-<ul class="links" id="sidebar">
-	<li><a href="/tellcen/petition/petitionInfo" class="button large fit">청원이란?</a></li>
-	<li></li>
-	<li><a href="/tellcen/petition/petitionWrite" class="button large fit">청원하기</a></li>
-	<li><a href="/tellcen/petition/petitionList" class="button large fit">청원목록</a></li>
-</ul>
 <!-- Main -->
 <div id="main" class="alt">
 	<!-- One -->
@@ -32,7 +26,15 @@
 				<b style="color: #00CED1">청원 답변 완료</b>
 				</c:if>
 				&nbsp;&nbsp;[참여인원:<b style="color: skyblue">${petition.petitionAgreement }</b>명]
+				
+				<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement >= 1}">&nbsp;&nbsp;&nbsp;&nbsp;
+			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/${petition.petitionNo}/answer'">답변하기</button>
+			</c:if>
+			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement < 1}">&nbsp;&nbsp;&nbsp;&nbsp;
+			<button onclick="window.location.href='<%=request.getContextPath()%>/admin/${petition.petitionNo}/answer'">삭제하기</button>
+			</c:if> 
 			</h3>
+			
 			<br>
 			<div class="box">
 				<b>[지역]</b>&nbsp;&nbsp;${petition.petitionArea }&nbsp;&nbsp;&nbsp;&nbsp;
@@ -55,47 +57,11 @@
 					<div class="box">${petition.petitionContent }</div>
 				</div>
 			</div></br></br> 
+			
+			
  			<h3>
 				<b>청원동의</b> <b style="color: skyblue">${petition.petitionAgreement }</b><b>명</b>
 			</h3>
-			
-			<jsp:useBean id="today" class="java.util.Date" />
-			<fmt:formatDate value='${today}' pattern='yyyy/MM/dd' var="nowDate"/>
-			<fmt:parseNumber value="${today.time / (1000*60*60*24)}" integerOnly="true" var="NowDate"></fmt:parseNumber>
-			
-			<fmt:formatDate value="${petition.petitionEdate }" pattern="yyyy/MM/dd" var="endDate"/>
-			<fmt:parseNumber value="${petition.petitionEdate.time / (1000*60*60*24)}" integerOnly="true" var="EndDate"></fmt:parseNumber>
-
-			<form id="formAgreement" method="post" action="${petition.petitionNo }/agree" class="agreeForm">
-				<div class="row gtr-200">
-				<!-- 청원 기간 중일때 -->
-				<c:if test="${EndDate-NowDate >= 0 }">
-					<c:if test="${petition.agreeCheck == 0 }">
-					<div class="col-9 col-12-medium">
-						<input type="text" name="commentPContent" id="commentPContent" value="동의합니다." placeholder="동의합니다." />
-					</div>
-					<div class="col-3 col-12-medium">
-						<button type="button" class="button primary fit"
-							onclick="button();">동 의</button>
-					</div>
-					</c:if>
-					
-					<c:if test="${petition.agreeCheck == 1 }">
-					<div class="col-12-medium">
-						<button type="button" class="button primary fit disabled"
-							onclick="button();">이미 동의하신 청원입니다.</button>
-					</div>
-					</c:if>
-				</c:if>
-				<!-- 30일 이후 종료되었을 때 -->
-				<c:if test="${EndDate-NowDate < 0 }">
-				<div class="col-12-medium">
-						<button type="button" class="button primary fit disabled"
-							onclick="button();">종료된 청원입니다.</button>
-					</div>
-				</c:if>
-				</div>
-			</form>
 			<hr />
 			<c:forEach items="${commentP }" var="list">	
 				<b>${list.id } > ${list.commentPContent } (${list.commentPDate })</b>

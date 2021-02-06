@@ -1,52 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<jsp:include page="/WEB-INF/views/common/adminSidebar.jsp" />
-<!-- Page Content -->
-    <div id="page-content-wrapper">
+	pageEncoding="UTF-8"%>
+<jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE HTML>
+<html>
+<!-- Main -->
+<div id="main" class="alt">
+	<!-- One -->
+	<section id="one">
+		<div class="inner">
+			<header class="major">
+				<h1>관리자</h1>
+			</header>
+			<hr/>
+			<div class="row">
+				<div class="col-6 col-12-small">
+					<div class="box" >
+						<h2 align="center">청원&nbsp;<b style="color: #00CED1">${petitionCount }</b>&nbsp;건</h2>
+					</div>
+				</div>
+				<div class="col-6 col-12-small">
+					<div class="box" >
+						<h2 align="center">민원&nbsp;<b style="color: #9370DB">${complaintCount }</b>&nbsp;건</h2>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6 col-12-small">
+					<div class="box" >
+						<h2 align="center">제안&nbsp;<b style="color: #F08080">${suggestionCount }</b>&nbsp;건</h2>
+					</div>
+				</div>
+				<div class="col-6 col-12-small">
+					<div class="box" >
+						<h2 align="center">문의&nbsp;<b style="color: #6495ED">${inquiryCount }</b>&nbsp;건</h2>
+					</div>
+				</div>
+			</div>
+			
+			<hr>
+		</div>
+	</section>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/tellcen/admin">관리자Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/tellcen">말해주센</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <div class="w3-container w3-center">
-        <h3>tellcen 관리자 Page</h3>
-      </div>
-    </div>
-    <!-- /#page-content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="/tellcen/resources/admin/vendor/jquery/jquery.min.js"></script>
-  <script src="/tellcen/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-  </script>
-
-</body>
-</html>
+</div>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -7,6 +7,7 @@
 		<typeAlias type="com.itcen.tellcen.domain.MemberDTO" alias="Member"/>
 		<typeAlias type="com.itcen.tellcen.domain.PetitionDTO" alias="Petition"/>
 		<typeAlias type="com.itcen.tellcen.domain.CommentPDTO" alias="CommentP"/>
+		<typeAlias type="com.itcen.tellcen.domain.AnswerPDTO" alias="AnswerP"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

@@ -18,7 +18,7 @@
 		SELECT petition_no AS
 			petitionNo,id, petition_title AS petitionTitle,
 			petition_content AS petitionContent, petition_area AS petitionArea,
-			petition_field AS petitionField, petition_date AS petitionDate,
+			petition_field AS petitionField, petition_sdate AS petitionSdate, petition_edate AS petitionEdate,
 			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
 		FROM (
 		SELECT ROWNUM RN, A.*
@@ -35,13 +35,16 @@
 		SELECT petition_no AS
 			petitionNo,id, petition_title AS petitionTitle,
 			petition_content AS petitionContent, petition_area AS petitionArea,
-			petition_field AS petitionField, petition_date AS petitionDate,
+			petition_field AS petitionField, petition_sdate AS petitionSdate, petition_edate AS petitionEdate,
 			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
 		FROM (
 		SELECT ROWNUM RN, A.*
 		FROM (
 		SELECT *
 		FROM petition
+		WHERE petition_title like '%${petitionTitle}%'
+		AND petition_area like '%${petitionArea}%'
+		AND petition_field like '%${petitionField}%'
 		ORDER BY petition_no DESC) A
 		)
 		WHERE RN BETWEEN #{start} AND #{end} 
@@ -54,7 +57,7 @@
 	<select id="getArticle" parameterType="hashmap" resultType="Petition">
 		SELECT A.petition_no AS petitionNo, A.id AS id, A.petition_title AS petitionTitle, 
 			A.petition_content AS petitionContent, A.petition_area AS petitionArea, 
-			A.petition_field AS petitionField, A.petition_date AS petitionDate,
+			A.petition_field AS petitionField, A.petition_sdate AS petitionSdate, A.petition_edate AS petitionEdate,
 			A.petition_agreement AS petitionAgreement, A.petition_status AS petitionStatus,
 			CASE WHEN B.petition_no is null THEN 0 ELSE 1 END AS agreeCheck
 		FROM petition A
@@ -69,6 +72,13 @@
 		SELECT commentP_no AS commentPNo, petition_no AS petitionNo, id,
 			commentP_content AS commentPContent, commentP_date AS commentPDate
 		FROM commentP
+		WHERE petition_no = #{petitionNo}
+	</select>
+	<!-- 각각의 청원 보기(답변) -->
+	<select id="getAnswerP" resultType="AnswerP">
+		SELECT answerP_no AS answerPNo, petition_no AS petitionNo, answerP_content AS answerPContent,
+		answerP_date AS answerPDate
+		FROM answerP
 		WHERE petition_no = #{petitionNo}
 	</select>
 
@@ -88,7 +98,7 @@
 	<insert id="petitionWrite" parameterType="Petition">
 		INSERT INTO petition
 		VALUES (petitionseq.nextval, #{id}, #{petitionTitle},
-		#{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, 0, 0)
+		#{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, sysdate+30, 0, 0)
 	</insert>
 	
 

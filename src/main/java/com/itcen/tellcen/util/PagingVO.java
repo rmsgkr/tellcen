@@ -6,12 +6,14 @@ import lombok.Data;
 public class PagingVO {
 		
 		private String petitionTitle, petitionArea, petitionField;
+		private String id;
 		// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
 		private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 		private int cntPage = 5;
 		
 		public PagingVO() {}
 		
+		// 리스트들의 공통 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage) {
 			setNowPage(nowPage);
 			setCntPerPage(cntPerPage);
@@ -21,6 +23,7 @@ public class PagingVO {
 			calcStartEnd(getNowPage(), getCntPerPage());
 		}
 		
+		// 청원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String petitionTitle, String petitionArea, String petitionField) {
 			setNowPage(nowPage);
 			setCntPerPage(cntPerPage);
@@ -33,6 +36,17 @@ public class PagingVO {
 			setPetitionField(petitionField);
 			
 		}
+		// 관리자 회원 검색 페이징
+		public PagingVO(int total, int nowPage, int cntPerPage, String id) {
+			setNowPage(nowPage);
+			setCntPerPage(cntPerPage);
+			setTotal(total);
+			calcLastPage(getTotal(), getCntPerPage());
+			calcStartEndPage(getNowPage(), cntPage);
+			calcStartEnd(getNowPage(), getCntPerPage());
+			setId(id);
+		}
+		
 		// 제일 마지막 페이지 계산
 		public void calcLastPage(int total, int cntPerPage) {
 			setLastPage((int) Math.ceil((double)total / (double)cntPerPage));

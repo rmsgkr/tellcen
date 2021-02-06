@@ -1,105 +1,109 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<jsp:include page="/WEB-INF/views/common/adminHeader.jsp" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:include page="/WEB-INF/views/common/adminSidebar.jsp" />
+<!DOCTYPE HTML>
+<html>
+<!-- Main -->
+<div id="main" class="alt">
+	<!-- One -->
+	<section id="one">
+		<div class="inner">
+			<header class="major">
+				<h1>회원관리</h1>
+			</header>
+			<!-- 검색기능 -->
+			<form id="formSearch" method="get" action="searchMember" class="searchForm">
+			<div class="fields">  
+			</div> 
+				<div class="row gtr-200">
+					<!-- Content -->
+					<div class="col-9 col-12-medium">
+						<input type="text" name="id" id="id"
+							value="" placeholder="아이디를 검색하세요." />
+					</div>
+					<div class="col-3 col-12-medium">
+						<button type="button" class="button primary fit icon solid fa-search"
+							onclick="button();">검 색</button>
+					</div>
+				</div>
+			</form>
+			<hr>
+			<div class="table-wrapper">
+				<table>
+					<thead>
+						<tr>
+							<th>아이디</th>
+							<th>이름</th>
+							<th>이메일</th>
+							<th>전화번호</th>
+							<th>생년월일</th>
+							<th>가입일</th>
+							<th>탈퇴일</th> 
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${member }" var="list">
+							<tr>
+							
+								<td>${list.id}</td>
+								<td>${list.name}</td>
+								<td>${list.email}</td>
+								<td>${list.tel}</td>
+								<td><fmt:formatDate value="${list.birthday}" pattern="yyyy/MM/dd" /></td>
+								<td><fmt:formatDate value="${list.regDate}" pattern="yyyy/MM/dd" /></td>
+								
+								<c:if test="${list.wdrDate != null}">
+								<td><fmt:formatDate value="${list.wdrDate}" pattern="yyyy/MM/dd" /></td>
+								</c:if>
+								<c:if test="${list.wdrDate == null}">
+								<td> - </td>
+								</c:if>
+								<!-- 회원별 활동 내역 - 아직 보류 -->
+								<td><button onclick="window.location.href='<%=request.getContextPath()%>/admin/member/${list.id}'">활동내역</button></td>
+							</tr>
 
-<!-- Page Content -->
-    <div id="page-content-wrapper">
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+			<!-- 페이징 -->
+			<ul class="pagination" style="text-align: center;">
+				<c:if test="${paging.startPage != 1 }">
+					<li><a
+						href="/tellcen/admin/member?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}"
+						class="button small">Prev</a></li>
+				</c:if>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+				<c:forEach begin="${paging.startPage }" end="${paging.endPage }"
+					var="p">
+					<c:choose>
+						<c:when test="${p == paging.nowPage }">
+							<li><a href="#" class="page active">${p }</a></li>
+						</c:when>
+						<c:when test="${p != paging.nowPage }">
+							<li><a
+								href="/tellcen/admin/member?nowPage=${p }&cntPerPage=${paging.cntPerPage}"
+								class="page">${p }</a></li>
+						</c:when>
+					</c:choose>
+				</c:forEach>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+				<c:if test="${paging.endPage != paging.lastPage}">
+					<li><a
+						href="/tellcen/admin/member?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}"
+						class="button small">Next</a></li>
+				</c:if>
+			</ul>
+		</div>
+	</section>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="/tellcen/admin">관리자Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/tellcen">말해주센</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                회원관리
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              	<a class="dropdown-item" href="/tellcen/admin/member">회원목록</a>
-                <a class="dropdown-item" href="/tellcen/admin/member/delete">탈퇴회원</a>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-<div class="w3-container w3-center">
-  <h2>회원 목록</h2>
-
-  <table class="w3-table-all w3-hoverable w3-centered">
-    <thead>
-      <tr class="w3-light-grey" style="color:#FFFF00">
-        <th width="10%">ID</th>
-        <th width="7%">이름</th>
-        <th width="10%">이메일</th>
-        <th width="15%">전화번호</th>
-        <th width="10%">생년월일</th>
-        <th width="15%">가입일</th>
-        <th width="15%">탈퇴일</th>
-        <th width="10%"></th>
-      </tr>
-    </thead>
-    <c:forEach var="infoList" items="${infoList}">
-	    <tr>
-	      <td>${infoList.id}</td>
-	      <td>${infoList.name}</td>
-	      <td>${infoList.email}</td>
-	      <td>${infoList.tel}</td>
-	      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${infoList.birthday}"/></td>
-	      <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${infoList.regDate}"/></td>
-	      <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${infoList.wdrDate}"/></td>
-	      <td><button class="btn btn-primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/member/${infoList.id}'">활동내역</button></td>
-	    </tr>
-    </c:forEach>
-  </table>
 </div>
-
-<!-- 페이징 -->
-<div style="display: block; text-align: center;">		
-		<c:if test="${paging.startPage != 1 }">
-			<a href="/tellcen/admin/member?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-		</c:if>
-		<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-			<c:choose>
-				<c:when test="${p == paging.nowPage }">
-					<b>${p }</b>
-				</c:when>
-				<c:when test="${p != paging.nowPage }">
-					<a href="/tellcen/admin/member?nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-				</c:when>
-			</c:choose>
-		</c:forEach>
-		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="/tellcen/admin/member?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-		</c:if>
-	</div>
-
-</div>
-  <!-- /#wrapper -->
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="/tellcen/resources/admin/vendor/jquery/jquery.min.js"></script>
-  <script src="/tellcen/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Menu Toggle Script -->
-  <script>
-    $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
-  </script>
-
-</body>
-</html> 
+<script>
+function button() {
+	const searchForm = document.querySelector('.searchForm');
+	searchForm.submit();
+}
+</script>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

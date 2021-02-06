@@ -13,11 +13,12 @@ public class PetitionDTO {
     private String petitionContent; //내용
     private String petitionArea; //지역
     private String petitionField; //분야
-    private Timestamp petitionDate; //작성일 
+    private Timestamp petitionSdate; //등록일 
+    private Timestamp petitionEdate; //마감일 
     private int petitionAgreement; //동의수
     private int petitionStatus; 
 	/*
-	 * 0.신청 1.진행  2.종료 3.답변
+	 * 0.진행  1.종료  2.답변완료
 	 */
     private int agreeCheck; 
 }
