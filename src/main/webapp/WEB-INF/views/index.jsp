@@ -35,7 +35,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="/tellcen/petition/petitionList" class="link">민원신청</a>
+					<a href="/tellcen/complaint/complaintWrite" class="link">민원신청</a>
 				</h3>
 				<p>Complaint</p>
 			</header>

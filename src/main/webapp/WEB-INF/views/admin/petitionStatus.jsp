@@ -148,7 +148,7 @@
 			<ul class="pagination" style="text-align: center;">
 				<c:if test="${paging.startPage != 1 }">
 					<li><a
-						href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&petitionStatus=${paging.petitionStatus}"
+						href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}"
 						class="button small">Prev</a></li>
 				</c:if>
 
@@ -160,7 +160,7 @@
 						</c:when>
 						<c:when test="${p != paging.nowPage }">
 							<li><a
-								href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${p }&cntPerPage=${paging.cntPerPage}&petitionStatus=${paging.petitionStatus}"
+								href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${p }&cntPerPage=${paging.cntPerPage}"
 								class="page">${p }</a></li>
 						</c:when>
 					</c:choose>
@@ -168,7 +168,7 @@
 
 				<c:if test="${paging.endPage != paging.lastPage}">
 					<li><a
-						href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&petitionStatus=${paging.petitionStatus}"
+						href="/tellcen/admin/petition/${paging.petitionStatus}?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}"
 						class="button small">Next</a></li>
 				</c:if>
 			</ul>

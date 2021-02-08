@@ -18,7 +18,7 @@ public class PetitionDTO {
     private int petitionAgreement; //동의수
     private int petitionStatus; 
 	/*
-	 * 0.진행  1.종료  2.답변완료
+	 *0.진행 1.종료 2.답변완료 3.미승인(삭제)
 	 */
     private int agreeCheck; 
 }

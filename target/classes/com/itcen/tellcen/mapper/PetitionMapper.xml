@@ -3,7 +3,12 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="petitionMapper">
-
+	<!-- 청원 작성 -->
+	<insert id="petitionWrite" parameterType="Petition">
+		INSERT INTO petition
+		VALUES (petitionseq.nextval, #{id}, #{petitionTitle},
+		#{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, sysdate+30, 0, 0)
+	</insert>
 	<!--카운트, 검색 -->
 	<select id="getArticleCount" parameterType="hashmap"
 		resultType="int">
@@ -93,13 +98,5 @@
 		petition_agreement = petition_agreement +1
 		WHERE petition_no = #{petitionNo}
 	</update>
-
-	<!-- 청원 작성 -->
-	<insert id="petitionWrite" parameterType="Petition">
-		INSERT INTO petition
-		VALUES (petitionseq.nextval, #{id}, #{petitionTitle},
-		#{petitionContent}, #{petitionArea}, #{petitionField}, sysdate, sysdate+30, 0, 0)
-	</insert>
-	
 
 </mapper>
