@@ -1,5 +1,6 @@
 package com.itcen.tellcen.controller;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.itcen.tellcen.util.PagingVO;
+import com.itcen.tellcen.domain.AnswerCDTO;
 import com.itcen.tellcen.domain.AnswerPDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
+import com.itcen.tellcen.domain.ComplaintDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.service.AdminService;
@@ -48,6 +51,7 @@ public class AdminController {
 		return "admin/admin";
 	}
 
+	/* -------------------------회원------------------------------- */
 	// 회원 관리
 	@GetMapping("/member")
 	public String member(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
@@ -109,6 +113,7 @@ public class AdminController {
 	 * "admin/memberOrder"; }
 	 */
 
+	/* -------------------------청원------------------------------- */
 	// 청원 관리
 	@GetMapping("/petition")
 	public String petition(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
@@ -162,12 +167,12 @@ public class AdminController {
 	}
 
 	// 각각의 청원 보기
-	@GetMapping("/{petitionNo}")
+	@GetMapping("/petition/{petitionNo}")
 	public String petitionDetail(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("petitionNo", petitionNo);
 
-		PetitionDTO petition = adminService.getArticle(map);
+		PetitionDTO petition = adminService.getPetition(map);
 		model.addAttribute("petition", petition);
 
 		List<AnswerPDTO> answerP = adminService.getAnswerP(petitionNo);
@@ -179,68 +184,68 @@ public class AdminController {
 		return "admin/petitionDetail";
 	}
 
-	
 	// 청원 답변 하기
-	@GetMapping("/{petitionNo}/answer")
+	@GetMapping("/petition/{petitionNo}/answer")
 	public String answerPWriteForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("petitionNo", petitionNo);
-		PetitionDTO petition = adminService.getArticle(map);
+		PetitionDTO petition = adminService.getPetition(map);
 		model.addAttribute("petition", petition);
 		return "admin/answerPWrite";
 	}
-	
+
 	// 청원 답변 하기
-	@PostMapping("/{petitionNo}/answer")
+	@PostMapping("petition/{petitionNo}/answer")
 	public String answerPWrite(Model model, @ModelAttribute AnswerPDTO answerP,
 			@PathVariable("petitionNo") int petitionNo) throws Exception {
 		answerP.setPetitionNo(petitionNo);
 		// answerP테이블에 insert
 		adminService.answerPWrite(answerP);
 		// 청원상태 2(답변완료)로 업데이트
-		adminService.updateStatus2(petitionNo);
+		adminService.updatePetitionStatus2(petitionNo);
 		model.addAttribute("petitionNo", petitionNo);
 
 		return "/admin/answerPWriteSuccess";
 	}
-	
+
 	// 청원 마감 하기
-	@GetMapping("/{petitionNo}/finish")
+	@GetMapping("/petition/{petitionNo}/finish")
 	public String petitionFinishForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("petitionNo", petitionNo);
-		PetitionDTO petition = adminService.getArticle(map);
+		PetitionDTO petition = adminService.getPetition(map);
 		model.addAttribute("petition", petition);
 		return "/admin/petitionFinish";
 	}
-	
+
 	// 청원 마감 하기
-	@PostMapping("/{petitionNo}/finish")
+	@PostMapping("petition//{petitionNo}/finish")
 	public String petitionFinish(@PathVariable("petitionNo") int petitionNo) throws Exception {
-		adminService.updateStatus1(petitionNo);
+		adminService.updatePetitionStatus1(petitionNo);
 		return "/admin/petitionFinishSuccess";
 	}
-	
+
 	// 청원 삭제 하기
-	@GetMapping("/{petitionNo}/delete")
+	@GetMapping("/petition/{petitionNo}/delete")
 	public String petitionDeleteForm(Model model, @PathVariable("petitionNo") int petitionNo) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("petitionNo", petitionNo);
-		PetitionDTO petition = adminService.getArticle(map);
+		PetitionDTO petition = adminService.getPetition(map);
 		model.addAttribute("petition", petition);
 		return "/admin/petitionDelete";
 	}
-	
+
 	// 청원 삭제 하기
-	@PostMapping("/{petitionNo}/delete")
+	@PostMapping("petition/{petitionNo}/delete")
 	public String petitionDelete(@PathVariable("petitionNo") int petitionNo) throws Exception {
-		adminService.updateStatus3(petitionNo);
+		adminService.updatePetitionStatus3(petitionNo);
 		return "/admin/petitionDeleteSuccess";
 	}
-	
+
 	// 상태별 청원 보기
-	@GetMapping("/petition/{petitionStatus}")
-	public String petitionStatus(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
+	@GetMapping("/petitionStatus/{petitionStatus}")
+	public String petitionStatus(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
 			@PathVariable("petitionStatus") int petitionStatus) throws Exception {
 		int total = adminService.getPetitionStatusCount(petitionStatus);
@@ -253,12 +258,149 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage),petitionStatus);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionStatus, 0);
 		model.addAttribute("paging", vo);
 
 		List<PetitionDTO> list = adminService.getPetitionStatus(vo);
 		model.addAttribute("petition", list);
 		return "admin/petitionStatus";
+	}
+
+	/* -------------------------민원------------------------------- */
+	// 민원 관리
+	@GetMapping("/complaint")
+	public String complaint(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) throws Exception {
+		int total = adminService.getSearchComplaintCount(null, null, null, null, null);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+
+		List<ComplaintDTO> list = adminService.getComplaintInfo(vo);
+		model.addAttribute("complaint", list);
+
+		return "admin/complaint";
+	}
+
+	// 각각의 민원 보기
+	@GetMapping("/complaint/{complaintNo}")
+	public String complaintDetail(Model model, @PathVariable("complaintNo") int complaintNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("complaintNo", complaintNo);
+
+		ComplaintDTO complaint = adminService.getComplaint(map);
+		model.addAttribute("complaint", complaint);
+
+		List<AnswerCDTO> answerC = adminService.getAnswerC(complaintNo);
+		model.addAttribute("answerC", answerC);
+		return "admin/complaintDetail";
+	}
+
+	// 민원 답변 하기
+	@GetMapping("/complaint/{complaintNo}/answer")
+	public String answerCWriteForm(Model model, @PathVariable("complaintNo") int complaintNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("complaintNo", complaintNo);
+		ComplaintDTO complaint = adminService.getComplaint(map);
+		model.addAttribute("complaint", complaint);
+		return "admin/answerCWrite";
+	}
+
+	// 민원 답변 하기
+	@PostMapping("complaint/{complaintNo}/answer")
+	public String answerCWrite(Model model, @ModelAttribute AnswerCDTO answerC,
+			@PathVariable("complaintNo") int complaintNo) throws Exception {
+		answerC.setComplaintNo(complaintNo);
+		// answerC테이블에 insert
+		adminService.answerCWrite(answerC);
+		// 민원상태 1(답변완료)로 업데이트
+		adminService.updateComplaintStatus1(complaintNo);
+		model.addAttribute("complaintNo", complaintNo);
+
+		return "/admin/answerCWriteSuccess";
+	}
+
+	// 민원 삭제 하기
+	@GetMapping("/complaint/{complaintNo}/delete")
+	public String complaintDeleteForm(Model model, @PathVariable("complaintNo") int complaintNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("complaintNo", complaintNo);
+		ComplaintDTO complaint = adminService.getComplaint(map);
+		model.addAttribute("complaint", complaint);
+		return "/admin/complaintDelete";
+	}
+
+	// 민원 삭제 하기
+	@PostMapping("complaint/{complaintNo}/delete")
+	public String complaintDelete(@PathVariable("complaintNo") int complaintNo) throws Exception {
+		adminService.updateComplaintStatus2(complaintNo);
+		return "/admin/complaintDeleteSuccess";
+	}
+
+	// 민원 검색
+	@GetMapping("/searchComplaint")
+	public String complaintSearch(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@RequestParam(value = "complaintTitle", required = false, defaultValue = "") String complaintTitle,
+			@RequestParam(value = "complaintOrganization", required = false, defaultValue = "") String complaintOrganization,
+			@RequestParam(value = "complaintOrganizationDetail", required = false, defaultValue = "") String complaintOrganizationDetail,
+			@RequestParam(value = "complaintSdate", required = false, defaultValue = "") String complaintSdate,
+			@RequestParam(value = "complaintEdate", required = false, defaultValue = "") String complaintEdate)
+			throws Exception {
+
+		int total = adminService.getSearchComplaintCount(complaintTitle, complaintOrganization,
+				complaintOrganizationDetail, complaintSdate, complaintEdate);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), complaintTitle,
+				complaintOrganization, complaintOrganizationDetail, complaintSdate, complaintEdate);
+		model.addAttribute("paging", vo);
+
+		List<ComplaintDTO> list = adminService.getSearchComplaintInfo(vo);
+		model.addAttribute("complaint", list);
+
+		return "admin/searchComplaint";
+	}
+
+	// 상태별 민원 보기
+
+	@GetMapping("/complaintStatus/{complaintStatus}")
+	public String complaintStatus(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@PathVariable("complaintStatus") int complaintStatus) throws Exception {
+		int total = adminService.getComplaintStatusCount(complaintStatus);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, complaintStatus);
+		model.addAttribute("paging", vo);
+
+		List<ComplaintDTO> list = adminService.getComplaintStatus(vo);
+		model.addAttribute("complaint", list);
+		return "admin/complaintStatus";
 	}
 
 }

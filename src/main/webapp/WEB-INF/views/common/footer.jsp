@@ -32,5 +32,35 @@
 <script src="/tellcen/resources/js/breakpoints.min.js"></script>
 <script src="/tellcen/resources/js/util.js"></script>
 <script src="/tellcen/resources/js/main.js"></script>
+
+
+<script src="/tellcen/resources/js/jquery-ui.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $.datepicker.regional['ko'] = {
+
+        dateFormat: 'yy/mm/dd',
+        prevText: '이전달', 
+        nextText: '다음달',
+        currentText: '오늘',
+        dayNames: ['일','월','화','수','목','금','토'],
+        dayNamesShort: ['일','월','화','수','목','금','토'],
+        dayNamesMin: ['일','월','화','수','목','금','토'],
+        monthNames: ['1월','2월','3월','4월','5월','6월',
+            '7월','8월','9월','10월','11월','12월'],
+    }; 
+    $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+    $('#complaintSdate').datepicker();
+    $('#complaintSdate').datepicker("option", "maxDate", new Date());
+    $('#complaintSdate').datepicker("option", "onClose", function ( selectedDate ) {
+        $("#complaintEdate").datepicker( "option", "minDate", selectedDate );
+    });
+
+    $('#complaintEdate').datepicker();
+    $('#complaintEdate').datepicker("option", "minDate", $("#complaintSdate").val());
+   
+});
+</script>
 </body>
 </html>

@@ -1,17 +1,27 @@
 package com.itcen.tellcen.util;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.jdbc.datasource.lookup.SingleDataSourceLookup;
+
 import lombok.Data;
 
 @Data
 public class PagingVO {
 		
 		private String petitionTitle, petitionArea, petitionField;
+		private String complaintTitle, complaintOrganization, complaintOrganizationDetail;
+		private String complaintSdate, complaintEdate;
 		private String id;
-		private int petitionStatus;
+		private int petitionStatus,complaintStatus;
 		// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
 		private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 		private int cntPage = 5;
 		
+
 		public PagingVO() {}
 		
 		// 리스트들의 공통 페이징
@@ -24,6 +34,17 @@ public class PagingVO {
 			calcStartEnd(getNowPage(), getCntPerPage());
 		}
 		
+		// 상태별 페이징
+		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus, int complaintStatus) {
+			setNowPage(nowPage);
+			setCntPerPage(cntPerPage);
+			setTotal(total);
+			calcLastPage(getTotal(), getCntPerPage());
+			calcStartEndPage(getNowPage(), cntPage);
+			calcStartEnd(getNowPage(), getCntPerPage());
+			setPetitionStatus(petitionStatus);
+			setComplaintStatus(complaintStatus);
+		}
 		// 청원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String petitionTitle, String petitionArea, String petitionField) {
 			setNowPage(nowPage);
@@ -37,17 +58,22 @@ public class PagingVO {
 			setPetitionField(petitionField);
 		}
 		
-		// 상태별 청원 페이징
-		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus) {
+		
+		// 민원 검색 페이징
+		public PagingVO(int total, int nowPage, int cntPerPage, String complaintTitle, String complaintOrganization, String complaintOrganizationDetail, String complaintSdate, String complaintEdate) {
 			setNowPage(nowPage);
 			setCntPerPage(cntPerPage);
 			setTotal(total);
 			calcLastPage(getTotal(), getCntPerPage());
 			calcStartEndPage(getNowPage(), cntPage);
 			calcStartEnd(getNowPage(), getCntPerPage());
-			setPetitionStatus(petitionStatus);
+			setComplaintTitle(complaintTitle);
+			setComplaintOrganization(complaintOrganization);
+			setComplaintOrganizationDetail(complaintOrganizationDetail);
+			setComplaintSdate(complaintSdate);
+			setComplaintEdate(complaintEdate);
+			
 		}
-		
 		// 관리자 회원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String id) {
 			setNowPage(nowPage);

@@ -21,7 +21,7 @@
 					<!-- Content -->
 					<div class="col-9 col-12-medium">
 						<input type="text" name="id" id="id"
-							value="" placeholder="아이디를 검색하세요." />
+							value="" placeholder="아이디를 검색하세요." autocomplete="off"/>
 					</div>
 					<div class="col-3 col-12-medium">
 						<button type="button" class="button primary fit icon solid fa-search"

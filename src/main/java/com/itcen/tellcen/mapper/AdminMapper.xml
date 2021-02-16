@@ -54,7 +54,7 @@
 		AND id like '%${id}%'
 	</select> 
 	
-	<!--카운트, 검색 -->
+	<!--청원 카운트, 검색 -->
 	<select id="getSearchPetitionCount" parameterType="hashmap"
 		resultType="int">
 		SELECT nvl(count(*),0) FROM petition
@@ -104,7 +104,7 @@
 	</select> 
 	
 	<!-- 각각의 청원 보기 -->
-	<select id="getArticle" parameterType="hashmap" resultType="Petition">
+	<select id="getPetition" parameterType="hashmap" resultType="Petition">
 		SELECT petition_no AS petitionNo, id, petition_title AS petitionTitle, 
 			petition_content AS petitionContent, petition_area AS petitionArea, 
 			petition_field AS petitionField, petition_sdate AS petitionSdate, petition_edate AS petitionEdate,
@@ -128,7 +128,7 @@
 	</select>
 	
 	<!-- 청원 마감 -->
-	<update id="updateStatus1" parameterType="int">
+	<update id="updatePetitionStatus1" parameterType="int">
 		UPDATE petition SET
 		petition_status = 1
 		WHERE petition_no = #{petitionNo}
@@ -139,20 +139,20 @@
 		INSERT INTO answerP
 		VALUES (answerPseq.nextval, #{petitionNo}, #{answerPContent} ,sysdate)
 	</insert>
-	<update id="updateStatus2" parameterType="int">
+	<update id="updatePetitionStatus2" parameterType="int">
 		UPDATE petition SET
 		petition_status = 2
 		WHERE petition_no = #{petitionNo}
 	</update>
 	
 	<!-- 청원 삭제 (3 = 거부된 청원) -->
-	<update id="updateStatus3" parameterType="int">
+	<update id="updatePetitionStatus3" parameterType="int">
 		UPDATE petition SET
 		petition_status = 3
 		WHERE petition_no = #{petitionNo}
 	</update>
 	
-	<!--카운트, 검색 -->
+	<!--상태별 카운트 -->
 	<select id="getPetitionStatusCount" parameterType="hashmap"
 		resultType="int">
 		SELECT nvl(count(*),0) FROM petition
@@ -176,5 +176,138 @@
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
 		AND petition_status = #{petitionStatus}
+	</select> 
+	
+	<!--민원 카운트, 검색 -->
+	<select id="getSearchComplaintCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM complaint
+		WHERE complaint_title like '%${complaintTitle}%'
+		AND complaint_organization like '%${complaintOrganization}%'
+		AND complaint_organization_detail like '%${complaintOrganizationDetail}%'
+		<if test="complaintSdate != null and complaintSdate != '' and complaintEdate != null and complaintEdate != ''" >
+		<![CDATA[
+		AND complaint_date >= #{complaintSdate} AND complaint_date-1 <= #{complaintEdate}
+		]]>
+		</if>
+	</select>
+	
+	<!-- 민원 목록 -->
+	<select id="getComplaintInfo" resultType="Complaint">
+		SELECT complaint_no AS
+			complaintNo,id, complaint_title AS complaintTitle,
+			complaint_content AS complaintContent, complaint_organization AS complaintOrganization,
+			complaint_organization_detail AS complaintOrganizationDetail, complaint_date AS complaintDate,
+			complaint_count AS complaintCount, complaint_status AS complaintStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM complaint
+		ORDER BY complaint_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select> 
+	
+	<!-- 각각의 민원 보기 -->
+	<select id="getComplaint" parameterType="hashmap" resultType="Complaint">
+		SELECT complaint_no AS
+			complaintNo,id, complaint_title AS complaintTitle,
+			complaint_content AS complaintContent, complaint_organization AS complaintOrganization,
+			complaint_organization_detail AS complaintOrganizationDetail, complaint_date AS complaintDate,
+			complaint_count AS complaintCount, complaint_status AS complaintStatus
+		FROM complaint
+		WHERE complaint_no = #{complaintNo}
+	</select>
+	
+	<!-- 각각의 민원 보기(답변) -->
+	<select id="getAnswerC" resultType="AnswerC">
+		SELECT answerC_no AS answerCNo, complaint_no AS complaintNo, answerC_content AS answerCContent,
+		answerC_date AS answerCDate
+		FROM answerC
+		WHERE complaint_no = #{complaintNo}
+	</select>
+	
+	<!-- 조회수 -->
+<!--    <update id="addReadCount" parameterType="hashmap">
+     update complaint set complaint_count = complaint_count +1 
+         where complaint_no = #{complaintNo} 
+   </update> -->
+   
+   	<!-- 민원 답변 작성 -->
+	<insert id="answerCWrite" parameterType="AnswerC">
+		INSERT INTO answerC
+		VALUES (answerCseq.nextval, #{complaintNo}, #{answerCContent} ,sysdate)
+	</insert>
+	<update id="updateComplaintStatus1" parameterType="int">
+		UPDATE complaint SET
+		complaint_status = 1
+		WHERE complaint_no = #{complaintNo}
+	</update>
+	
+	<!-- 민원 삭제 (2 = 거부된 민원) -->
+	<update id="updateComplaintStatus2" parameterType="int">
+		UPDATE complaint SET
+		complaint_status = 2
+		WHERE complaint_no = #{complaintNo}
+	</update>
+	
+	<!-- 민원 검색 -->
+	<select id="getSearchComplaintInfo" resultType="Complaint">
+		SELECT complaint_no AS
+			complaintNo,id, complaint_title AS complaintTitle,
+			complaint_content AS complaintContent, complaint_organization AS complaintOrganization,
+			complaint_organization_detail AS complaintOrganizationDetail, complaint_date AS complaintDate,
+			complaint_count AS complaintCount, complaint_status AS complaintStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM complaint
+		WHERE complaint_title like '%${complaintTitle}%'
+		AND complaint_organization like '%${complaintOrganization}%'
+		AND complaint_organization_detail like '%${complaintOrganizationDetail}%'
+		<if test="complaintSdate != null and complaintSdate != '' and complaintEdate != null and complaintEdate != ''" >
+		<![CDATA[
+		AND complaint_date >= #{complaintSdate} AND complaint_date-1 <= #{complaintEdate}
+		]]>
+		</if>
+		ORDER BY complaint_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND complaint_title like '%${complaintTitle}%'
+		AND complaint_organization like '%${complaintOrganization}%'
+		AND complaint_organization_detail like '%${complaintOrganizationDetail}%'
+		<if test="complaintSdate != null and complaintSdate != '' and complaintEdate != null and complaintEdate != ''" >
+		<![CDATA[
+		AND complaint_date >= #{complaintSdate} AND complaint_date-1 <= #{complaintEdate}
+		]]>
+		</if>
+	</select> 
+	
+		<!--상태별 카운트 -->
+	<select id="getComplaintStatusCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM complaint
+		WHERE complaint_status = #{complaintStatus}
+	</select>
+	
+	<!-- 상태별 청원 목록 -->
+	<select id="getComplaintStatus" resultType="Complaint">
+		SELECT complaint_no AS
+			complaintNo,id, complaint_title AS complaintTitle,
+			complaint_content AS complaintContent, complaint_organization AS complaintOrganization,
+			complaint_organization_detail AS complaintOrganizationDetail, complaint_date AS complaintDate,
+			complaint_count AS complaintCount, complaint_status AS complaintStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM complaint
+		WHERE complaint_status = #{complaintStatus}
+		ORDER BY complaint_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND complaint_status = #{complaintStatus}
 	</select> 
 </mapper>

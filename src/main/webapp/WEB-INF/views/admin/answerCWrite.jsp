@@ -11,14 +11,14 @@
 	<section id="one">
 		<div class="inner">
 			<header class="major">
-				<h1>청원 답변하기</h1>
+				<h1>민원 답변하기</h1>
 			</header>
 			<form method="post" class="answerPWrite" name="writeForm"
-				action="<%=request.getContextPath()%>/admin/petition/${petition.petitionNo }/answer">
+				action="<%=request.getContextPath()%>/admin/complaint/${complaint.complaintNo }/answer">
 				<div class="fields">
 					<div class="field">
 						<h3>답변내용</h3>
-						<textarea name="answerPContent" id="answerPContent" rows="6"
+						<textarea name="answerCContent" id="answerCContent" rows="6"
 							placeholder="답변 내용을 입력하세요."></textarea>
 					</div>
 				</div>
@@ -26,19 +26,18 @@
 			<input type="button" class="button primary large" value="답변하기"
 				onclick="button()" style="float: right"> <br> <br>
 			<br> <br><hr>
-			<h3>해당 청원</h3>
+			<h3>해당 민원</h3>
 			<div class="box">
-				<b>[지역]</b>&nbsp;&nbsp;${petition.petitionArea }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[분야]</b>&nbsp;&nbsp;${petition.petitionField }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[청원인]</b>&nbsp;&nbsp;${petition.id }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[청원기간]</b>&nbsp;&nbsp;<fmt:formatDate value="${petition.petitionSdate }" pattern="yyyy/MM/dd" />~
-								<fmt:formatDate value="${petition.petitionEdate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<b>[기관분류]</b>&nbsp;&nbsp;${complaint.complaintOrganization}&nbsp;&nbsp;&nbsp;&nbsp;
+				<b>[상세기관]</b>&nbsp;&nbsp;${complaint.complaintOrganizationDetail }&nbsp;&nbsp;&nbsp;&nbsp;
+				<b>[민원인]</b>&nbsp;&nbsp;${complaint.id }&nbsp;&nbsp;&nbsp;&nbsp;
+				<b>[등록일]</b>&nbsp;&nbsp;<fmt:formatDate value="${complaint.complaintDate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 			<div class="fields">
 				<div class="field">
 					<div class="box">
-					<h4>제목:${petition.petitionTitle}</h4><br>
-					${petition.petitionContent }
+					<h4>제목:${complaint.complaintTitle}</h4><br>
+					${complaint.complaintContent }
 					</div>
 				</div>
 			</div>
@@ -47,9 +46,9 @@
 </div>
 <script>
 	function button() {
-		if (writeForm.answerPContent.value == "") {
+		if (writeForm.answerCContent.value == "") {
 			alert('내용을 입력해주세요.');
-			writeForm.answerPContent.focus();
+			writeForm.answerCContent.focus();
 			return;
 		}
 		writeForm.submit();

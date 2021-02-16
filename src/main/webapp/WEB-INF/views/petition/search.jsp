@@ -61,7 +61,7 @@
 					<!-- Content -->
 					<div class="col-9 col-12-medium">
 						<input type="text" name="petitionTitle" id="petitionTitle"
-							value="" placeholder="청원 제목을 검색하세요." />
+							value="" placeholder="청원 제목을 검색하세요." autocomplete="off"/>
 					</div>
 					<div class="col-3 col-12-medium">
 						<button type="button"

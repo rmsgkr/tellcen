@@ -25,6 +25,9 @@
 				<c:if test="${petition.petitionStatus == 2}">
 				<b style="color: #00CED1">청원 답변 완료</b>
 				</c:if>
+				<c:if test="${petition.petitionStatus == 3}">
+				<b style="color: #CD853F">청원 삭제 완료</b>
+				</c:if>
 				&nbsp;&nbsp;[참여인원:<b style="color: skyblue">${petition.petitionAgreement }</b>명]
 			<jsp:useBean id="today" class="java.util.Date" />
 			<fmt:formatDate value='${today}' pattern='yyyy/MM/dd' var="nowDate"/>
@@ -33,14 +36,14 @@
 			<fmt:formatDate value="${petition.petitionEdate }" pattern="yyyy/MM/dd" var="endDate"/>
 			<fmt:parseNumber value="${petition.petitionEdate.time / (1000*60*60*24)}" integerOnly="true" var="EndDate"></fmt:parseNumber>
 				
-			<c:if test="${list.petitionStatus == 0 && EndDate-NowDate < 0 }">
-			<button class="button" onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/answer'">마감하기</button>
+			<c:if test="${petition.petitionStatus == 0 && EndDate-NowDate < 0 }">
+			<button class="button" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">마감하기</button>
 			</c:if>	
 			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement >= 1}">&nbsp;&nbsp;&nbsp;&nbsp;
-			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/${petition.petitionNo}/answer'">답변하기</button>
+			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">답변하기</button>
 			</c:if>
 			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement < 1}">&nbsp;&nbsp;&nbsp;&nbsp;
-			<button onclick="window.location.href='<%=request.getContextPath()%>/admin/${petition.petitionNo}/answer'">삭제하기</button>
+			<button onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">삭제하기</button>
 			</c:if> 
 			</h3>
 			

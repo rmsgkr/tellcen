@@ -76,7 +76,7 @@
 					<div class="field">
 						<h3>청원제목</h3>
 						<input type="text" name="petitionTitle" id="petitionTitle"
-							placeholder="청원 제목을 입력하세요." />
+							placeholder="청원 제목을 입력하세요." autocomplete="off"/>
 					</div>
 					<div class="field">
 						<h3>청원내용</h3>

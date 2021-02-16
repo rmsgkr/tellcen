@@ -19,12 +19,12 @@
 				<div class="row">
 					<div class="col-6 col-12-small">
 						<button type="button" class="button fit"
-							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/0'">진행중인
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petitionStatus/0'">진행중인
 							청원보기</button>
 					</div>
 					<div class="col-6 col-12-small">
 						<button type="button" class="button fit"
-							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/1'">마감
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petitionStatus/1'">마감
 							청원보기</button>
 					</div>
 				</div>
@@ -32,12 +32,12 @@
 				<div class="row">
 					<div class="col-6 col-12-small">
 						<button type="button" class="button fit"
-							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/2'">답변완료
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petitionStatus/2'">답변완료
 							청원보기</button>
 					</div>
 					<div class="col-6 col-12-small">
 						<button type="button" class="button fit"
-							onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/3'">미승인(삭제)
+							onclick="window.location.href='<%=request.getContextPath()%>/admin/petitionStatus/3'">미승인(삭제)
 							청원보기</button>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 					<!-- Content -->
 					<div class="col-9 col-12-medium">
 						<input type="text" name="petitionTitle" id="petitionTitle"
-							value="" placeholder="청원 제목을 검색하세요." />
+							value="" placeholder="청원 제목을 검색하세요." autocomplete="off"/>
 					</div>
 					<div class="col-3 col-12-medium">
 						<button type="button" class="button primary fit icon solid fa-search"
@@ -120,7 +120,7 @@
 								<td>${list.petitionNo }</td>
 								<td>${list.petitionArea }</td>
 								<td>${list.petitionField }</td>
-								<td><a href="/admin/petition/${list.petitionNo}">[${list.petitionTitle } ]</a></td>
+								<td><a href="/tellcen/admin/petition/${list.petitionNo}">[${list.petitionTitle } ]</a></td>
 								<td><fmt:formatDate value="${list.petitionSdate }" pattern="yyyy/MM/dd" />~
 								<fmt:formatDate value="${list.petitionEdate }" pattern="yyyy/MM/dd" /></td>
 								<c:if test="${list.petitionAgreement < 1}">
@@ -131,13 +131,13 @@
 								</c:if>
 								
 								<c:if test="${list.petitionStatus == 0 && EndDate-NowDate < 0 }">
-								<td><button class="button" onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/finish'">마감하기</button></td>
+								<td><button class="button" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${list.petitionNo}/finish'">마감하기</button></td>
 								</c:if>
 								<c:if test="${list.petitionStatus == 1 && list.petitionAgreement >= 1}">
-								<td><button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/answer'">답변하기</button></td>
+								<td><button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${list.petitionNo}/answer'">답변하기</button></td>
 								</c:if>
 								<c:if test="${list.petitionStatus == 1 && list.petitionAgreement < 1}">
-								<td><button onclick="window.location.href='<%=request.getContextPath()%>/admin/${list.petitionNo}/delete'">삭제하기</button></td>
+								<td><button onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${list.petitionNo}/delete'">삭제하기</button></td>
 								</c:if>
 								<c:if test="${list.petitionStatus == 2}">
 								<td><button class="button disabled">답변완료</button></td>

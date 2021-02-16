@@ -5,11 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<meta http-equiv="refresh" content="0; url=<%=request.getContextPath()%>/admin/petition"> 
+<meta http-equiv="refresh" content="0; url=<%=request.getContextPath()%>/member/login"> 
 </head>
 <body>
 <script>
-	alert('해당 청원을 삭제 처리 하였습니다.');
+	alert('관리자 승인이 필요한 서비스 입니다.');
 </script>
 </body>
 </html>

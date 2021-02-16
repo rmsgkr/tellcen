@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<form method="post" class="petitionFinish" name="finishForm"
-				action="<%=request.getContextPath()%>/admin/${petition.petitionNo }/finish">
+				action="<%=request.getContextPath()%>/admin/petition/${petition.petitionNo }/finish">
 			</form>
 			<input type="button" class="button primary large" value="마감하기"
 				onclick="button()" style="float: right"> <br> <br>
