@@ -9,6 +9,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 <link rel="stylesheet" href="/tellcen/resources/css/main.css" />
+<link rel="stylesheet" href="/tellcen/resources/css/jquery-ui.css" />
 <noscript>
 	<link rel="stylesheet" href="/tellcen/resources/css/noscript.css" />
 </noscript>

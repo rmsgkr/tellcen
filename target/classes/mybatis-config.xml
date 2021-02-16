@@ -10,6 +10,9 @@
 		<typeAlias type="com.itcen.tellcen.domain.AnswerPDTO" alias="AnswerP"/>
 		<typeAlias type="com.itcen.tellcen.domain.ComplaintDTO" alias="Complaint"/>
 		<typeAlias type="com.itcen.tellcen.domain.AnswerCDTO" alias="AnswerC"/>
+		<typeAlias type="com.itcen.tellcen.domain.SuggestionDTO" alias="Suggestion"/>
+		<typeAlias type="com.itcen.tellcen.domain.CommentSDTO" alias="CommentS"/>
+		<typeAlias type="com.itcen.tellcen.domain.AnswerSDTO" alias="AnswerS"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -27,5 +30,6 @@
 		<mapper resource="com/itcen/tellcen/mapper/MemberMapper.xml"/>
 		<mapper resource="com/itcen/tellcen/mapper/PetitionMapper.xml"/>
 		<mapper resource="com/itcen/tellcen/mapper/ComplaintMapper.xml"/>
+		<mapper resource="com/itcen/tellcen/mapper/SuggestionMapper.xml"/>
 	</mappers>
 </configuration>

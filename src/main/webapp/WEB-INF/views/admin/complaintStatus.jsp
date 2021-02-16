@@ -51,6 +51,7 @@
 							<th>기관분류</th>
 							<th>상세기관</th>
 							<th>제목</th>
+							<th>민원인</th>
 							<th>등록일</th>
 							<th>조회수</th>
 						</tr>
@@ -69,6 +70,7 @@
 									<td>${list.complaintOrganizationDetail }</td>
 									<td><a href="/tellcen/admin/complaint/${list.complaintNo}">[${list.complaintTitle }
 											]</a></td>
+									<td>${list.id }</td>
 									<td><fmt:formatDate value="${list.complaintDate }"
 											pattern="yyyy/MM/dd" /></td>
 									<td>${list.complaintCount }</td>
@@ -94,7 +96,7 @@
 			<ul class="pagination" style="text-align: center;">
 				<c:if test="${paging.startPage != 1 }">
 					<li><a
-						href="/tellcen/admin/complaintStatus?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&complaintStatus=${paging.complaintStatus}"
+						href="/tellcen/admin/complaintStatus/${paging.complaintStatus}?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&complaintStatus=${paging.complaintStatus}"
 						class="button small">Prev</a></li>
 				</c:if>
 
@@ -106,7 +108,7 @@
 						</c:when>
 						<c:when test="${p != paging.nowPage }">
 							<li><a
-								href="/tellcen/admin/complaintStatus?nowPage=${p }&cntPerPage=${paging.cntPerPage}&complaintStatus=${paging.complaintStatus}"
+								href="/tellcen/admin/complaintStatus/${paging.complaintStatus}?nowPage=${p }&cntPerPage=${paging.cntPerPage}&complaintStatus=${paging.complaintStatus}"
 								class="page">${p }</a></li>
 						</c:when>
 					</c:choose>
@@ -114,7 +116,7 @@
 
 				<c:if test="${paging.endPage != paging.lastPage}">
 					<li><a
-						href="/tellcen/admin/complaintStatus?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&complaintStatus=${paging.complaintStatus}"
+						href="/tellcen/admin/complaintStatus/${paging.complaintStatus}?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&complaintStatus=${paging.complaintStatus}"
 						class="button small">Next</a></li>
 				</c:if>
 			</ul>

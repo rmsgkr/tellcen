@@ -285,7 +285,7 @@
 		</if>
 	</select> 
 	
-		<!--상태별 카운트 -->
+	<!--상태별 카운트 -->
 	<select id="getComplaintStatusCount" parameterType="hashmap"
 		resultType="int">
 		SELECT nvl(count(*),0) FROM complaint
@@ -309,5 +309,135 @@
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
 		AND complaint_status = #{complaintStatus}
+	</select> 
+	
+	<!--카운트, 검색 -->
+	<select id="getSearchSuggestionCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM suggestion
+		WHERE suggestion_title like '%${suggestionKeyword}%'
+		<if test="suggestionSdate != null and suggestionSdate != '' and suggestionEdate != null and suggestionEdate != ''" >
+		<![CDATA[
+		AND suggestion_date >= #{suggestionSdate} AND suggestion_date-1 <= #{suggestionEdate}
+		]]>
+		</if>
+	</select>
+ 
+	<!-- 제안 목록 -->
+	<select id="getSuggestionInfo" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM suggestion
+		ORDER BY suggestion_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select> 
+	
+	<!-- 제안 검색 -->
+	<select id="getSearchSuggestionInfo" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM suggestion
+		WHERE suggestion_title like '%${suggestionTitle}%'
+		<if test="suggestionSdate != null and suggestionSdate != '' and suggestionEdate != null and suggestionEdate != ''" >
+		<![CDATA[
+		AND suggestion_date >= #{suggestionSdate} AND suggestion_date-1 <= #{suggestionEdate}
+		]]>
+		</if>
+		ORDER BY suggestion_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND suggestion_title like '%${suggestionTitle}%'
+		<if test="suggestionSdate != null and suggestionSdate != '' and suggestionEdate != null and suggestionEdate != ''" >
+		<![CDATA[
+		AND suggestion_date >= #{suggestionSdate} AND suggestion_date-1 <= #{suggestionEdate}
+		]]>
+		</if>
+	</select> 
+	
+	<!-- 각각의 제안 보기 -->
+	<select id="getSuggestion" parameterType="hashmap" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM suggestion
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+
+	<!-- 각각의 제안 보기(댓글-동의) -->
+	<select id="getCommentS" resultType="CommentS">
+		SELECT commentS_no AS commentSNo, suggestion_no AS suggestionNo, id,
+			commentS_content AS commentSContent, commentS_date AS commentSDate
+		FROM commentS
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+
+	<!-- 각각의 제안 보기(답변) -->
+	<select id="getAnswerS" resultType="AnswerS">
+		SELECT answerS_no AS answerSNo, suggestion_no AS suggestionNo, answerS_content AS answerSContent,
+		answerS_date AS answerSDate
+		FROM answerS
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+	
+	<!-- 제안 답변 작성 -->
+	<insert id="answerSWrite" parameterType="AnswerS">
+		INSERT INTO answerS
+		VALUES (answerSseq.nextval, #{suggestionNo}, #{answerSContent} ,sysdate)
+	</insert>
+	<update id="updateSuggestionStatus1" parameterType="int">
+		UPDATE suggestion SET
+		suggestion_status = 1
+		WHERE suggestion_no = #{suggestionNo}
+	</update>
+	
+	<!-- 제안 삭제 (2 = 거부된 제안) -->
+	<update id="updateSuggestionStatus2" parameterType="int">
+		UPDATE suggestion SET
+		suggestion_status = 2
+		WHERE suggestion_no = #{suggestionNo}
+	</update>
+	
+	
+		<!--상태별 카운트 -->
+	<select id="getSuggestionStatusCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM suggestion
+		WHERE suggestion_status = #{suggestionStatus}
+	</select>
+	
+	<!-- 상태별 제안 목록 -->
+	<select id="getSuggestionStatus" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM suggestion
+		WHERE suggestion_status = #{suggestionStatus}
+		ORDER BY suggestion_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND suggestion_status = #{suggestionStatus}
 	</select> 
 </mapper>

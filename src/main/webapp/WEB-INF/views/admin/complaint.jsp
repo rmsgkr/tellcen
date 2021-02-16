@@ -96,6 +96,7 @@
 							<th>기관분류</th>
 							<th>상세기관</th>
 							<th>제목</th>
+							<th>민원인</th>
 							<th>등록일</th>
 							<th>조회수</th>
 						</tr>
@@ -114,6 +115,7 @@
 									<td>${list.complaintOrganizationDetail }</td>
 									<td><a href="/tellcen/admin/complaint/${list.complaintNo}">[${list.complaintTitle }
 											]</a></td>
+									<td>${list.id }</td>
 									<td><fmt:formatDate value="${list.complaintDate }"
 											pattern="yyyy/MM/dd" /></td>
 									<td>${list.complaintCount }</td>

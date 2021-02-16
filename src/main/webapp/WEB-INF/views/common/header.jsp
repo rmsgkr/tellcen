@@ -33,8 +33,8 @@
 		<nav id="menu">
 			<ul class="actions stacked">
 				<li><a href="/tellcen/petition/petitionWrite" class="button fit">청원하기</a></li>
-				<li><a href="#" class="button fit">민원신청</a></li>
-				<li><a href="#" class="button fit">국민제안</a></li>
+				<li><a href="/tellcen/complaint/complaintWrite" class="button fit">민원신청</a></li>
+				<li><a href="/tellcen/suggestion/suggestionWrite" class="button fit">국민제안</a></li>
 				<li><a href="#" class="button fit">공지사항</a></li>
 				<li><a href="#" class="button fit">오류·이용 문의</a></li>
 			<!-- 일반 회원 로그인 시 -->

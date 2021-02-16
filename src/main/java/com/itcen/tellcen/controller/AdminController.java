@@ -24,10 +24,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.itcen.tellcen.util.PagingVO;
 import com.itcen.tellcen.domain.AnswerCDTO;
 import com.itcen.tellcen.domain.AnswerPDTO;
+import com.itcen.tellcen.domain.AnswerSDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
+import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
+import com.itcen.tellcen.domain.SuggestionDTO;
 import com.itcen.tellcen.service.AdminService;
 
 @Controller
@@ -91,7 +94,7 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), id);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), id, null, null, null);
 		model.addAttribute("paging", vo);
 
 		List<MemberDTO> list = adminService.getSearchMemberInfo(vo);
@@ -258,7 +261,7 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionStatus, 0);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionStatus, 0, 0);
 		model.addAttribute("paging", vo);
 
 		List<PetitionDTO> list = adminService.getPetitionStatus(vo);
@@ -379,7 +382,6 @@ public class AdminController {
 	}
 
 	// 상태별 민원 보기
-
 	@GetMapping("/complaintStatus/{complaintStatus}")
 	public String complaintStatus(PagingVO vo, Model model,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
@@ -395,7 +397,7 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, complaintStatus);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, complaintStatus, 0);
 		model.addAttribute("paging", vo);
 
 		List<ComplaintDTO> list = adminService.getComplaintStatus(vo);
@@ -403,4 +405,148 @@ public class AdminController {
 		return "admin/complaintStatus";
 	}
 
+	/* -------------------------제안------------------------------- */
+	// 제안 목록
+	@GetMapping("/suggestion")
+	public String suggestion(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) throws Exception {
+		int total = adminService.getSearchSuggestionCount(null, null, null);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+
+		List<SuggestionDTO> list = adminService.getSuggestionInfo(vo);
+		model.addAttribute("suggestion", list);
+
+		return "admin/suggestion";
+	}
+	
+	// 제안 검색
+	@GetMapping("/searchSuggestion")
+	public String suggestionSearch(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@RequestParam(value = "suggestionTitle", required = false, defaultValue = "") String suggestionTitle,
+			@RequestParam(value = "suggestionSdate", required = false, defaultValue = "") String suggestionSdate,
+			@RequestParam(value = "suggestionEdate", required = false, defaultValue = "") String suggestionEdate)
+			throws Exception {
+
+		int total = adminService.getSearchSuggestionCount(suggestionTitle, suggestionSdate, suggestionEdate);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1"; 
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), null, suggestionTitle, suggestionSdate, suggestionEdate);
+		model.addAttribute("paging", vo);
+		
+		List<SuggestionDTO> list = adminService.getSearchSuggestionInfo(vo);
+		model.addAttribute("suggestion", list);
+		
+
+		return "admin/searchSuggestion";
+	}
+	
+	// 각각의 제안 보기
+	@GetMapping("/suggestion/{suggestionNo}")
+	public String suggestionDetail(Model model, @PathVariable("suggestionNo") int suggestionNo, HttpServletRequest request)
+			throws Exception {
+		HttpSession session = request.getSession();
+		String id = null;
+		MemberDTO member = (MemberDTO) session.getAttribute("member");
+		id = member.getId(); 
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("suggestionNo", suggestionNo);
+
+		SuggestionDTO suggestion = adminService.getSuggestion(map);
+		model.addAttribute("suggestion", suggestion);
+
+		List<AnswerSDTO> answerS = adminService.getAnswerS(suggestionNo);
+		model.addAttribute("answerS", answerS);
+		
+		List<CommentSDTO> commentS = adminService.getCommentS(suggestionNo);
+		model.addAttribute("commentS", commentS);
+
+		return "admin/suggestionDetail";
+	}
+
+	// 제안 답변 하기
+	@GetMapping("/suggestion/{suggestionNo}/answer")
+	public String answerSWriteForm(Model model, @PathVariable("suggestionNo") int suggestionNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("suggestionNo", suggestionNo);
+		SuggestionDTO suggestion = adminService.getSuggestion(map);
+		model.addAttribute("suggestion", suggestion);
+		return "admin/answerSWrite";
+	}
+
+	// 제안 답변 하기
+	@PostMapping("suggestion/{suggestionNo}/answer")
+	public String answerSWrite(Model model, @ModelAttribute AnswerSDTO answerS,
+			@PathVariable("suggestionNo") int suggestionNo) throws Exception {
+		answerS.setSuggestionNo(suggestionNo);
+		// answerC테이블에 insert
+		adminService.answerSWrite(answerS);
+		// 제안상태 1(답변완료)로 업데이트
+		adminService.updateSuggestionStatus1(suggestionNo);
+		model.addAttribute("suggestionNo", suggestionNo);
+
+		return "/admin/answerSWriteSuccess";
+	}
+
+	// 제안 삭제 하기
+	@GetMapping("/suggestion/{suggestionNo}/delete")
+	public String suggestionDeleteForm(Model model, @PathVariable("suggestionNo") int suggestionNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("suggestionNo", suggestionNo);
+		SuggestionDTO suggestion = adminService.getSuggestion(map);
+		model.addAttribute("suggestion", suggestion);
+		return "/admin/suggestionDelete";
+	}
+
+	// 제안 삭제 하기
+	@PostMapping("suggestion/{suggestionNo}/delete")
+	public String suggestionDelete(@PathVariable("suggestionNo") int suggestionNo) throws Exception {
+		adminService.updateSuggestionStatus2(suggestionNo);
+		return "/admin/suggestionDeleteSuccess";
+	}
+	
+	// 상태별 제안 보기
+	@GetMapping("/suggestionStatus/{suggestionStatus}")
+	public String suggestionStatus(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@PathVariable("suggestionStatus") int suggestionStatus) throws Exception {
+		int total = adminService.getSuggestionStatusCount(suggestionStatus);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, 0, suggestionStatus);
+		model.addAttribute("paging", vo);
+
+		List<SuggestionDTO> list = adminService.getSuggestionStatus(vo);
+		model.addAttribute("suggestion", list);
+		return "admin/suggestionStatus";
+	}
 }

@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import com.itcen.tellcen.domain.AnswerCDTO;
 import com.itcen.tellcen.domain.AnswerPDTO;
+import com.itcen.tellcen.domain.AnswerSDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
+import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
+import com.itcen.tellcen.domain.SuggestionDTO;
 import com.itcen.tellcen.repository.AdminDAO;
 import com.itcen.tellcen.util.PagingVO;
 
@@ -149,10 +152,62 @@ public class AdminService {
 	
 	// 민원 상태별 카운트
 	public int getComplaintStatusCount(int complaintStatus) throws Exception {
-		return adminDao.getPetitionStatusCount(complaintStatus);
+		return adminDao.getComplaintStatusCount(complaintStatus);
 	}
 	// 민원 상태별 리스트
 	public List<ComplaintDTO> getComplaintStatus(PagingVO vo) {
 		return adminDao.getComplaintStatus(vo);
+	}
+	
+	// 카운트
+	public int getSearchSuggestionCount(String suggestionTitle, String suggestionSdate, String suggestionEdate) throws Exception {
+		return adminDao.getSearchSuggestionCount(suggestionTitle, suggestionSdate, suggestionEdate);
+	}
+
+	// 제안 목록
+	public List<SuggestionDTO> getSuggestionInfo(PagingVO vo) {
+		return adminDao.getSuggestionInfo(vo);
+	}
+	
+	// 제안 검색
+	public List<SuggestionDTO> getSearchSuggestionInfo(PagingVO vo) {
+		return adminDao.getSearchSuggestionInfo(vo);
+	}
+	
+	// 각각의 제안 보기
+	public SuggestionDTO getSuggestion(Map<String, Object> map) throws Exception {
+		return adminDao.getSuggestion(map);
+	}
+
+	// 각각의 제안 보기(댓글)
+	public List<CommentSDTO> getCommentS(int suggestionNo) throws Exception {
+		return adminDao.getCommentS(suggestionNo);
+	}
+	
+	// 각각의 제안 보기(답변)
+	public List<AnswerSDTO> getAnswerS(int suggestionNo) throws Exception {
+		return adminDao.getAnswerS(suggestionNo);
+	}
+	
+	// 제안 답변 작성
+	public void answerSWrite(AnswerSDTO answerS) {
+		adminDao.answerSWrite(answerS);
+	}
+	public void updateSuggestionStatus1(int suggestionNo) {
+		adminDao.updateSuggestionStatus1(suggestionNo);
+	}
+	
+	// 제안 삭제
+	public void updateSuggestionStatus2(int suggestionNo) {
+		adminDao.updateSuggestionStatus2(suggestionNo);
+	}
+	
+	// 제안 상태별 카운트
+	public int getSuggestionStatusCount(int SuggestionStatus) throws Exception {
+		return adminDao.getSuggestionStatusCount(SuggestionStatus);
+	}
+	// 제안 상태별 리스트
+	public List<SuggestionDTO> getSuggestionStatus(PagingVO vo) {
+		return adminDao.getSuggestionStatus(vo);
 	}
 }

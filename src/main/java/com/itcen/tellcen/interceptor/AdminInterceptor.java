@@ -18,7 +18,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		MemberDTO member = (MemberDTO) session.getAttribute("member");
 
 		if (member == null || member.getAuthor() != 1) {
-			response.sendRedirect("/tellcen/admin/adminInterceptor");
+			response.sendRedirect("/tellcen");
 			return false;
 		}
 

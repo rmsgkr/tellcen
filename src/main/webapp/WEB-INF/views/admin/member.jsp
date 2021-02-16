@@ -44,6 +44,12 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:if test="${member.size() == 0}">
+							<tr>
+								<td colspan="6" align="center"><b>검색된 결과가 없습니다.</b></td>
+							</tr>
+						</c:if>
+						<c:if test="${member.size() != 0}">
 						<c:forEach items="${member }" var="list">
 							<tr>
 							
@@ -63,8 +69,8 @@
 								<!-- 회원별 활동 내역 - 아직 보류 -->
 								<td><button onclick="window.location.href='<%=request.getContextPath()%>/admin/member/${list.id}'">활동내역</button></td>
 							</tr>
-
 						</c:forEach>
+						</c:if>
 					</tbody>
 				</table>
 			</div>

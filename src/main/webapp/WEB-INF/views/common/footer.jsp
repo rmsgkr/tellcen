@@ -61,6 +61,32 @@ $(document).ready(function () {
     $('#complaintEdate').datepicker("option", "minDate", $("#complaintSdate").val());
    
 });
+
+$(document).ready(function () {
+    $.datepicker.regional['ko'] = {
+
+        dateFormat: 'yy/mm/dd',
+        prevText: '이전달', 
+        nextText: '다음달',
+        currentText: '오늘',
+        dayNames: ['일','월','화','수','목','금','토'],
+        dayNamesShort: ['일','월','화','수','목','금','토'],
+        dayNamesMin: ['일','월','화','수','목','금','토'],
+        monthNames: ['1월','2월','3월','4월','5월','6월',
+            '7월','8월','9월','10월','11월','12월'],
+    }; 
+    $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+    $('#suggestionSdate').datepicker();
+    $('#suggestionSdate').datepicker("option", "maxDate", new Date());
+    $('#suggestionSdate').datepicker("option", "onClose", function ( selectedDate ) {
+        $("#suggestionEdate").datepicker( "option", "minDate", selectedDate );
+    });
+
+    $('#suggestionEdate').datepicker();
+    $('#suggestionEdate').datepicker("option", "minDate", $("#suggestionSdate").val());
+   
+});
 </script>
 </body>
 </html>

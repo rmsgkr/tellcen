@@ -15,8 +15,10 @@ public class PagingVO {
 		private String petitionTitle, petitionArea, petitionField;
 		private String complaintTitle, complaintOrganization, complaintOrganizationDetail;
 		private String complaintSdate, complaintEdate;
-		private String id;
-		private int petitionStatus,complaintStatus;
+		private String id, suggestionTitle, suggestionSdate, suggestionEdate;
+		private int petitionStatus,complaintStatus, suggestionStatus;
+		
+		
 		// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
 		private int nowPage, startPage, endPage, total, cntPerPage, lastPage, start, end;
 		private int cntPage = 5;
@@ -35,7 +37,7 @@ public class PagingVO {
 		}
 		
 		// 상태별 페이징
-		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus, int complaintStatus) {
+		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus, int complaintStatus, int suggestionStatus) {
 			setNowPage(nowPage);
 			setCntPerPage(cntPerPage);
 			setTotal(total);
@@ -44,6 +46,7 @@ public class PagingVO {
 			calcStartEnd(getNowPage(), getCntPerPage());
 			setPetitionStatus(petitionStatus);
 			setComplaintStatus(complaintStatus);
+			setSuggestionStatus(suggestionStatus);
 		}
 		// 청원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String petitionTitle, String petitionArea, String petitionField) {
@@ -74,8 +77,10 @@ public class PagingVO {
 			setComplaintEdate(complaintEdate);
 			
 		}
-		// 관리자 회원 검색 페이징
-		public PagingVO(int total, int nowPage, int cntPerPage, String id) {
+		
+		
+		// 관리자 회원 or 제안 검색 페이징
+		public PagingVO(int total, int nowPage, int cntPerPage, String id, String suggestionTitle, String suggestionSdate, String suggestionEdate) {
 			setNowPage(nowPage);
 			setCntPerPage(cntPerPage);
 			setTotal(total);
@@ -83,6 +88,9 @@ public class PagingVO {
 			calcStartEndPage(getNowPage(), cntPage);
 			calcStartEnd(getNowPage(), getCntPerPage());
 			setId(id);
+			setSuggestionTitle(suggestionTitle);
+			setSuggestionSdate(suggestionSdate);
+			setSuggestionEdate(suggestionEdate);
 		}
 		
 		// 제일 마지막 페이지 계산

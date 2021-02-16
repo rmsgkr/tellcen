@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="suggestionMapper">
+	<!-- 제안 작성 -->
+	<insert id="suggestionWrite" parameterType="Suggestion">
+		INSERT INTO suggestion
+		VALUES (suggestionseq.nextval, #{id}, #{suggestionTitle},
+		#{suggestionProblem}, #{suggestionPlan}, #{suggestionEffect}, sysdate, 0, 0)
+	</insert>
+	
+	<!--카운트, 검색 -->
+	<select id="getArticleCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM suggestion
+		WHERE suggestion_title like '%${suggestionKeyword}%'
+		<if test="suggestionSdate != null and suggestionSdate != '' and suggestionEdate != null and suggestionEdate != ''" >
+		<![CDATA[
+		AND suggestion_date >= #{suggestionSdate} AND suggestion_date-1 <= #{suggestionEdate}
+		]]>
+		</if>
+	</select>
+ 
+	<!-- 제안 목록 -->
+	<select id="getSuggestionInfo" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM suggestion
+		ORDER BY suggestion_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select> 
+	
+	<!-- 제안 검색 -->
+	<select id="getSearchInfo" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM suggestion
+		WHERE suggestion_title like '%${suggestionTitle}%'
+		<if test="suggestionSdate != null and suggestionSdate != '' and suggestionEdate != null and suggestionEdate != ''" >
+		<![CDATA[
+		AND suggestion_date >= #{suggestionSdate} AND suggestion_date-1 <= #{suggestionEdate}
+		]]>
+		</if>
+		ORDER BY suggestion_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND suggestion_title like '%${suggestionTitle}%'
+		<if test="suggestionSdate != null and suggestionSdate != '' and suggestionEdate != null and suggestionEdate != ''" >
+		<![CDATA[
+		AND suggestion_date >= #{suggestionSdate} AND suggestion_date-1 <= #{suggestionEdate}
+		]]>
+		</if>
+	</select> 
+	
+	<!-- 각각의 제안 보기 -->
+	<select id="getArticle" parameterType="hashmap" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM suggestion
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+
+	<!-- 각각의 제안 보기(댓글-동의) -->
+	<select id="getCommentS" resultType="CommentS">
+		SELECT commentS_no AS commentSNo, suggestion_no AS suggestionNo, id,
+			commentS_content AS commentSContent, commentS_date AS commentSDate
+		FROM commentS
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+
+	<!-- 각각의 제안 보기(답변) -->
+	<select id="getAnswerS" resultType="AnswerS">
+		SELECT answerS_no AS answerSNo, suggestion_no AS suggestionNo, answerS_content AS answerSContent,
+		answerS_date AS answerSDate
+		FROM answerS
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+	
+	<!-- 조회수 -->
+   <update id="addReadCount" parameterType="hashmap">
+     update suggestion set suggestion_count = suggestion_count +1 
+         where suggestion_no = #{suggestionNo} 
+   </update>
+   
+	<!-- 제안 댓글 작성 -->
+	<insert id="commentSWrite" parameterType="CommentS">
+		INSERT INTO commentS
+		VALUES (commentSseq.nextval, #{suggestionNo}, #{id}, #{commentSContent},
+		sysdate)
+	</insert>
+</mapper>

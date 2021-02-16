@@ -44,6 +44,12 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:if test="${memberInfo.size() == 0}">
+							<tr>
+								<td colspan="6" align="center"><b>검색된 결과가 없습니다.</b></td>
+							</tr>
+						</c:if>
+						<c:if test="${memberInfo.size() != 0}">
 						<c:forEach items="${memberInfo }" var="list">
 							<tr>
 							
@@ -60,10 +66,9 @@
 								<c:if test="${list.wdrDate == null}">
 								<td> - </td>
 								</c:if>
-								
 							</tr>
-
 						</c:forEach>
+						</c:if>
 					</tbody>
 				</table>
 			</div>

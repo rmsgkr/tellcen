@@ -45,7 +45,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="landing.jsp" class="link">국민제안</a>
+					<a href="/tellcen/suggestion/suggestionWrite" class="link">국민제안</a>
 				</h3>
 				<p>Suggestion</p>
 			</header>
