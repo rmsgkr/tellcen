@@ -9,11 +9,13 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.itcen.tellcen.domain.AnswerCDTO;
+import com.itcen.tellcen.domain.AnswerIDTO;
 import com.itcen.tellcen.domain.AnswerPDTO;
 import com.itcen.tellcen.domain.AnswerSDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
 import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
+import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
@@ -505,4 +507,115 @@ public class AdminDAO extends AbstractMybatisDAO {
 		}
 	}
 	
+	
+	
+	// 문의 카운트
+	public int getAllInquiryCount() throws Exception {
+
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectOne(namespace + ".getAllInquiryCount");
+		} finally {
+			sqlSession.close();
+		}
+	}
+		
+	// 문의 목록
+	public List<InquiryDTO> getInquiryInfo(PagingVO vo) {
+		SqlSession sqlsession = getSqlSessionFactory().openSession();
+		try {
+			return sqlsession.selectList(namespace + ".getInquiryInfo", vo);
+		} finally {
+			sqlsession.close();
+		}
+	}
+	
+	// 각각의 문의 보기
+	public InquiryDTO getInquiry(Map<String, Object> map) throws Exception {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		InquiryDTO article = new InquiryDTO();
+		try {
+			article = (InquiryDTO) sqlSession.selectOne(namespace + ".getInquiry", map);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+		return article;
+	}
+	
+	// 각각의 문의 보기(답변)
+	public List<AnswerIDTO> getAnswerI(int inquiryNo) throws Exception {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getAnswerI", inquiryNo);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	
+	// 문의 답변 작성
+	public void answerIWrite(AnswerIDTO answerI) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.insert(namespace + ".answerIWrite", answerI);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	public void updateInquiryStatus1(int inquiryNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.update(namespace + ".updateInquiryStatus1", inquiryNo);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 문의 삭제
+	public void updateInquiryStatus2(int inquiryNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.update(namespace + ".updateInquiryStatus2", inquiryNo);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+
+	// 문의 상태별 카운트
+	public int getInquiryStatusCount(int inquiryStatus) throws Exception {
+
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("inquiryStatus", inquiryStatus);
+
+			return sqlSession.selectOne(namespace + ".getInquiryStatusCount", map);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 문의 상태별 리스트
+	public List<InquiryDTO> getInquiryStatus(PagingVO vo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getInquiryStatus", vo);
+		} finally {
+			sqlSession.close();
+		}
+	}
 }

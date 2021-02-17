@@ -33,7 +33,7 @@
 				</div>
 				<div class="col-6 col-12-small">
 					<div class="box" >
-						<h2 align="center">문의&nbsp;<b style="color: #6495ED">${inquiryCount }</b>&nbsp;건</h2>
+						<h2 align="center">문의&nbsp;<b style="color: #FFDAB9">${inquiryCount }</b>&nbsp;건</h2>
 					</div>
 				</div>
 			</div>

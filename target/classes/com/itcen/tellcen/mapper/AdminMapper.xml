@@ -415,7 +415,7 @@
 	</update>
 	
 	
-		<!--상태별 카운트 -->
+	<!--상태별 카운트 -->
 	<select id="getSuggestionStatusCount" parameterType="hashmap"
 		resultType="int">
 		SELECT nvl(count(*),0) FROM suggestion
@@ -439,5 +439,88 @@
 		)
 		WHERE RN BETWEEN #{start} AND #{end}
 		AND suggestion_status = #{suggestionStatus}
+	</select> 
+	
+	
+	<!--문의 카운트 -->
+	<select id="getAllInquiryCount" resultType="int">
+		SELECT nvl(count(*),0) 
+		FROM inquiry
+	</select>
+	
+	<!-- 문의 목록 -->
+	<select id="getInquiryInfo" resultType="Inquiry">
+		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
+			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
+			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM inquiry
+		ORDER BY inquiry_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 각각의 문의 보기 -->
+	<select id="getInquiry" parameterType="hashmap" resultType="Inquiry">
+		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
+			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
+			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+		FROM inquiry	
+		WHERE inquiry_no = #{inquiryNo} 
+	</select>
+	
+	<!-- 각각의 문의 보기 (답변)-->
+	<select id="getAnswerI" resultType="AnswerI">
+		SELECT answerI_no AS answerINo, inquiry_no AS inquiryNo, 
+		answerI_content AS answerIContent, answerI_date AS answerIDate
+		FROM answerI
+		WHERE inquiry_no = #{inquiryNo}
+	</select>
+	
+	
+	<!-- 문의 답변 작성 -->
+	<insert id="answerIWrite" parameterType="AnswerI">
+		INSERT INTO answerI
+		VALUES (answerIseq.nextval, #{inquiryNo}, #{answerIContent} ,sysdate)
+	</insert>
+	<update id="updateInquiryStatus1" parameterType="int">
+		UPDATE inquiry SET
+		inquiry_status = 1
+		WHERE inquiry_no = #{inquiryNo}
+	</update>
+	
+	<!-- 문의 삭제 (2) -->
+	<update id="updateInquiryStatus2" parameterType="int">
+		UPDATE inquiry SET
+		inquiry_status = 2
+		WHERE inquiry_no = #{inquiryNo}
+	</update>
+	
+	
+	<!--상태별 문의 카운트 -->
+	<select id="getInquiryStatusCount" parameterType="hashmap"
+		resultType="int">
+		SELECT nvl(count(*),0) FROM inquiry
+		WHERE inquiry_status = #{inquiryStatus}
+	</select>
+	
+	<!-- 상태별 문의 목록 -->
+	<select id="getInquiryStatus" resultType="Inquiry">
+		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
+			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
+			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM inquiry
+		WHERE inquiry_status = #{inquiryStatus}
+		ORDER BY inquiry_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND inquiry_status = #{inquiryStatus}
 	</select> 
 </mapper>

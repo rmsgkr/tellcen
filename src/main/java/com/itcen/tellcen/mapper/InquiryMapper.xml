@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="inquiryMapper">
+
+	<!-- 오류 이용 문의 하기 -->
+	<insert id="inquiryWrite" parameterType="Inquiry">
+	<if test="inquiryFile != null">
+		INSERT INTO inquiry VALUES (inquirySeq.nextval, #{id}, #{inquiryTitle}, #{inquiryContent}, #{inquiryFile}, sysdate, 0)
+	</if>
+	<if test="inquiryFile == null">
+		INSERT INTO inquiry(inquiry_no, id, inquiry_title, inquiry_content, inquiry_date, inquiry_status) 
+		VALUES (inquirySeq.nextval, #{id}, #{inquiryTitle}, #{inquiryContent}, sysdate, 0)
+	</if>
+</insert>
+</mapper>

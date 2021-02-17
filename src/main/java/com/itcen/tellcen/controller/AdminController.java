@@ -23,11 +23,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.itcen.tellcen.util.PagingVO;
 import com.itcen.tellcen.domain.AnswerCDTO;
+import com.itcen.tellcen.domain.AnswerIDTO;
 import com.itcen.tellcen.domain.AnswerPDTO;
 import com.itcen.tellcen.domain.AnswerSDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
 import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
+import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
@@ -261,7 +263,7 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionStatus, 0, 0);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), petitionStatus, 0, 0, 0);
 		model.addAttribute("paging", vo);
 
 		List<PetitionDTO> list = adminService.getPetitionStatus(vo);
@@ -397,7 +399,7 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, complaintStatus, 0);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, complaintStatus, 0, 0);
 		model.addAttribute("paging", vo);
 
 		List<ComplaintDTO> list = adminService.getComplaintStatus(vo);
@@ -542,11 +544,117 @@ public class AdminController {
 			cntPerPage = "10";
 		}
 
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, 0, suggestionStatus);
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, 0, suggestionStatus, 0);
 		model.addAttribute("paging", vo);
 
 		List<SuggestionDTO> list = adminService.getSuggestionStatus(vo);
 		model.addAttribute("suggestion", list);
 		return "admin/suggestionStatus";
+	}
+	
+	/* -------------------------문의------------------------------- */
+	// 문의 목록
+	@GetMapping("/inquiry")
+	public String inquiry(PagingVO vo, Model model, @RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) throws Exception {
+		int total = adminService.getAllInquiryCount();
+		
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+
+		List<InquiryDTO> list = adminService.getInquiryInfo(vo);
+		model.addAttribute("inquiry", list);
+		return "admin/inquiry";
+	}
+	
+	// 각각의 문의 보기
+	@GetMapping("inquiry/{inquiryNo}")
+	public String inquiryDetail(Model model, @PathVariable("inquiryNo") int inquiryNo)
+			throws Exception {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("inquiryNo", inquiryNo);
+
+		InquiryDTO inquiry = adminService.getInquiry(map);
+		model.addAttribute("inquiry", inquiry);
+
+		List<AnswerIDTO> answerI = adminService.getAnswerI(inquiryNo);
+		model.addAttribute("answerI", answerI);
+
+		return "admin/inquiryDetail";
+	}
+	
+	// 문의 답변 하기
+	@GetMapping("/inquiry/{inquiryNo}/answer")
+	public String answerIWriteForm(Model model, @PathVariable("inquiryNo") int inquiryNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("inquiryNo", inquiryNo);
+		InquiryDTO inquiry = adminService.getInquiry(map);
+		model.addAttribute("inquiry", inquiry);
+		return "admin/answerIWrite";
+	}
+
+	// 문의 답변 하기
+	@PostMapping("inquiry/{inquiryNo}/answer")
+	public String answerIWrite(Model model, @ModelAttribute AnswerIDTO answerI,
+			@PathVariable("inquiryNo") int inquiryNo) throws Exception {
+		answerI.setInquiryNo(inquiryNo);
+		// answerI테이블에 insert
+		adminService.answerIWrite(answerI);
+		// 제안상태 1(답변완료)로 업데이트
+		adminService.updateInquiryStatus1(inquiryNo);
+		model.addAttribute("inquiryNo", inquiryNo);
+
+		return "/admin/answerIWriteSuccess";
+	}
+
+	// 문의 삭제 하기
+	@GetMapping("/inquiry/{inquiryNo}/delete")
+	public String inquiryDeleteForm(Model model, @PathVariable("inquiryNo") int inquiryNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("inquiryNo", inquiryNo);
+		InquiryDTO inquiry = adminService.getInquiry(map);
+		model.addAttribute("inquiry", inquiry);
+		return "/admin/inquiryDelete";
+	}
+
+	// 문의 삭제 하기
+	@PostMapping("inquiry/{inquiryNo}/delete")
+	public String inquiryDelete(@PathVariable("inquiryNo") int inquiryNo) throws Exception {
+		adminService.updateInquiryStatus2(inquiryNo);
+		return "/admin/inquiryDeleteSuccess";
+	}
+	
+	// 상태별 문의 보기
+	@GetMapping("/inquiryStatus/{inquiryStatus}")
+	public String inquiryStatus(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@PathVariable("inquiryStatus") int inquiryStatus) throws Exception {
+		int total = adminService.getInquiryStatusCount(inquiryStatus);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), 0, 0, 0, inquiryStatus);
+		model.addAttribute("paging", vo);
+
+		List<InquiryDTO> list = adminService.getInquiryStatus(vo);
+		model.addAttribute("inquiry", list);
+		return "admin/inquiryStatus";
 	}
 }

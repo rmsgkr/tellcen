@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itcen.tellcen.domain.AnswerCDTO;
+import com.itcen.tellcen.domain.AnswerIDTO;
 import com.itcen.tellcen.domain.AnswerPDTO;
 import com.itcen.tellcen.domain.AnswerSDTO;
 import com.itcen.tellcen.domain.CommentPDTO;
 import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
+import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
@@ -203,11 +205,54 @@ public class AdminService {
 	}
 	
 	// 제안 상태별 카운트
-	public int getSuggestionStatusCount(int SuggestionStatus) throws Exception {
-		return adminDao.getSuggestionStatusCount(SuggestionStatus);
+	public int getSuggestionStatusCount(int suggestionStatus) throws Exception {
+		return adminDao.getSuggestionStatusCount(suggestionStatus);
 	}
 	// 제안 상태별 리스트
 	public List<SuggestionDTO> getSuggestionStatus(PagingVO vo) {
 		return adminDao.getSuggestionStatus(vo);
+	}
+	
+	
+	// 문의 카운트
+	public int getAllInquiryCount() throws Exception {
+		return adminDao.getAllInquiryCount();
+	}
+	
+	// 문의 목록
+	public List<InquiryDTO> getInquiryInfo(PagingVO vo) {
+		return adminDao.getInquiryInfo(vo);
+	}
+
+	// 각각의 문의 보기
+	public InquiryDTO getInquiry(Map<String, Object> map) throws Exception {
+		return adminDao.getInquiry(map);
+	}
+	
+	// 각각의 문의 보기(답변)
+	public List<AnswerIDTO> getAnswerI(int inquiryNo) throws Exception {
+		return adminDao.getAnswerI(inquiryNo);
+	}
+	
+	// 문의 답변 작성
+	public void answerIWrite(AnswerIDTO answerI) {
+		adminDao.answerIWrite(answerI);
+	}
+	public void updateInquiryStatus1(int inquiryNo) {
+		adminDao.updateInquiryStatus1(inquiryNo);
+	}
+	
+	// 문의 삭제
+	public void updateInquiryStatus2(int inquiryNo) {
+		adminDao.updateInquiryStatus2(inquiryNo);
+	}
+	
+	// 문의 상태별 카운트
+	public int getInquiryStatusCount(int inquiryStatus) throws Exception {
+		return adminDao.getInquiryStatusCount(inquiryStatus);
+	}
+	// 문의 상태별 리스트
+	public List<InquiryDTO> getInquiryStatus(PagingVO vo) {
+		return adminDao.getInquiryStatus(vo);
 	}
 }

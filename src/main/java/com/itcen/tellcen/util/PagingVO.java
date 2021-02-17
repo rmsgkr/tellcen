@@ -16,7 +16,7 @@ public class PagingVO {
 		private String complaintTitle, complaintOrganization, complaintOrganizationDetail;
 		private String complaintSdate, complaintEdate;
 		private String id, suggestionTitle, suggestionSdate, suggestionEdate;
-		private int petitionStatus,complaintStatus, suggestionStatus;
+		private int petitionStatus,complaintStatus, suggestionStatus, inquiryStatus;
 		
 		
 		// 현재페이지, 시작페이지, 끝페이지, 게시글 총 갯수, 페이지당 글 갯수, 마지막페이지, SQL쿼리에 쓸 start, end
@@ -37,7 +37,7 @@ public class PagingVO {
 		}
 		
 		// 상태별 페이징
-		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus, int complaintStatus, int suggestionStatus) {
+		public PagingVO(int total, int nowPage, int cntPerPage, int petitionStatus, int complaintStatus, int suggestionStatus, int inquiryStatus) {
 			setNowPage(nowPage);
 			setCntPerPage(cntPerPage);
 			setTotal(total);
@@ -47,6 +47,7 @@ public class PagingVO {
 			setPetitionStatus(petitionStatus);
 			setComplaintStatus(complaintStatus);
 			setSuggestionStatus(suggestionStatus);
+			setInquiryStatus(inquiryStatus);
 		}
 		// 청원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String petitionTitle, String petitionArea, String petitionField) {

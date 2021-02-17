@@ -55,9 +55,9 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="landing.jsp" class="link">공지사항</a>
+					<a href="/tellcen/inquiry/inquiryWrite" class="link">오류·이용 문의</a>
 				</h3>
-				<p>Notice</p>
+				<p>Inquiry</p>
 			</header>
 		</article>
 		<article>
@@ -65,9 +65,9 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="landing.html" class="link">오류·이용 문의</a>
+					<a href="/tellcen/notice" class="link">공지사항</a>
 				</h3>
-				<p>Inquiry</p>
+				<p>Notice</p>
 			</header>
 		</article>
 		<article>
@@ -75,7 +75,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="landing.html" class="link">마이페이지</a>
+					<a href="/tellcen/mypage/inquiryList" class="link">마이페이지</a>
 				</h3>
 				<p>Mypage</p>
 			</header>
