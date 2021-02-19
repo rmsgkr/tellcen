@@ -4,6 +4,177 @@
 
 <mapper namespace="mypageMapper">
 
+	<!-- 나의 청원 / 민원 / 제안 / 문의 카운트 -->
+	<select id="getMyPetitionCount" parameterType="String" resultType="int">
+		SELECT nvl(count(*),0) FROM petition
+		WHERE id = #{id}
+	</select>
+	<select id="getMyComplaintCount" parameterType="String" resultType="int">
+		SELECT nvl(count(*),0) FROM complaint
+		WHERE id = #{id}
+	</select>
+	<select id="getMySuggestionCount" parameterType="String" resultType="int">
+		SELECT nvl(count(*),0) FROM suggestion
+		WHERE id = #{id}
+	</select>
+	<select id="getMyInquiryCount" parameterType="String" resultType="int">
+		SELECT nvl(count(*),0) FROM inquiry
+		WHERE id = #{id}
+	</select>
+	
+	<!--청원 카운트 -->
+	<select id="getPetitionCount" parameterType="hashmap" resultType="int">
+		SELECT nvl(count(*),0) 
+		FROM petition
+		WHERE id = #{id} 
+	</select>
+	
+	<!-- 청원 목록 -->
+	<select id="getPetitionInfo" resultType="Petition">
+		SELECT petition_no AS
+			petitionNo,id, petition_title AS petitionTitle,
+			petition_content AS petitionContent, petition_area AS petitionArea,
+			petition_field AS petitionField, petition_sdate AS petitionSdate, petition_edate AS petitionEdate,
+			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM petition
+		WHERE id = #{id}
+		ORDER BY petition_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND id = #{id}
+	</select>
+	
+	<!-- 각각의 청원 보기 -->
+	<select id="getPetition" parameterType="hashmap" resultType="Petition">
+		SELECT petition_no AS
+			petitionNo,id, petition_title AS petitionTitle,
+			petition_content AS petitionContent, petition_area AS petitionArea,
+			petition_field AS petitionField, petition_sdate AS petitionSdate, petition_edate AS petitionEdate,
+			petition_agreement AS petitionAgreement, petition_status AS petitionStatus
+		FROM petition	
+		WHERE petition_no = #{petitionNo} 
+		AND id = #{id}
+	</select>
+	
+	<!-- 각각의 청원 보기 (답변)-->
+	<select id="getAnswerP" resultType="AnswerP">
+		SELECT answerP_no AS answerPNo, petition_no AS petitionNo, 
+		answerP_content AS answerPContent, answerP_date AS answerPDate
+		FROM answerP
+		WHERE petition_no = #{petitionNo}
+	</select>
+	
+	<!-- 각각의 청원 보기(댓글-동의) -->
+	<select id="getCommentP" resultType="CommentP">
+		SELECT commentP_no AS commentPNo, petition_no AS petitionNo, id,
+			commentP_content AS commentPContent, commentP_date AS commentPDate
+		FROM commentP
+		WHERE petition_no = #{petitionNo}
+	</select>
+	
+	<!--민원 카운트 -->
+	<select id="getComplaintCount" parameterType="hashmap" resultType="int">
+		SELECT nvl(count(*),0) 
+		FROM complaint
+		WHERE id = #{id} 
+	</select>
+	
+	<!-- 민원 목록 -->
+	<select id="getComplaintInfo" resultType="Complaint">
+		SELECT complaint_no AS
+			complaintNo,id, complaint_title AS complaintTitle,
+			complaint_content AS complaintContent, complaint_organization AS complaintOrganization,
+			complaint_organization_detail AS complaintOrganizationDetail, complaint_date AS complaintDate,
+			complaint_count AS complaintCount, complaint_status AS complaintStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM complaint
+		WHERE id = #{id}
+		ORDER BY complaint_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND id = #{id}
+	</select>
+	
+	<!-- 각각의 민원 보기 -->
+	<select id="getComplaint" parameterType="hashmap" resultType="Complaint">
+		SELECT complaint_no AS
+			complaintNo,id, complaint_title AS complaintTitle,
+			complaint_content AS complaintContent, complaint_organization AS complaintOrganization,
+			complaint_organization_detail AS complaintOrganizationDetail, complaint_date AS complaintDate,
+			complaint_count AS complaintCount, complaint_status AS complaintStatus
+		FROM complaint	
+		WHERE complaint_no = #{complaintNo} 
+		AND id = #{id}
+	</select>
+	
+	<!-- 각각의 민원 보기 (답변)-->
+	<select id="getAnswerC" resultType="AnswerC">
+		SELECT answerC_no AS answerCNo, complaint_no AS complaintNo, 
+		answerC_content AS answerCContent, answerC_date AS answerCDate
+		FROM answerC
+		WHERE complaint_no = #{complaintNo}
+	</select>
+	
+	<!--제안 카운트 -->
+	<select id="getSuggestionCount" parameterType="hashmap" resultType="int">
+		SELECT nvl(count(*),0) 
+		FROM suggestion
+		WHERE id = #{id} 
+	</select>
+	
+	<!-- 제안 목록 -->
+	<select id="getSuggestionInfo" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM (
+		SELECT ROWNUM RN, A.*
+		FROM (
+		SELECT *
+		FROM suggestion
+		WHERE id = #{id}
+		ORDER BY suggestion_no DESC) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
+		AND id = #{id}
+	</select>
+	
+	<!-- 각각의 제안 보기 -->
+	<select id="getSuggestion" parameterType="hashmap" resultType="Suggestion">
+		SELECT suggestion_no AS
+			suggestionNo,id, suggestion_title AS suggestionTitle,
+			suggestion_problem AS suggestionProblem, suggestion_plan AS suggestionPlan,
+			suggestion_effect AS suggestionEffect, suggestion_date AS suggestionDate,
+			suggestion_count AS suggestionCount, suggestion_status AS suggestionStatus
+		FROM suggestion
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+
+	<!-- 각각의 제안 보기(답변) -->
+	<select id="getAnswerS" resultType="AnswerS">
+		SELECT answerS_no AS answerSNo, suggestion_no AS suggestionNo, answerS_content AS answerSContent,
+		answerS_date AS answerSDate
+		FROM answerS
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+	
+	<!-- 각각의 제안 보기(댓글) -->
+	<select id="getCommentS" resultType="CommentS">
+		SELECT commentS_no AS commentSNo, suggestion_no AS suggestionNo, id,
+			commentS_content AS commentSContent, commentS_date AS commentSDate
+		FROM commentS
+		WHERE suggestion_no = #{suggestionNo}
+	</select>
+
 	<!--오류 문의 카운트 -->
 	<select id="getInquiryCount" parameterType="hashmap" resultType="int">
 		SELECT nvl(count(*),0) 

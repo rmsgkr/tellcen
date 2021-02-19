@@ -17,6 +17,7 @@ import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
 import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
+import com.itcen.tellcen.domain.NoticeDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
 import com.itcen.tellcen.util.PagingVO;
@@ -618,4 +619,93 @@ public class AdminDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
+	
+	// 공지 카운트
+	public int getNoticeCount(String noticeTitle) throws Exception {
+
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("noticeTitle", noticeTitle);
+			return sqlSession.selectOne(namespace + ".getNoticeCount", map);
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	// 공지 목록
+	public List<NoticeDTO> getNoticeInfo(PagingVO vo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getNoticeInfo", vo);
+		} finally {
+			sqlSession.close();
+		}
+	}	
+	
+	// 공지 검색
+	public List<NoticeDTO> getSearchNoticeInfo(PagingVO vo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		try {
+			return sqlSession.selectList(namespace + ".getSearchNoticeInfo", vo);
+		} finally {
+			sqlSession.close();
+		}
+	}
+	
+	// 각각의 공지 보기
+	public NoticeDTO getNotice(Map<String, Object> map) throws Exception {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		NoticeDTO article = new NoticeDTO();
+		try {
+			article = (NoticeDTO) sqlSession.selectOne(namespace + ".getNotice", map);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+		return article;
+	}
+	
+	// 공지 등록
+	public void noticeWrite(NoticeDTO notice) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.insert(namespace + ".noticeWrite", notice);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	// 공지 수정
+	public void noticeModify(NoticeDTO notice) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.update(namespace + ".noticeModify", notice);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+		
+	}
+
+	// 공지 삭제
+	public void noticeDelete(int noticeNo) {
+		SqlSession sqlSession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlSession.delete(namespace + ".noticeDelete", noticeNo);
+			if (result != 0) {
+				sqlSession.commit();
+			}
+		} finally {
+			sqlSession.close();
+		}
+	}	
 }

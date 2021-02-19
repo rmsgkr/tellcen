@@ -6,9 +6,11 @@
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+	<li></li>
 	<li><a href="/tellcen/suggestion/suggestionInfo"
 		class="button large fit">제안이란?</a></li>
-	<li></li>
 	<li><a href="/tellcen/suggestion/suggestionWrite"
 		class="button large fit">제안하기</a></li>
 	<li><a href="/tellcen/suggestion/suggestionList"
@@ -29,26 +31,18 @@
 				<b style="color: #6495ED">심사 중</b>
 				</c:if>
 				<c:if test="${suggestion.suggestionStatus == 1}">
-				<b style="color: #B0C4DE">답변 완료</b>
+				<b style="color: #00CED1">답변 완료</b>
 				</c:if>
 			</h3>
 			<br>
 			<div class="box">
-				<b>[제안인]</b>&nbsp;&nbsp;${suggestion.id }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[제안일]</b>&nbsp;&nbsp;<fmt:formatDate value="${suggestion.suggestionDate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<b>제안인</b>&nbsp;&nbsp;${suggestion.id }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>신청일</b>&nbsp;&nbsp;<fmt:formatDate value="${suggestion.suggestionDate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
 			<div class="fields">
-				<c:if test="${suggestion.suggestionStatus == 1}">
-				<div class="field">
-					<h3 style="color: #00CED1">답변내용</h3>
-					<div class="box"><c:forEach items="${answerS }" var="answer">
-					${answer.answerSContent }
-					</c:forEach></div>
-				</div>
-				</c:if>
 				<div class="field">
 					<h3>제안내용</h3>
-					<div class="box">
+					<blockquote>
 					<h4><b>●  현황 및 문제점</b></h4><br>
 					${suggestion.suggestionProblem }
 					<br><br><br><br>
@@ -58,8 +52,19 @@
 					<h4><b>●  기대효과</b></h4><br>
 					${suggestion.suggestionEffect }
 					<br><br>
-					</div>
+					</blockquote>
 				</div>
+				<c:if test="${suggestion.suggestionStatus == 1}">
+				<div class="field">
+					<h2 style="color: #00CED1">답변내용</h2>
+					<c:forEach items="${answerS }" var="answer">
+					<h3>|&nbsp;&nbsp;답변일 :&nbsp;&nbsp;<fmt:formatDate value="${answer.answerSDate }" pattern="yyyy/MM/dd" /></h3>
+					<blockquote>
+					${answer.answerSContent }
+					</blockquote>
+					</c:forEach>
+				</div>
+				</c:if> 
 			</div></br></br><hr> 
  			<h3>
 				<b>댓글</b>

@@ -38,21 +38,18 @@
 
 		</nav>
 		<ul class="links" id="adminSidebar">
-			<li><a href="/tellcen/admin/member" class="button large fit">회원관리</a></li>
+			<li><a href="/tellcen/admin"
+			class="button large fit">관리자<span class="icon solid alt fa-home"></span></a></li>
 			<li></li>
+			<li><a href="/tellcen/admin/member" class="button large fit">회원관리</a></li>
 			<li><a href="/tellcen/admin/petition" class="button large fit">청원
 					관리</a></li>
-			<li></li>
 			<li><a href="/tellcen/admin/complaint" class="button large fit">민원
 					관리</a></li>
-			<li></li>
 			<li><a href="/tellcen/admin/suggestion" class="button large fit">제안
 					관리</a></li>
-			<li></li>
 			<li><a href="/tellcen/admin/inquiry" class="button large fit">문의
 					관리</a></li>
-			<li></li>
 			<li><a href="/tellcen/admin/notice" class="button large fit">공지
 					관리</a></li>
-			
 		</ul>

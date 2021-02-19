@@ -5,6 +5,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
+<ul class="links" id="adminSidebar">
+			<li><a href="/tellcen"
+				class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+			<li></li>
+			<li><a href="/tellcen/mypage/petitionList" class="button large fit">내청원보기
+					</a></li>
+			<li><a href="/tellcen/mypage/complaintList" class="button large fit">내민원보기
+					</a></li>
+			<li><a href="/tellcen/mypage/suggestionList" class="button large fit">내제안보기
+					</a></li>
+			<li><a href="/tellcen/mypage/inquiryList" class="button large fit">내문의보기
+					</a></li>
+			<li><a href="/tellcen/mypage/memberModify" class="button large fit">회원정보수정
+					</a></li>
+			<li><a href="/tellcen/mypage/memberDelete" class="button large fit">회원탈퇴
+					</a></li>		
+</ul>
 <!-- Main -->
 <div id="main" class="alt">
 	<!-- One -->

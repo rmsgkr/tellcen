@@ -1,5 +1,7 @@
 package com.itcen.tellcen.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,7 @@ import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
 import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
+import com.itcen.tellcen.domain.NoticeDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
 import com.itcen.tellcen.service.AdminService;
@@ -656,5 +659,142 @@ public class AdminController {
 		List<InquiryDTO> list = adminService.getInquiryStatus(vo);
 		model.addAttribute("inquiry", list);
 		return "admin/inquiryStatus";
+	}
+	
+
+	/* -------------------------공지------------------------------- */
+	// 공지 목록
+	@GetMapping("/notice")
+	public String notice(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) throws Exception {
+		int total = adminService.getNoticeCount(null);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+
+		List<NoticeDTO> list = adminService.getNoticeInfo(vo);
+		model.addAttribute("notice", list);
+
+		return "admin/notice";
+	}
+	
+	// 공지 검색
+	@GetMapping("/searchNotice")
+	public String noticeSearch(PagingVO vo, Model model,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@RequestParam(value = "noticeTitle", required = false, defaultValue = "") String noticeTitle) throws Exception {
+		int total = adminService.getNoticeCount(noticeTitle);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage), noticeTitle);
+		model.addAttribute("paging", vo);
+
+		List<NoticeDTO> list = adminService.getSearchNoticeInfo(vo);
+		model.addAttribute("notice", list);
+
+		return "admin/searchNotice";
+	}
+	
+	// 각각의 공지 보기
+	@GetMapping("notice/{noticeNo}")
+	public String noticeDetail(Model model, @PathVariable("noticeNo") int noticeNo)
+			throws Exception {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noticeNo", noticeNo);
+
+		NoticeDTO notice = adminService.getNotice(map);
+		model.addAttribute("notice", notice);
+
+
+		return "admin/noticeDetail";
+	}
+
+	// 공지 등록
+	@GetMapping("/notice/write")
+	public String noticeWriteForm() {
+		return "admin/noticeWrite";
+	}
+	@PostMapping("/notice/write")
+	public String noticeWrite(MultipartHttpServletRequest mulRequest, @ModelAttribute NoticeDTO notice) {
+		
+		MultipartFile file = mulRequest.getFile("file");
+		if (!file.isEmpty()) {
+			String filename = file.getOriginalFilename();
+			String uploadFolder = mulRequest.getServletContext().getRealPath("/resources/upload");
+			notice.setNoticeFile(filename);
+			File saveFile = new File(uploadFolder, filename);
+			System.out.println(uploadFolder);
+			try {
+				file.transferTo(saveFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		adminService.noticeWrite(notice);
+		
+		return "admin/noticeWriteSuccess";
+	}
+	
+	// 공지 수정
+	@GetMapping("/notice/{noticeNo}/modify")
+	public String noticeModifyForm(Model model, @PathVariable("noticeNo") int noticeNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noticeNo", noticeNo);
+		NoticeDTO notice = adminService.getNotice(map);
+		model.addAttribute("notice", notice);
+		return "/admin/noticeModify";
+	}
+	@PostMapping("/notice/{noticeNo}/modify")
+	public String noticeModify(MultipartHttpServletRequest mulRequest, @ModelAttribute NoticeDTO notice) {
+		
+		MultipartFile file = mulRequest.getFile("file");
+		if (!file.isEmpty()) {
+			String filename = file.getOriginalFilename();
+			String uploadFolder = mulRequest.getServletContext().getRealPath("/resources/upload");
+			notice.setNoticeFile(filename);
+			File saveFile = new File(uploadFolder, filename);
+			System.out.println(uploadFolder);
+			try {
+				file.transferTo(saveFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		adminService.noticeModify(notice);
+		
+		return "admin/noticeModifySuccess";
+	}
+	
+	// 공지 삭제
+	@GetMapping("/notice/{noticeNo}/delete")
+	public String noticeDeleteForm(Model model, @PathVariable("noticeNo") int noticeNo) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("noticeNo", noticeNo);
+		NoticeDTO notice = adminService.getNotice(map);
+		model.addAttribute("notice", notice);
+		return "/admin/noticeDelete";
+	}
+	@PostMapping("notice/{noticeNo}/delete")
+	public String noticeDelete(@PathVariable("noticeNo") int noticeNo) throws Exception {
+		adminService.noticeDelete(noticeNo);
+		return "/admin/noticeDeleteSuccess";
 	}
 }

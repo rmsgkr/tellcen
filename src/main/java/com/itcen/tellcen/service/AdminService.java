@@ -16,6 +16,7 @@ import com.itcen.tellcen.domain.CommentSDTO;
 import com.itcen.tellcen.domain.ComplaintDTO;
 import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
+import com.itcen.tellcen.domain.NoticeDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
 import com.itcen.tellcen.repository.AdminDAO;
@@ -254,5 +255,41 @@ public class AdminService {
 	// 문의 상태별 리스트
 	public List<InquiryDTO> getInquiryStatus(PagingVO vo) {
 		return adminDao.getInquiryStatus(vo);
+	}
+	
+	
+	// 공지 카운트
+	public int getNoticeCount(String suggestionTitle) throws Exception {
+		return adminDao.getNoticeCount(suggestionTitle);
+	}
+
+	// 공지 목록
+	public List<NoticeDTO> getNoticeInfo(PagingVO vo) {
+		return adminDao.getNoticeInfo(vo);
+	}
+	
+	// 공지 검색
+	public List<NoticeDTO> getSearchNoticeInfo(PagingVO vo) {
+		return adminDao.getSearchNoticeInfo(vo);
+	}
+	
+	// 각각의 공지 보기
+	public NoticeDTO getNotice(Map<String, Object> map) throws Exception {
+		return adminDao.getNotice(map);
+	}
+	
+	// 공지 등록
+	public void noticeWrite(NoticeDTO notice) {
+		adminDao.noticeWrite(notice);
+	}
+
+	// 공지 수정
+	public void noticeModify(NoticeDTO notice) {
+		adminDao.noticeModify(notice);
+	}
+
+	// 공지 삭제
+	public void noticeDelete(int noticeNo) {
+		adminDao.noticeDelete(noticeNo);
 	}
 }

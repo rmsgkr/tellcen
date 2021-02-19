@@ -68,5 +68,10 @@ public class InquiryController {
 		
 		return "inquiry/inquirySuccess";
 	}
+	
+	@GetMapping("/inquiryQuestion")
+	public String inquiryQuestionForm() {
+		return "inquiry/inquiryQuestion";
+	}
 
 }

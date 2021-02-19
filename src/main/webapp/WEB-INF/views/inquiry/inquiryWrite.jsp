@@ -4,6 +4,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html>
+<ul class="links" id="sidebar">
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+	<li></li>
+	<li><a href="/tellcen/inquiry/inquiryWrite"
+		class="button large fit">문의하기</a></li>
+	<li><a href="/tellcen/inquiry/inquiryQuestion"
+		class="button large fit">자주하는질문</a></li>
+</ul>
 <!-- Main -->
 <div id="main" class="alt">
 	<!-- One -->
@@ -14,7 +23,7 @@
 			</header>
 			<div class="box">
 				<b style="color: #6495ED">말해주센</b><b> 이용과 관련하여 궁금하신 부분을 문의해주세요.</b><br><br>
-				마이페이지에서 답변을 확인하실 수 있습니다.
+				<b style="color: skyblue">마이페이지</b><b>에서 답변을 확인하실 수 있습니다.</b>
 			</div>
 			<form method="post" class="inquiryWrite" name="writeForm"
 				action="inquiryWrite" enctype="multipart/form-data">
@@ -31,7 +40,7 @@
 					</div>
 					<div class="field">
 					<h3>첨부파일</h3>
-					<input type="file" size="40" maxlength="30" name="file">
+					<input type="file" size="40" maxlength="30" name="file" id="file">
 					</div>
 				</div>
 			</form>

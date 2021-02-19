@@ -5,6 +5,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
+<ul class="links" id="adminSidebar">
+			<li><a href="/tellcen"
+				class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+			<li></li>
+			<li><a href="/tellcen/mypage/petitionList" class="button large fit">내청원보기
+					</a></li>
+			<li><a href="/tellcen/mypage/complaintList" class="button large fit">내민원보기
+					</a></li>
+			<li><a href="/tellcen/mypage/suggestionList" class="button large fit">내제안보기
+					</a></li>
+			<li><a href="/tellcen/mypage/inquiryList" class="button large fit">내문의보기
+					</a></li>
+			<li><a href="/tellcen/mypage/memberModify" class="button large fit">회원정보수정
+					</a></li>
+			<li><a href="/tellcen/mypage/memberDelete" class="button large fit">회원탈퇴
+					</a></li>		
+</ul>
 <!-- Main -->
 <div id="main" class="alt">
 	<!-- One -->
@@ -13,78 +30,32 @@
 			<header class="major">
 				<h1>오류신고·이용문의</h1>
 			</header>
-			<hr>
-
-			<section id="contact">
-
-				<div class="inner">
-
-					<section>
-
-						<div class="fields">
-							<h2>문의 내용</h2>
-							<div class="box">
-								<p>${inquiry.inquiryContent }</p>
-							</div>
-						</div>
-					</section>
-					<section class="split">
-						<section>
-							<div class="contact-method">
-								<h3>제목 : ${inquiry.inquiryTitle }</h3>
-							</div>
-						</section>
-						<section>
-							<div class="contact-method">
-								<h3>
-									신청일 :
-									<fmt:formatDate value="${inquiry.inquiryDate }"
-										pattern="yyyy/MM/dd" />
-								</h3>
-							</div>
-						</section>
-
-					</section>
-				</div>
-			</section>
-
+			<h3>
+				진행상태&nbsp;&nbsp;-&nbsp;&nbsp;
+				<c:if test="${inquiry.inquiryStatus == 0}">
+					<b style="color: #6495ED">처리중</b>
+				</c:if>
+				<c:if test="${inquiry.inquiryStatus == 1}">
+					<b style="color: #00CED1">답변 완료</b>
+				</c:if>
+				
+				
+			</h3>
+			<br>
+			<h2>${inquiry.inquiryTitle }</h2> 
+			<h3>|&nbsp;&nbsp;신청일 :&nbsp;&nbsp;<fmt:formatDate value="${inquiry.inquiryDate }" pattern="yyyy/MM/dd" /></h3>
+			<blockquote>${inquiry.inquiryContent }</blockquote><br><br>
 			<c:if test="${inquiry.inquiryStatus == 1}">
-				<section id="contact">
+				<div class="field">
+					<h2 style="color: #00CED1">답변내용</h2>
 					<c:forEach items="${answerI }" var="answer">
-						<div class="inner">
-							<section>
-
-								<div class="fields">
-
-									<h2>답변 내용</h2>
-
-									<div class="box">
-										<p>${answer.answerIContent }</p>
-									</div>
-								</div>
-
-							</section>
-							<section class="split">
-								<section>
-									<div class="contact-method">
-									</div>
-								</section>
-								<section>
-									<div class="contact-method">
-										<h3>
-											답변등록일 :
-											<fmt:formatDate value="${answer.answerIDate }"
-												pattern="yyyy/MM/dd" />
-										</h3>
-									</div>
-								</section>
-							</section>
-						</div>
+					<h3>|&nbsp;&nbsp;답변일 :&nbsp;&nbsp;<fmt:formatDate value="${answer.answerIDate }" pattern="yyyy/MM/dd" /></h3>
+					<blockquote>
+					${answer.answerIContent }
+					</blockquote>
 					</c:forEach>
-				</section>
+				</div>
 			</c:if>
-
-
 
 		</div>
 	</section>

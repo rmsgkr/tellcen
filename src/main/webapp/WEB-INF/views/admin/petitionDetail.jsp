@@ -37,37 +37,37 @@
 			<fmt:parseNumber value="${petition.petitionEdate.time / (1000*60*60*24)}" integerOnly="true" var="EndDate"></fmt:parseNumber>
 				
 			<c:if test="${petition.petitionStatus == 0 && EndDate-NowDate < 0 }">
-			<button class="button" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">마감하기</button>
+			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">마감하기</button>
 			</c:if>	
 			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement >= 1}">&nbsp;&nbsp;&nbsp;&nbsp;
 			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">답변하기</button>
 			</c:if>
 			<c:if test="${petition.petitionStatus == 1 && petition.petitionAgreement < 1}">&nbsp;&nbsp;&nbsp;&nbsp;
-			<button onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">삭제하기</button>
+			<button class="button primary" onclick="window.location.href='<%=request.getContextPath()%>/admin/petition/${petition.petitionNo}/answer'">삭제하기</button>
 			</c:if> 
-			</h3>
+			</h3> 
 			
 			<br>
 			<div class="box">
-				<b>[지역]</b>&nbsp;&nbsp;${petition.petitionArea }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[분야]</b>&nbsp;&nbsp;${petition.petitionField }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[청원인]</b>&nbsp;&nbsp;${petition.id }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[청원기간]</b>&nbsp;&nbsp;<fmt:formatDate value="${petition.petitionSdate }" pattern="yyyy/MM/dd" />~
+				<b>지역</b>&nbsp;&nbsp;${petition.petitionArea }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>분야</b>&nbsp;&nbsp;${petition.petitionField }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>청원인</b>&nbsp;&nbsp;${petition.id }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>청원기간</b>&nbsp;&nbsp;<fmt:formatDate value="${petition.petitionSdate }" pattern="yyyy/MM/dd" />~
 								<fmt:formatDate value="${petition.petitionEdate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
+			<blockquote>${petition.petitionContent }</blockquote></br></br> 
 			<div class="fields">
 				<c:if test="${petition.petitionStatus == 2}">
 				<div class="field">
-					<h3 style="color: #00CED1">답변내용</h3>
-					<div class="box"><c:forEach items="${answerP }" var="answer">
+					<h2 style="color: #00CED1">답변내용</h2>
+					<c:forEach items="${answerP }" var="answer">
+					<h3>|&nbsp;&nbsp;답변일 :&nbsp;&nbsp;<fmt:formatDate value="${answer.answerPDate }" pattern="yyyy/MM/dd" /></h3>
+					<blockquote>
 					${answer.answerPContent }
-					</c:forEach></div>
+					</blockquote>
+					</c:forEach>
 				</div>
 				</c:if>
-				<div class="field">
-					<h3>청원내용</h3>
-					<div class="box">${petition.petitionContent }</div>
-				</div>
 			</div></br></br> 
 			
 			

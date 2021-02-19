@@ -79,7 +79,7 @@
 		WHERE suggestion_no = #{suggestionNo}
 	</select>
 
-	<!-- 각각의 제안 보기(댓글-동의) -->
+	<!-- 각각의 제안 보기(댓글) -->
 	<select id="getCommentS" resultType="CommentS">
 		SELECT commentS_no AS commentSNo, suggestion_no AS suggestionNo, id,
 			commentS_content AS commentSContent, commentS_date AS commentSDate

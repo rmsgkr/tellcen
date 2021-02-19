@@ -5,9 +5,11 @@
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+	<li></li>
 	<li><a href="/tellcen/suggestion/suggestionInfo"
 		class="button large fit">제안이란?</a></li>
-	<li></li>
 	<li><a href="/tellcen/suggestion/suggestionWrite"
 		class="button large fit">제안하기</a></li>
 	<li><a href="/tellcen/suggestion/suggestionList"

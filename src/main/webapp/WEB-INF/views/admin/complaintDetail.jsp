@@ -12,6 +12,10 @@
 		<div class="inner">
 			<header class="major">
 				<h1>${complaint.complaintTitle }</h1>
+				<c:if test="${complaint.complaintStatus == 0}">
+				<button class="button primary large" onclick="window.location.href='<%=request.getContextPath()%>/admin/complaint/${complaint.complaintNo}/answer'">답변하기</button>
+				<button class="button primary large" onclick="window.location.href='<%=request.getContextPath()%>/admin/complaint/${complaint.complaintNo}/delete'">삭제하기</button>
+				</c:if>	
 			</header>
 			<!-- 0.진행  / 1.답변완료 / 2.삭제완료 -->
 			<h3>
@@ -28,30 +32,25 @@
 			</h3>
 			<br>
 			<div class="box">
-				<b>[기관분류]</b>&nbsp;&nbsp;${complaint.complaintOrganization }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[상세기관]</b>&nbsp;&nbsp;${complaint.complaintOrganizationDetail }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[민원인]</b>&nbsp;&nbsp;${complaint.id }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[등록일]</b>&nbsp;&nbsp;<fmt:formatDate value="${complaint.complaintDate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
+				<b>기관분류</b>&nbsp;&nbsp;${complaint.complaintOrganization }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>상세기관</b>&nbsp;&nbsp;${complaint.complaintOrganizationDetail }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>민원인</b>&nbsp;&nbsp;${complaint.id }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>등록일</b>&nbsp;&nbsp;<fmt:formatDate value="${complaint.complaintDate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
+			<blockquote>${complaint.complaintContent }</blockquote></br></br>
 			<div class="fields">
 				<c:if test="${complaint.complaintStatus == 1}">
 				<div class="field">
-					<h3 style="color: #00CED1">답변내용</h3>
-					<div class="box"><c:forEach items="${answerC }" var="answer">
+					<h2 style="color: #00CED1">답변내용</h2>
+					<c:forEach items="${answerC }" var="answer">
+					<h3>|&nbsp;&nbsp;답변일 :&nbsp;&nbsp;<fmt:formatDate value="${answer.answerCDate }" pattern="yyyy/MM/dd" /></h3>
+					<blockquote>
 					${answer.answerCContent }
-					</c:forEach></div>
+					</blockquote>
+					</c:forEach>
 				</div>
 				</c:if>
-				<div class="field">
-					<h3>민원내용</h3>
-					<div class="box">${complaint.complaintContent }</div>
-				</div>
 			</div></br></br> 
- 			<c:if test="${complaint.complaintStatus == 0}">
-			<button class="button primary large" onclick="window.location.href='<%=request.getContextPath()%>/admin/complaint/${complaint.complaintNo}/answer'">답변하기</button>
-			<button class="button primary large" onclick="window.location.href='<%=request.getContextPath()%>/admin/complaint/${complaint.complaintNo}/delete'">삭제하기</button>
-			</c:if>	
-			
 		</div>
 	</section>
 </div>

@@ -5,9 +5,11 @@
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+	<li></li>	
 	<li><a href="/tellcen/petition/petitionInfo"
 		class="button large fit">청원이란?</a></li>
-	<li></li>
 	<li><a href="/tellcen/petition/petitionWrite"
 		class="button large fit">청원하기</a></li>
 	<li><a href="/tellcen/petition/petitionList"

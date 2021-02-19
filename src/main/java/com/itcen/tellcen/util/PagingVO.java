@@ -16,6 +16,7 @@ public class PagingVO {
 		private String complaintTitle, complaintOrganization, complaintOrganizationDetail;
 		private String complaintSdate, complaintEdate;
 		private String id, suggestionTitle, suggestionSdate, suggestionEdate;
+		private String noticeTitle;
 		private int petitionStatus,complaintStatus, suggestionStatus, inquiryStatus;
 		
 		
@@ -61,8 +62,6 @@ public class PagingVO {
 			setPetitionArea(petitionArea);
 			setPetitionField(petitionField);
 		}
-		
-		
 		// 민원 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String complaintTitle, String complaintOrganization, String complaintOrganizationDetail, String complaintSdate, String complaintEdate) {
 			setNowPage(nowPage);
@@ -78,8 +77,6 @@ public class PagingVO {
 			setComplaintEdate(complaintEdate);
 			
 		}
-		
-		
 		// 관리자 회원 or 제안 검색 페이징
 		public PagingVO(int total, int nowPage, int cntPerPage, String id, String suggestionTitle, String suggestionSdate, String suggestionEdate) {
 			setNowPage(nowPage);
@@ -92,6 +89,16 @@ public class PagingVO {
 			setSuggestionTitle(suggestionTitle);
 			setSuggestionSdate(suggestionSdate);
 			setSuggestionEdate(suggestionEdate);
+		}
+		// 공지 검색 페이징
+		public PagingVO(int total, int nowPage, int cntPerPage, String noticeTitle) {
+			setNowPage(nowPage);
+			setCntPerPage(cntPerPage);
+			setTotal(total);
+			calcLastPage(getTotal(), getCntPerPage());
+			calcStartEndPage(getNowPage(), cntPage);
+			calcStartEnd(getNowPage(), getCntPerPage());
+			setNoticeTitle(noticeTitle);
 		}
 		
 		// 제일 마지막 페이지 계산

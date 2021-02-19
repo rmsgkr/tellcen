@@ -6,10 +6,15 @@
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
-	<li><a href="/tellcen/petition/petitionInfo" class="button large fit">청원이란?</a></li>
-	<li></li>
-	<li><a href="/tellcen/petition/petitionWrite" class="button large fit">청원하기</a></li>
-	<li><a href="/tellcen/petition/petitionList" class="button large fit">청원목록</a></li>
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+	<li></li>	
+	<li><a href="/tellcen/petition/petitionInfo"
+		class="button large fit">청원이란?</a></li>
+	<li><a href="/tellcen/petition/petitionWrite"
+		class="button large fit">청원하기</a></li>
+	<li><a href="/tellcen/petition/petitionList"
+		class="button large fit">청원목록</a></li>
 </ul>
 <!-- Main -->
 <div id="main" class="alt">
@@ -35,26 +40,26 @@
 			</h3>
 			<br>
 			<div class="box">
-				<b>[지역]</b>&nbsp;&nbsp;${petition.petitionArea }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[분야]</b>&nbsp;&nbsp;${petition.petitionField }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[청원인]</b>&nbsp;&nbsp;${petition.id }&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>[청원기간]</b>&nbsp;&nbsp;<fmt:formatDate value="${petition.petitionSdate }" pattern="yyyy/MM/dd" />~
+				<b>지역</b>&nbsp;&nbsp;${petition.petitionArea }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>분야</b>&nbsp;&nbsp;${petition.petitionField }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>청원인</b>&nbsp;&nbsp;${petition.id }&nbsp;&nbsp;|&nbsp;&nbsp;
+				<b>청원기간</b>&nbsp;&nbsp;<fmt:formatDate value="${petition.petitionSdate }" pattern="yyyy/MM/dd" />~
 								<fmt:formatDate value="${petition.petitionEdate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
+			<blockquote>${petition.petitionContent }</blockquote></br></br> 
 			<div class="fields">
 				<c:if test="${petition.petitionStatus == 2}">
 				<div class="field">
-					<h3 style="color: #00CED1">답변내용</h3>
-					<div class="box"><c:forEach items="${answerP }" var="answer">
+					<h2 style="color: #00CED1">답변내용</h2>
+					<c:forEach items="${answerP }" var="answer">
+					<h3>|&nbsp;&nbsp;답변일 :&nbsp;&nbsp;<fmt:formatDate value="${answer.answerPDate }" pattern="yyyy/MM/dd" /></h3>
+					<blockquote>
 					${answer.answerPContent }
-					</c:forEach></div>
+					</blockquote>
+					</c:forEach>
 				</div>
 				</c:if>
-				<div class="field">
-					<h3>청원내용</h3>
-					<div class="box">${petition.petitionContent }</div>
-				</div>
-			</div></br></br> 
+			</div></br></br>
  			<h3>
 				<b>청원동의</b> <b style="color: skyblue">${petition.petitionAgreement }</b><b>명</b>
 			</h3>

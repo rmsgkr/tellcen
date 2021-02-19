@@ -6,9 +6,11 @@
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
+	<li></li>	
 	<li><a href="/tellcen/petition/petitionInfo"
 		class="button large fit">청원이란?</a></li>
-	<li></li>
 	<li><a href="/tellcen/petition/petitionWrite"
 		class="button large fit">청원하기</a></li>
 	<li><a href="/tellcen/petition/petitionList"
@@ -84,6 +86,12 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:if test="${petition.size() == 0}">
+							<tr>
+								<td colspan="6" align="center"><b>검색된 결과가 없습니다.</b></td>
+							</tr>
+						</c:if>
+						<c:if test="${complaint.size() != 0}">
 						<c:forEach items="${petition }" var="list">
 							<jsp:useBean id="today" class="java.util.Date" />
 							<fmt:formatDate value='${today}' pattern='yyyy/MM/dd'
@@ -131,8 +139,8 @@
 									</c:if>
 								</c:if>
 							</tr>
-
 						</c:forEach>
+						</c:if>
 					</tbody>
 				</table>
 			</div>

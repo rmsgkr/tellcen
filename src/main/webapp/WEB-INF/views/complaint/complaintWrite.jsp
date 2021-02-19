@@ -5,8 +5,10 @@
 <!DOCTYPE HTML>
 <html>
 <ul class="links" id="sidebar">
-	<li><a href="/tellcen/complaint/complaintInfo" class="button large fit">민원이란?</a></li>
+	<li><a href="/tellcen"
+		class="button large fit">말해주센<span class="icon solid alt fa-home"></span></a></li>
 	<li></li>
+	<li><a href="/tellcen/complaint/complaintInfo" class="button large fit">민원이란?</a></li>
 	<li><a href="/tellcen/complaint/complaintWrite" class="button large fit">민원신청</a></li>
 	<li><a href="/tellcen/complaint/complaintList" class="button large fit">민원목록</a></li>
 </ul>

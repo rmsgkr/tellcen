@@ -87,6 +87,49 @@ $(document).ready(function () {
     $('#suggestionEdate').datepicker("option", "minDate", $("#suggestionSdate").val());
    
 });
+
+$(document).ready(function(){ //DOM이 준비되고
+	$('#toggleButton1').click(function(){ // ID가 toggleButton인 요소를 클릭하면
+		var state = $('#Menu1').css('display'); // state 변수에 ID가 moreMenu인 요소의 display의 속성을 '대입'
+		if(state == 'none'){ // state가 none 상태일경우 
+			$('#Menu1').show(); // ID가 moreMenu인 요소를 show();
+		}else{ // 그 외에는
+			$('#Menu1').hide(); // ID가 moreMenu인 요소를 hide();			
+		}
+	});
+	$('#toggleButton2').click(function(){ // ID가 toggleButton인 요소를 클릭하면
+		var state = $('#Menu2').css('display'); // state 변수에 ID가 moreMenu인 요소의 display의 속성을 '대입'
+		if(state == 'none'){ // state가 none 상태일경우 
+			$('#Menu2').show(); // ID가 moreMenu인 요소를 show();
+		}else{ // 그 외에는
+			$('#Menu2').hide(); // ID가 moreMenu인 요소를 hide();			
+		}
+	});
+	$('#toggleButton3').click(function(){ // ID가 toggleButton인 요소를 클릭하면
+		var state = $('#Menu3').css('display'); // state 변수에 ID가 moreMenu인 요소의 display의 속성을 '대입'
+		if(state == 'none'){ // state가 none 상태일경우 
+			$('#Menu3').show(); // ID가 moreMenu인 요소를 show();
+		}else{ // 그 외에는
+			$('#Menu3').hide(); // ID가 moreMenu인 요소를 hide();			
+		}
+	});
+	$('#toggleButton4').click(function(){ // ID가 toggleButton인 요소를 클릭하면
+		var state = $('#Menu4').css('display'); // state 변수에 ID가 moreMenu인 요소의 display의 속성을 '대입'
+		if(state == 'none'){ // state가 none 상태일경우 
+			$('#Menu4').show(); // ID가 moreMenu인 요소를 show();
+		}else{ // 그 외에는
+			$('#Menu4').hide(); // ID가 moreMenu인 요소를 hide();			
+		}
+	});
+	$('#toggleButton5').click(function(){ // ID가 toggleButton인 요소를 클릭하면
+		var state = $('#Menu5').css('display'); // state 변수에 ID가 moreMenu인 요소의 display의 속성을 '대입'
+		if(state == 'none'){ // state가 none 상태일경우 
+			$('#Menu5').show(); // ID가 moreMenu인 요소를 show();
+		}else{ // 그 외에는
+			$('#Menu5').hide(); // ID가 moreMenu인 요소를 hide();			
+		}
+	});
+});
 </script>
 </body>
 </html>

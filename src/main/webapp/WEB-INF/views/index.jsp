@@ -9,7 +9,7 @@
 			<h1>말해주센</h1>
 		</header>
 		<div class="content">
-			<p>무엇이든 말씀해주세요. 항상 소통하겠습니다.</p>
+			<b>무엇이든 말씀해주세요. 항상 소통하겠습니다.</b>
 			<ul class="actions">
 				<li><a href="#one" class="button next scrolly">시작하기</a></li>
 			</ul>
@@ -65,7 +65,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="/tellcen/notice" class="link">공지사항</a>
+					<a href="/tellcen/notice/noticeList" class="link">공지사항</a>
 				</h3>
 				<p>Notice</p>
 			</header>
@@ -75,7 +75,7 @@
 			</span>
 			<header class="major">
 				<h3>
-					<a href="/tellcen/mypage/inquiryList" class="link">마이페이지</a>
+					<a href="/tellcen/mypage" class="link">마이페이지</a>
 				</h3>
 				<p>Mypage</p>
 			</header>
