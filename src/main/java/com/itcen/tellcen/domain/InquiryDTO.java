@@ -11,7 +11,6 @@ public class InquiryDTO {
 	private String id; // FK
     private String inquiryTitle; //제목
     private String inquiryContent; //내용
-    private String inquiryFile; //파일
     private Timestamp inquiryDate; //작성일 
     private int inquiryStatus; //작성일 (0.답변 대기 중 1. 답변 완료)
     

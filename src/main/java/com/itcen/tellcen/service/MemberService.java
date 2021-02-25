@@ -40,50 +40,21 @@ public class MemberService {
 		return result;
 	}
 
-	// 사용자 정보
-	public MemberDTO getInfo(String id) {
-		return memberDao.getInfo(id);
-	}
-
-	// 회원 정보 수정(이메일,전화번호,주소)
-	public int modify(MemberDTO member) {
-		return memberDao.modify(member);
-	}
-
-	// 회원 탈퇴
-	public void delete(String id) {
-		memberDao.delete(id);
-	}
-
 	// 아이디 찾기(이메일 / 전화번호로 찾기)
-	public String getId(MemberDTO member) {
-		return memberDao.getId(member);
+	public String getMemberId(Map<String, String> map) {
+		return memberDao.getMemberId(map);
 	}
 
-	// 비밀번호 찾기
-	public String getPwd(String pwd) {
-		return memberDao.getPwd(pwd);
-	}
 
 	// 비밀번호 변경(비밀번호 찾기시)
-	public String getEmail(String id) {
-		return memberDao.getEmail(id);
+	public String getMemberEmail(String id) {
+		return memberDao.getMemberEmail(id);
 	}
 
 	// 비밀번호 변경
-	public void changePwd(Map<String, String> map) {
-		memberDao.changePwd(map);
+	public void changeMemberPwd(Map<String, String> map) {
+		memberDao.changeMemberPwd(map);
 	}
 
-	/*
-	 * // ADMIN public List<MemberDTO> getFullInfo(PagingVO vo) { return
-	 * memberDao.getFullInfo(vo); } public int countNumber() { return
-	 * memberDao.countMember(); }
-	 * 
-	 * public List<MemberDTO> getDelInfo(PagingVO vo) { return
-	 * memberDao.getDelInfo(vo); } public int countDelNumber() { return
-	 * memberDao.countDelMember(); }
-	 * 
-	 * public int checkId(String id) { return memberDao.checkId(id); }
-	 */
+
 }

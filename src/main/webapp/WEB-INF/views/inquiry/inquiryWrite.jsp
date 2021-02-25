@@ -38,10 +38,6 @@
 						<textarea name="inquiryContent" id="inquiryContent" rows="6"
 							placeholder="질문하시는 내용을 구체적으로 적어주시면 빠른 답변에 도움이 됩니다."></textarea>
 					</div>
-					<div class="field">
-					<h3>첨부파일</h3>
-					<input type="file" size="40" maxlength="30" name="file" id="file">
-					</div>
 				</div>
 			</form>
 			<input type="button" class="button primary large" value="문의하기"

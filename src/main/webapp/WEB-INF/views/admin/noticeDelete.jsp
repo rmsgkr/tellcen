@@ -18,7 +18,10 @@
 				<b>공지일</b>&nbsp;&nbsp;<fmt:formatDate value="${notice.noticeDate }" pattern="yyyy/MM/dd" />&nbsp;&nbsp;|&nbsp;&nbsp;
 				<b>조회수</b>&nbsp;&nbsp;${notice.noticeCount }&nbsp;&nbsp;&nbsp;&nbsp;
 			</div>
-			<blockquote>${notice.noticeContent }</blockquote>
+			<blockquote>
+			<img src="<%=request.getContextPath() %>/resources/upload/${notice.noticeFile}" ><br><br><br><br>
+			${notice.noticeContent }
+			</blockquote>
 			
 			<form method="post" class="noticeDelete" name="deleteForm"
 				action="<%=request.getContextPath()%>/admin/notice/${notice.noticeNo }/delete">

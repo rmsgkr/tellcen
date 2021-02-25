@@ -451,8 +451,8 @@
 	<!-- 문의 목록 -->
 	<select id="getInquiryInfo" resultType="Inquiry">
 		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
-			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
-			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+			inquiry_content AS inquiryContent, inquiry_date AS inquiryDate, 
+			inquiry_status AS inquiryStatus
 		FROM (
 		SELECT ROWNUM RN, A.*
 		FROM (
@@ -466,8 +466,8 @@
 	<!-- 각각의 문의 보기 -->
 	<select id="getInquiry" parameterType="hashmap" resultType="Inquiry">
 		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
-			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
-			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+			inquiry_content AS inquiryContent, inquiry_date AS inquiryDate, 
+			inquiry_status AS inquiryStatus
 		FROM inquiry	
 		WHERE inquiry_no = #{inquiryNo} 
 	</select>
@@ -510,8 +510,8 @@
 	<!-- 상태별 문의 목록 -->
 	<select id="getInquiryStatus" resultType="Inquiry">
 		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
-			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
-			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+			inquiry_content AS inquiryContent,  inquiry_date AS inquiryDate, 
+			inquiry_status AS inquiryStatus
 		FROM (
 		SELECT ROWNUM RN, A.*
 		FROM (
@@ -525,7 +525,7 @@
 	</select> 
 	
 	
-		<!--공지 카운트, 검색 -->
+	<!--공지 카운트, 검색 -->
 	<select id="getNoticeCount" parameterType="hashmap"
 		resultType="int">
 		SELECT nvl(count(*),0) FROM notice

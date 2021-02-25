@@ -47,10 +47,11 @@ public class MailSendService {
         //인증메일 보내기
         try {
             MailUtils sendMail = new MailUtils(mailSender);
-            sendMail.setSubject("회원가입 이메일 인증");
+            sendMail.setSubject("말해주센 회원가입 이메일 인증");
             sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
             .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-            .append("<a href='http://localhost:8089/tellcen/member/signupCheck?email=")
+            // AWS
+            .append("<a href='http://13.125.27.148:8080/tellcen/member/signupCheck?email=")
             .append(email)
             .append("&id=")
             .append(id)
@@ -74,7 +75,7 @@ public class MailSendService {
 
         try {
             MailUtils sendMail = new MailUtils(mailSender);
-            sendMail.setSubject("비밀번호 인증번호 메일");
+            sendMail.setSubject("말해주센 비밀번호 인증번호 메일");
             sendMail.setText(new StringBuffer().append("<h1>[비밀번호 인증번호]</h1>")
             .append("<p>비밀번호 인증번호는 다음과 같습니다.</p>")
             .append("<strong>")

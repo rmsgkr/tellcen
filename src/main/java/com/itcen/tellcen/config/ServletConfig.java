@@ -14,13 +14,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.itcen.tellcen.interceptor.AdminInterceptor;
 import com.itcen.tellcen.interceptor.LoginInterceptor;
-
+//  <mvc:annotation-driven />
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.itcen.tellcen.controller" })
 @Configuration
 public class ServletConfig extends WebMvcConfigurerAdapter {
 
-	// 디폴트 서블릿 핸들러 설정
+	// 디폴트 서블릿 핸들러 설정 = <mvc:default-servlet-handler>
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();

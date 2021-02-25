@@ -63,21 +63,14 @@ public class RootConfig {
 		return tm;
 	}
 	
-//	@Bean
-//	public MapperFactoryBean userMapper() throws Exception {
-//	  MapperFactoryBean factoryBean = new MapperFactoryBean<T>(UserMapper.class);
-//	  factoryBean.setSqlSessionFactory(sqlSessionFactory());
-//	  return factoryBean;
-//	}
-	
 	// multipart
 	@Bean
 	public CommonsMultipartResolver multipartResolver() throws IOException {
 		CommonsMultipartResolver resolver = new CommonsMultipartResolver();
 		resolver.setMaxUploadSize(5242880);
-		resolver.setUploadTempDir(new FileSystemResource("c:\\tmp"));
+		resolver.setUploadTempDir(new FileSystemResource("/usr/local/tomcat9.0/apache-tomcat-9.0.37/webapps/tmp"));
+		//resolver.setUploadTempDir(new FileSystemResource("C:\\tmp"));
 		resolver.setDefaultEncoding("UTF-8");
-		
 		return resolver;
 	}
 }

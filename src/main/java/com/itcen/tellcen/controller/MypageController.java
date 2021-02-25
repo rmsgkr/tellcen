@@ -6,10 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +35,7 @@ import com.itcen.tellcen.domain.InquiryDTO;
 import com.itcen.tellcen.domain.MemberDTO;
 import com.itcen.tellcen.domain.PetitionDTO;
 import com.itcen.tellcen.domain.SuggestionDTO;
+import com.itcen.tellcen.service.MailSendService;
 import com.itcen.tellcen.service.MypageService;
 import com.itcen.tellcen.util.PagingVO;
 
@@ -44,6 +48,10 @@ public class MypageController {
 
 	@Autowired
 	MypageService mypageService;
+	@Autowired
+	MailSendService mss;
+	@Autowired
+	BCryptPasswordEncoder passEncoder;
 	
 	@GetMapping("")
 	public String index(HttpServletRequest request, Model model) throws Exception {
@@ -296,5 +304,67 @@ public class MypageController {
 
 		return "mypage/inquiryDetail";
 	}
+	
+	
+	// 회원 정보 수정
+	@GetMapping("/modifyMember")
+	public String modifyMemberForm(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
+		MemberDTO dto = (MemberDTO) session.getAttribute("member");
+		String id = dto.getId();
+
+		MemberDTO member = mypageService.getMemberInfo(id);
+		String email = member.getEmail();
+		String tel = member.getTel();
+		String address = member.getAddress();
+		member.setEmail1(email.substring(0, email.indexOf("@")));
+		member.setEmail2(email.substring(email.indexOf("@") + 1));
+		member.setTel1(tel.substring(0, tel.indexOf("-")));
+		member.setTel2(tel.substring(tel.indexOf("-") + 1, tel.lastIndexOf("-")));
+		member.setTel3(tel.substring(tel.lastIndexOf("-") + 1));
+		member.setAddress1(address.substring(0, address.indexOf(",")));
+		member.setAddress2(address.substring(address.indexOf(",") + 1, address.indexOf("(")));
+		member.setAddress3(address.substring(address.indexOf("(")));
+		model.addAttribute("info", member);
+
+		return "mypage/modifyMember";
+	}
+
+	@PostMapping("/modifyMember")
+	public String modifyMember(@ModelAttribute MemberDTO member) {
+		member.setEmail();
+		member.setTel();
+		member.setAddress();
+		String dbPwd = mypageService.getMemberPwd(member.getId());
+
+		boolean passMatch = passEncoder.matches(member.getPwd(), dbPwd);
+		if (passMatch) {
+			mypageService.modifyMember(member);
+			return "mypage/modifyMemberSuccess";
+		}
+		else {
+			return "mypage/modifyMemberFail";
+		}
+		
+	}
+	
+	// 회원탈퇴
+	@GetMapping("/deleteMember")
+	public String deleteMemberForm() {
+		return "mypage/deleteMember";
+	}
+
+	@PostMapping("/deleteMember")
+	public String deleteMember(@RequestParam("id") String id, @RequestParam("pwd") String pwd) {
+		String dbPwd = mypageService.getMemberPwd(id);
+		boolean passMatch = passEncoder.matches(pwd, dbPwd);
+		if (passMatch) {
+			mypageService.deleteMember(id);
+			return "mypage/deleteMemberSuccess";
+		} else {
+			return "mypage/deleteMemberFail";
+		}
+	}
+
 
 }

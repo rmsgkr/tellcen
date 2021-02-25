@@ -26,7 +26,7 @@
 							placeholder="공지사항 내용을 입력하세요."></textarea>
 					</div>
 					<div class="field">
-					<h3>첨부파일</h3>
+					<h3>이미지파일</h3>
 					<input type="file" size="40" maxlength="30" name="file" id="file">
 					</div>
 				</div>

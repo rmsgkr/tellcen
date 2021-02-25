@@ -185,8 +185,8 @@
 	<!-- 오류 문의 목록 -->
 	<select id="getInquiryInfo" resultType="Inquiry">
 		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
-			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
-			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+			inquiry_content AS inquiryContent, inquiry_date AS inquiryDate, 
+			inquiry_status AS inquiryStatus
 		FROM (
 		SELECT ROWNUM RN, A.*
 		FROM (
@@ -202,8 +202,8 @@
 	<!-- 각각의 문의 보기 -->
 	<select id="getInquiry" parameterType="hashmap" resultType="Inquiry">
 		SELECT inquiry_no AS inquiryNo, id, inquiry_title AS inquiryTitle,
-			inquiry_content AS inquiryContent, inquiry_file AS inquiryFile, 
-			inquiry_date AS inquiryDate, inquiry_status AS inquiryStatus
+			inquiry_content AS inquiryContent, inquiry_date AS inquiryDate,
+			inquiry_status AS inquiryStatus
 		FROM inquiry	
 		WHERE inquiry_no = #{inquiryNo} 
 		AND id = #{id}
@@ -216,4 +216,25 @@
 		FROM answerI
 		WHERE inquiry_no = #{inquiryNo}
 	</select>
+	
+	<!-- 사용자 정보 -->
+	<select id="getMemberInfo" parameterType="String" resultType="Member">
+		SELECT name, email, tel, gender, zipcode, address FROM member WHERE id = #{id}
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="modifyMember" parameterType="Member">
+		UPDATE member SET email=#{email}, tel=#{tel}, address=#{address} WHERE id=#{id}
+	</update>
+	
+	<!-- 비밀번호 찾기 -->
+	<select id="getMemberPwd" parameterType="String" resultType="String">
+		SELECT pwd FROM member WHERE id = #{id}
+	</select>
+	
+	<!-- 회원 탈퇴 -->
+	<update id="deleteMember" parameterType="String">
+		UPDATE member SET pwd=null, name=null, email=null, tel=null, birthday=null, gender=null, zipcode=null, address=null, email_auth_key=null, email_auth_check=-1, wdr_date=sysdate WHERE id=#{id} 
+	</update>
+	
 </mapper>

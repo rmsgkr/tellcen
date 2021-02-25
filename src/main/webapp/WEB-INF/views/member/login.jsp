@@ -30,8 +30,8 @@
 			<div class="row gtr-200">
 				<ul class="actions fit">
 					<li><a href="/tellcen/member/signup" class="button">회원가입</a></li>
-					<li><a href="/tellcen/member/seekId" class="button">아이디찾기</a></li>
-					<li><a href="/tellcen/member/seekPwd" class="button">비밀번호찾기</a></li>
+					<li><a href="/tellcen/member/seekMemberId" class="button">아이디찾기</a></li>
+					<li><a href="/tellcen/member/seekMemberPwd" class="button">비밀번호찾기</a></li>
 				</ul>
 			</div>
 		</div>

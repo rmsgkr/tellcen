@@ -45,6 +45,12 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 
+	// 관리자 인터셉터
+	@GetMapping("/adminInterceptor")
+	public String adminInterceptor() {
+		return "admin/adminInterceptor";
+	}
+	
 	@GetMapping("")
 	public String index(Model model) throws Exception {
 		int petitionCount = adminService.getPetitionCount();
@@ -768,7 +774,7 @@ public class AdminController {
 		MultipartFile file = mulRequest.getFile("file");
 		if (!file.isEmpty()) {
 			String filename = file.getOriginalFilename();
-			String uploadFolder = mulRequest.getServletContext().getRealPath("/resources/upload");
+			String uploadFolder = mulRequest.getSession().getServletContext().getRealPath("/resource/upload");
 			notice.setNoticeFile(filename);
 			File saveFile = new File(uploadFolder, filename);
 			System.out.println(uploadFolder);

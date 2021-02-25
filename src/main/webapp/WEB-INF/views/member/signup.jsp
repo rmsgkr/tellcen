@@ -20,7 +20,7 @@
 							<tr>
 								<th>아이디</th>
 								<td><input type="text" name="id" id="id"
-									placeholder="아이디를 입력해주세요." />
+									placeholder="아이디를 입력해주세요." autocomplete="off" />
 									<div id="id_check"></div></td>
 							</tr>
 							<tr>
@@ -37,13 +37,13 @@
 							<tr>
 								<th>이름</th>
 								<td><input type="text" name="name"
-									placeholder="이름을 입력해주세요." /></td>
+									placeholder="이름을 입력해주세요." autocomplete="off"/></td>
 							</tr>
 							<tr>
 								<th>이메일</th>
 								<td style=text-align:center;>
 									<input type="text" name="email1" 
-									onfocus="this.value='';" placeholder="이메일을 입력해주세요." style=width:30%;float:left;/> 
+									onfocus="this.value='';" placeholder="이메일을 입력해주세요." style=width:30%;float:left; autocomplete="off"/> 
 									@
 									<input type="text" name="email2" readonly style=width:30%;display:inline-block;>  
 									&nbsp;&nbsp;&nbsp;&nbsp;
@@ -69,8 +69,8 @@
 										<option value="018">018</option>
 										<option value="019">019</option>
 								</select> 
-								-&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="tel2" class="JJ" style=width:30%;display:inline-block;> 
-								-&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="tel3" class="JJ" style=width:30%;display:inline-block;>
+								-&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="tel2" class="JJ" style=width:30%;display:inline-block; autocomplete="off"> 
+								-&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="tel3" class="JJ" style=width:30%;display:inline-block; autocomplete="off">
 								</td>
 							</tr>
 							<tr>
@@ -92,7 +92,7 @@
 									<input type="text" name="zipcode" id="sample6_postcode" class="address" placeholder="우편번호" readonly style="width:200px;float:left;">
 									<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="button" style=display:inline-block;>
 									<input type="text" name="address1" id="sample6_address" placeholder="주소" class="address" readonly>
-									<input type="text" name="address2" id="sample6_detailAddress" placeholder="상세주소" class="address">
+									<input type="text" name="address2" id="sample6_detailAddress" placeholder="상세주소" class="address" autocomplete="off">
 									<input type="text" name="address3" id="sample6_extraAddress" placeholder="참고항목" class="address" readonly>
 								</td>
 							</tr>

@@ -15,6 +15,7 @@
 <noscript>
 	<link rel="stylesheet" href="/tellcen/resources/css/noscript.css" />
 </noscript>
+
 </head>
 <body class="is-preload">
 
@@ -52,8 +53,8 @@
 			<c:if test="${member == null }">
 				<li><a href="/tellcen/member/login" class="button primary fit">로그인</a></li>
 				<li><a href="/tellcen/member/signup" class="button primary fit">회원가입</a></li>
-				<li><a href="/tellcen/member/seekId" class="button primary fit">아이디찾기</a></li>
-				<li><a href="/tellcen/member/seekPwd" class="button primary fit">비밀번호찾기</a></li>
+				<li><a href="/tellcen/member/seekMemberId" class="button primary fit">아이디찾기</a></li>
+				<li><a href="/tellcen/member/seekMemberPwd" class="button primary fit">비밀번호찾기</a></li>
 			</c:if>
 			<!-- 일반 회원/관리자 로그인 시 -->
 			<c:if test="${member != null }">

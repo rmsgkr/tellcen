@@ -23,7 +23,8 @@ public class MailAuthConfig {
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
 		mailSender.setUsername("dlrmsgkr95@gmail.com");
-		mailSender.setPassword("!!n1206216");
+		// AWS
+		mailSender.setPassword("rpvjhtriyskqcubn");
 		mailSender.setDefaultEncoding("utf-8");
 		mailSender.setJavaMailProperties(properties);
 

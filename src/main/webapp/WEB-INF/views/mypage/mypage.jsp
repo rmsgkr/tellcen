@@ -16,9 +16,9 @@
 					</a></li>
 			<li><a href="/tellcen/mypage/inquiryList" class="button large fit">내문의보기
 					</a></li>
-			<li><a href="/tellcen/mypage/memberModify" class="button large fit">회원정보수정
+			<li><a href="/tellcen/mypage/modifyMember" class="button large fit">회원정보수정
 					</a></li>
-			<li><a href="/tellcen/mypage/memberDelete" class="button large fit">회원탈퇴
+			<li><a href="/tellcen/mypage/deleteMember" class="button large fit">회원탈퇴
 					</a></li>		
 </ul>
 <!-- Main -->

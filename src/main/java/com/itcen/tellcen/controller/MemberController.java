@@ -32,15 +32,10 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder passEncoder;
 
-	/*
-	 * // 회원가입 목록(카카오, 네이버, 말해주센 중 택 1 - 나중에)
-	 * 
-	 * @GetMapping("/signuplist") public String signuplist() { return
-	 * "member/signuplist"; }
-	 */
+
 	// 로그인 인터셉터
 	@GetMapping("/loginInterceptor")
-	public String Interceptor() {
+	public String loginInterceptor() {
 		return "member/loginInterceptor";
 	}
 	
@@ -72,7 +67,7 @@ public class MemberController {
 		map.put("authKey", member.getEmailAuthKey());
 		memberService.insertAuthKey(map);
 
-		return "member/signupOk";
+		return "member/signupSuccess";
 	}
 
 	// 인증번호 확인
@@ -130,88 +125,46 @@ public class MemberController {
 		return "member/logout";
 	}
 
-	// 회원 정보 수정
-	@GetMapping("/modify")
-	public String modifyForm(HttpServletRequest request, Model model) {
-		HttpSession session = request.getSession();
-		MemberDTO dto = (MemberDTO) session.getAttribute("member");
-		String id = dto.getId();
-
-		MemberDTO member = memberService.getInfo(id);
-		String email = member.getEmail();
-		String tel = member.getTel();
-		String address = member.getAddress();
-
-		member.setEmail1(email.substring(0, email.indexOf("@")));
-		member.setEmail2(email.substring(email.indexOf("@") + 1));
-		member.setTel1(tel.substring(0, tel.indexOf("-")));
-		member.setTel2(tel.substring(tel.indexOf("-") + 1, tel.lastIndexOf("-")));
-		member.setTel3(tel.substring(tel.lastIndexOf("-") + 1));
-		member.setAddress1(address.substring(0, address.indexOf(",")));
-		member.setAddress2(address.substring(address.indexOf(",") + 1, address.indexOf("(")));
-		member.setAddress3(address.substring(address.indexOf("(")));
-		model.addAttribute("info", member);
-
-		return "member/modify";
-	}
-
-	@PostMapping("/modify")
-	public String modify(@ModelAttribute MemberDTO member) {
-		member.setEmail();
-		member.setTel();
-		member.setAddress();
-		String dbPwd = memberService.getPwd(member.getId());
-
-		boolean passMatch = passEncoder.matches(member.getPwd(), dbPwd);
-		if (passMatch) {
-			memberService.modify(member);
-		}
-		return "redirect:/member/modify";
-	}
-
-	// 회원탈퇴
-	@GetMapping("/delete")
-	public String delete() {
-		return "member/delete";
-	}
-
-	@PostMapping("/delete")
-	public String delete(@RequestParam("id") String id, @RequestParam("pwd") String pwd) {
-		String dbPwd = memberService.getPwd(id);
-		boolean passMatch = passEncoder.matches(pwd, dbPwd);
-		if (passMatch) {
-			memberService.delete(id);
-			return "member/deleteOk";
-		} else {
-			return "redirect:/member/delete";
-		}
-	}
-
+	
 	// 아이디 찾기
-	@GetMapping("/seekId")
-	public String seekIdForm() {
-		return "member/seekId";
+	@GetMapping("/seekMemberId")
+	public String seekMemberIdForm() {
+		return "member/seekMemberId";
 	}
 
-	@PostMapping("/seekId")
-	public String seekId(Model model, @ModelAttribute MemberDTO member) {
-		String id = memberService.getId(member);
+	@PostMapping("/seekMemberId")
+	public String seekMemberId(Model model, 
+			@RequestParam("name") String name, 
+			@RequestParam("email") String email) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("name", name);
+		map.put("email", email);
+		String id = memberService.getMemberId(map);
+		System.out.println(id);
+		
 		model.addAttribute("id", id);
-		return "member/seekIdOk"; // 아이디 알려줌
+		return "member/seekMemberIdSuccess"; // 아이디 알려줌 
+		
 	}
 
 	// 비밀번호 찾기
-	@GetMapping("/seekPwd")
-	public String seekPwdForm() {
-		return "member/seekPwd";
+	@GetMapping("/seekMemberPwd")
+	public String seekMemberPwdForm() {
+		return "member/seekMemberPwd";
 	}
 
-	@PostMapping("/seekPwd")
-	public String seekPwd(HttpServletResponse response, @RequestParam("id") String id,
+	@PostMapping("/seekMemberPwd")
+	public String seekMemberPwd(HttpServletResponse response, @RequestParam("id") String id,
 			@RequestParam("email") String email) { // 인증번호 발송
-		String dbEmail = memberService.getEmail(id);
+		
+		String dbEmail = memberService.getMemberEmail(id);
+		if(dbEmail==null) {
+			dbEmail = "dbEmail";
+		}
+		
 		boolean result = dbEmail.equals(email);
-
+		
+	
 		if (result) {
 			String authKey = mss.sendPwdMail(id, email);
 			Cookie cookie = new Cookie("authKey", authKey);
@@ -221,16 +174,17 @@ public class MemberController {
 			Cookie cookie2 = new Cookie("id", id);
 			cookie.setMaxAge(60 * 10);
 			response.addCookie(cookie2);
-
-			return "member/authenPwd"; // 인증번호 입력
-		} else {
-			return "javascript:history.back()";
+ 
+			return "member/authenMemberPwd"; // 인증번호 입력
+		} 
+		else {
+			return "member/notMatchEmail";
 		}
 	}
 
 	// 비밀번호 인증
-	@PostMapping("/authenPwd")
-	public String authenPwd(HttpServletRequest request, @RequestParam("key") String inputKey) { // 인증번호 일치여부
+	@PostMapping("/authenMemberPwd")
+	public String authenMemberPwd(HttpServletRequest request, @RequestParam("key") String inputKey) { // 인증번호 일치여부
 		Cookie[] cookie = request.getCookies();
 		String authKey = null;
 		for (Cookie c : cookie) {
@@ -240,20 +194,20 @@ public class MemberController {
 
 		boolean result = inputKey.equals(authKey);
 		if (result) {
-			return "member/changePwd"; // 비밀번호 변경
+			return "member/changeMemberPwd"; // 비밀번호 변경
 		} else {
-			return "javascript:history.back()";
+			return "member/authenMemberPwdFail";
 		}
 	}
 
 	// 비밀번호 변경
-	@GetMapping("/changePwd")
-	public String changePwdForm() {
-		return "member/changePwd";
+	@GetMapping("/changeMemberPwd")
+	public String changeMemberPwdForm() {
+		return "member/changeMemberPwd";
 	}
 
-	@PostMapping("/changePwd")
-	public String changePwd(HttpServletRequest request, @RequestParam("pwd") String pwd) {
+	@PostMapping("/changeMemberPwd")
+	public String changeMemberPwd(HttpServletRequest request, @RequestParam("pwd") String pwd) {
 		HttpSession session = request.getSession();
 		String id = null;
 		try {
@@ -276,14 +230,8 @@ public class MemberController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("id", id);
 		map.put("pwd", CypPwd);
-		memberService.changePwd(map);
-		return "redirect:/";
+		memberService.changeMemberPwd(map);
+		return "member/changeMemberPwdSuccess";
 	}
 
-	/*
-	 * @GetMapping("/idCheck")
-	 * 
-	 * @ResponseBody public int idCheck(@RequestParam("id") String id) {
-	 * System.out.println(id); return memberService.checkId(id); }
-	 */
 }

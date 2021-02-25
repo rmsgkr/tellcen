@@ -42,7 +42,7 @@
 						<ul class="alt">
 							<li><b style="color: #6495ED">①</b> <b>로그인</b></li>
 							<li><b style="color: #6495ED">②</b> <b>민원신청</b></li>
-							<li><b se="color: #6495ED">③</b> <b>신청하기버튼</b></li>
+							<li><b style="color: #6495ED">③</b> <b>신청하기버튼</b></li>
 						</ul>
 					</div>
 					<div class="col-6 cotyll-12-small">

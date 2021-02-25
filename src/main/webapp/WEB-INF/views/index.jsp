@@ -11,6 +11,7 @@
 		<div class="content">
 			<b>무엇이든 말씀해주세요. 항상 소통하겠습니다.</b>
 			<ul class="actions">
+				<li><a href="/tellcen/today/topicInfo" class="button primary">오늘의 이슈</a></li>
 				<li><a href="#one" class="button next scrolly">시작하기</a></li>
 			</ul>
 		</div>

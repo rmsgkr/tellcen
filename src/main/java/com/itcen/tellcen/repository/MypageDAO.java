@@ -262,4 +262,54 @@ public class MypageDAO extends AbstractMybatisDAO {
 			sqlSession.close();
 		}
 	}
+	
+	// 사용자 정보
+	public MemberDTO getMemberInfo(String id) {
+		SqlSession sqlsession = getSqlSessionFactory().openSession();
+		try {
+			return sqlsession.selectOne(namespace + ".getMemberInfo", id);
+		} finally {
+			sqlsession.close();
+		}
+	}
+	
+	// 회원 정보 수정(이메일,전화번호,주소)
+	public int modifyMember(MemberDTO member) {
+		SqlSession sqlsession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlsession.update(namespace + ".modifyMember", member);
+			if (result != 0) {
+				sqlsession.commit();
+			}
+			return result;
+		} finally {
+			sqlsession.close();
+		}
+	}
+	
+	// 비밀번호 찾기
+	public String getMemberPwd(String pwd) {
+		SqlSession sqlsession = getSqlSessionFactory().openSession();
+		try {
+			return sqlsession.selectOne(namespace + ".getMemberPwd", pwd);
+		} finally {
+			sqlsession.close();
+		}
+	}
+	
+	// 회원 탈퇴
+	public void deleteMember(String id) {
+		SqlSession sqlsession = getSqlSessionFactory().openSession();
+		int result = 0;
+		try {
+			result = sqlsession.update(namespace + ".deleteMember", id);
+			if (result != 0) {
+				sqlsession.commit();
+			}
+		} finally {
+			sqlsession.close();
+		}
+	}
+	
 }

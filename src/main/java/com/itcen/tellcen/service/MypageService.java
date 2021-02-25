@@ -134,4 +134,25 @@ public class MypageService {
 		return mypageDao.getAnswerI(inquiryNo);
 	}
 	
+	// 사용자 정보
+	public MemberDTO getMemberInfo(String id) {
+		return mypageDao.getMemberInfo(id);
+	}
+
+	// 회원 정보 수정(이메일,전화번호,주소)
+	public int modifyMember(MemberDTO member) {
+		return mypageDao.modifyMember(member);
+	}
+	
+	// 비밀번호 찾기
+	public String getMemberPwd(String pwd) {
+		return mypageDao.getMemberPwd(pwd);
+	}
+	
+
+	// 회원 탈퇴
+	public void deleteMember(String id) {
+		mypageDao.deleteMember(id);
+	}
+
 }

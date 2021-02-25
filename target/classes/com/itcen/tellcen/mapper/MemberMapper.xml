@@ -33,81 +33,21 @@
 		UPDATE member SET email_auth_check = 1 WHERE id = #{id}
 	</update>
 	
-	<!-- 사용자 정보 -->
-	<select id="getInfo" parameterType="String" resultType="Member">
-		SELECT name, email, tel, gender, zipcode, address FROM member WHERE id = #{id}
-	</select>
-	
-	<!-- 회원 정보 수정 -->
-	<update id="modify" parameterType="Member">
-		UPDATE member SET email=#{email}, tel=#{tel}, address=#{address} WHERE id=#{id}
-	</update>
-	
-	<!-- 회원 탈퇴 -->
-	<update id="delete" parameterType="String">
-		UPDATE member SET pwd=null, name=null, email=null, tel=null, birthday=null, gender=null, zipcode=null, address=null, point=-1, email_auth_key=null, email_auth_check=-1, wdr_date=sysdate WHERE id=#{id} 
-	</update>
-	
+		
 	<!-- 아이디 찾기 -->
-	<select id="getId" parameterType="Member" resultType="String">
-		SELECT id FROM member WHERE name = #{name}
-			 <if test="email1 != null">
-			 	AND email = #{email1}
-			 </if>
-			 <if test="tel2 != null">
-			 	AND tel = #{tel2}
-			 </if>
-	</select>
-	
-	<!-- 비밀번호 찾기 -->
-	<select id="getPwd" parameterType="String" resultType="String">
-		SELECT pwd FROM member WHERE id = #{id}
+	<select id="getMemberId" parameterType="HashMap" resultType="String">
+		SELECT id FROM member WHERE name = #{name} AND email = #{email}
+			
 	</select>
 	
 	<!-- 비밀번호변경(비밀번호 찾기시) -->
-	<select id="getEmail" parameterType="Member" resultType="String">
+	<select id="getMemberEmail" parameterType="Member" resultType="String">
 		SELECT email FROM member WHERE id = #{id}
 	</select>
 	
 	<!-- 비밀번호변경 -->
-	<update id="changePwd" parameterType="Hashmap">
+	<update id="changeMemberPwd" parameterType="Hashmap">
 		UPDATE member SET pwd = #{pwd} WHERE id = #{id}
 	</update>
-	
-	
-	
-	<!-- ADMIN -->
-	<!-- <select id="getFullInfo" resultType="Member">
-		SELECT id, name, email, tel, birthday, point, reg_date AS regDate, wdr_date AS wdrDate FROM (
-			SELECT ROWNUM RN, A.* 
-				FROM (
-						SELECT * 
-						FROM member
-						) A
-				)
-		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
-	<select id="countMember" resultType="int">
-		SELECT count(*) FROM member
-	</select>
-	
-	<select id="getDelInfo" resultType="Member">
-		SELECT id, name, email, tel, birthday, point, reg_date AS regDate, wdr_date AS wdrDate FROM (
-			SELECT ROWNUM RN, A.* 
-				FROM (
-						SELECT * 
-						FROM member
-						WHERE wdr_date IS NOT NULL
-						) A
-				)
-		WHERE RN BETWEEN #{start} AND #{end}
-	</select>
-	<select id="countDelMember" resultType="int">
-		SELECT count(*) FROM member WHERE wdr_date IS NOT NULL
-	</select>
-	
-	<select id="checkId" parameterType="String" resultType="int">
-		SELECT count(*) FROM member WHERE id = #{id}
-	</select> -->
 	
 </mapper>

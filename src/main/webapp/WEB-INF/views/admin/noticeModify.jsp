@@ -22,9 +22,9 @@
 			</div>
 			<blockquote><textarea name="noticeContent" id="noticeContent" rows="6">${notice.noticeContent }</textarea></blockquote>
 			<div class="field">
-					<h3>첨부파일</h3>
+					<h3>이미지파일</h3>
 					<input type="file" size="40" maxlength="30" name="file" id="file"><br>
-					(기존 파일: ${notice.noticeFile})
+					(기존 이미지파일: ${notice.noticeFile})
 					</div>
 			</form>
 			<input type="button" class="button primary large" value="수정하기"

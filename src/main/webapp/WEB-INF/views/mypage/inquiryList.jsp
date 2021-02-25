@@ -17,9 +17,9 @@
 					</a></li>
 			<li><a href="/tellcen/mypage/inquiryList" class="button large fit">내문의보기
 					</a></li>
-			<li><a href="/tellcen/mypage/memberModify" class="button large fit">회원정보수정
+			<li><a href="/tellcen/mypage/modifyMember" class="button large fit">회원정보수정
 					</a></li>
-			<li><a href="/tellcen/mypage/memberDelete" class="button large fit">회원탈퇴
+			<li><a href="/tellcen/mypage/deleteMember" class="button large fit">회원탈퇴
 					</a></li>		
 </ul>
 <!-- Main -->
@@ -47,9 +47,11 @@
 								<td colspan="6" align="center"><b>신청된 문의가 없습니다.</b></td>
 							</tr>
 						</c:if>
+						
 						<c:if test="${inquiry.size() != 0}">
 						<c:forEach items="${inquiry }" var="list">
 							<tr>
+							<c:if test="${list.inquiryStatus != 2}">
 									<td>${list.inquiryNo }</td>
 									<td><a href="/tellcen/mypage/inquiry/${list.inquiryNo}">[${list.inquiryTitle }]</a></td>
 									<c:if test="${list.inquiryStatus == 0}">
@@ -59,6 +61,7 @@
 										<td><b style="color: #00CED1">처리완료</b></td>
 									</c:if>
 									<td><fmt:formatDate value="${list.inquiryDate }" pattern="yyyy/MM/dd" /></td>
+							</c:if>
 							</tr>
 						</c:forEach>
 						</c:if>

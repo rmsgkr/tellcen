@@ -39,7 +39,7 @@ public class InquiryController {
 		return "inquiry/inquiryWrite";
 	}
 	@PostMapping("/inquiryWrite")
-	public String inquiryWrite(MultipartHttpServletRequest mulRequest, @ModelAttribute InquiryDTO inquiry, HttpServletRequest request) {
+	public String inquiryWrite(@ModelAttribute InquiryDTO inquiry, HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
 		String id = null;
@@ -51,23 +51,11 @@ public class InquiryController {
 			e.printStackTrace();
 		}
 		
-		MultipartFile file = mulRequest.getFile("file");
-		if (!file.isEmpty()) {
-			String filename = file.getOriginalFilename();
-			String uploadFolder = mulRequest.getServletContext().getRealPath("/resources/upload");
-			inquiry.setInquiryFile(filename);
-			File saveFile = new File(uploadFolder, filename);
-			System.out.println(uploadFolder);
-			try {
-				file.transferTo(saveFile);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 		inquiryService.inquiryWrite(inquiry);
 		
 		return "inquiry/inquirySuccess";
 	}
+	
 	
 	@GetMapping("/inquiryQuestion")
 	public String inquiryQuestionForm() {

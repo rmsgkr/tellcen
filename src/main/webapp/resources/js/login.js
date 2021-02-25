@@ -55,8 +55,20 @@ function email_change() {
 		} else {
 			document.signUpForm.email2.value = document.signUpForm.emailBox.options[document.signUpForm.emailBox.selectedIndex].value;
 		}
+		
+		
 	}
+function email_change2() {
 
+	if (document.modifyForm.emailBox.options[document.modifyForm.emailBox.selectedIndex].value == '9') {
+		document.modifyForm.email2.readOnly = false;
+		document.modifyForm.email2.value = "";
+		document.modifyForm.email2.focus();
+	} else {
+		document.modifyForm.email2.value = document.modifyForm.emailBox.options[document.modifyForm.emailBox.selectedIndex].value;
+	}
+	
+}
 	// 회원가입시 사용
 	function button() {
 		if (signUpForm.id.value == "") {
@@ -112,34 +124,30 @@ function email_change() {
 	}
 	
 	function button2() {
-		if (signUpForm.pwd.value == "") {
+		if (modifyForm.pwd.value == "") {
 			alert('비밀번호를 입력해주세요.');
-			signUpForm.pwd.focus();
+			modifyForm.pwd.focus();
 			return;
 		}
-		if (signUpForm.name.value == "") {
+		if (modifyForm.name.value == "") {
 			alert('이름을 입력해주세요.');
-			signUpForm.name.focus();
+			modifyForm.name.focus();
 			return;
 		}
-		if (signUpForm.email1.value == "" || signUpForm.email2.value == "") {
+		if (modifyForm.email1.value == "" || modifyForm.email2.value == "") {
 			alert('이메일을 입력해주세요.');
-			signUpForm.email1.focus();
+			modifyForm.email1.focus();
 			return;
 		}
-		if (signUpForm.zipcode.value == "") {
+		if (modifyForm.zipcode.value == "") {
 			alert('주소를 입력해주세요.');
 			return;
 		}
-		if (signUpForm.tel1.value == "" || signUpForm.tel2.value == ""|| signUpForm.tel3.value == "") {
+		if (modifyForm.tel1.value == "" || modifyForm.tel2.value == ""|| modifyForm.tel3.value == "") {
 			alert('핸드폰번호를 입력해주세요.');
-			signUpForm.tel1.focus();
+			modifyForm.tel1.focus();
 			return;
 		}
-		if (signUpForm.gender.value == "") {
-			alert('성별을 입력해주세요.');
-			signUpForm.gender.focus();
-			return;
-		}
-		signUpForm.submit();
+		
+		modifyForm.submit();
 	}

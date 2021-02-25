@@ -76,81 +76,33 @@ public class MemberDAO extends AbstractMybatisDAO {
 		}
 	}
 	
-	// 사용자 정보
-	public MemberDTO getInfo(String id) {
+	
+	// 아이디 찾기(이메일로 찾기)
+	public String getMemberId(Map<String, String> map) {
 		SqlSession sqlsession = getSqlSessionFactory().openSession();
 		try {
-			return sqlsession.selectOne(namespace + ".getInfo", id);
+			return sqlsession.selectOne(namespace + ".getMemberId", map);
 		} finally {
 			sqlsession.close();
 		}
 	}
 	
-	// 회원 정보 수정(이메일,전화번호,주소)
-	public int modify(MemberDTO member) {
-		SqlSession sqlsession = getSqlSessionFactory().openSession();
-		int result = 0;
-		try {
-			result = sqlsession.update(namespace + ".modify", member);
-			if (result != 0) {
-				sqlsession.commit();
-			}
-			return result;
-		} finally {
-			sqlsession.close();
-		}
-	}
-	
-	// 회원 탈퇴
-	public void delete(String id) {
-		SqlSession sqlsession = getSqlSessionFactory().openSession();
-		int result = 0;
-		try {
-			result = sqlsession.update(namespace + ".delete", id);
-			if (result != 0) {
-				sqlsession.commit();
-			}
-		} finally {
-			sqlsession.close();
-		}
-	}
-	
-	// 아이디 찾기(이메일 / 전화번호로 찾기)
-	public String getId(MemberDTO member) {
-		SqlSession sqlsession = getSqlSessionFactory().openSession();
-		try {
-			return sqlsession.selectOne(namespace + ".getId", member);
-		} finally {
-			sqlsession.close();
-		}
-	}
-	
-	// 비밀번호 찾기
-	public String getPwd(String pwd) {
-		SqlSession sqlsession = getSqlSessionFactory().openSession();
-		try {
-			return sqlsession.selectOne(namespace + ".getPwd", pwd);
-		} finally {
-			sqlsession.close();
-		}
-	}
-
 	// 비밀번호 변경(비밀번호 찾기시)
-	public String getEmail(String id) {
+	public String getMemberEmail(String id) {
 		SqlSession sqlsession = getSqlSessionFactory().openSession();
 		try {
-			return sqlsession.selectOne(namespace + ".getEmail", id);
+			return sqlsession.selectOne(namespace + ".getMemberEmail", id);
 		} finally {
 			sqlsession.close();
 		}
 	}
 
 	// 비밀번호 변경
-	public void changePwd(Map<String, String> map) {
+	public void changeMemberPwd(Map<String, String> map) {
 		SqlSession sqlsession = getSqlSessionFactory().openSession();
 		int result = 0;
 		try {
-			result = sqlsession.update(namespace + ".changePwd", map);
+			result = sqlsession.update(namespace + ".changeMemberPwd", map);
 			if (result != 0) {
 				sqlsession.commit();
 			}
@@ -158,47 +110,5 @@ public class MemberDAO extends AbstractMybatisDAO {
 			sqlsession.close();
 		}
 	}
-	
-	/*
-	 * // ADMIN public List<MemberDTO> getFullInfo(PagingVO vo) { SqlSession
-	 * sqlsession = getSqlSessionFactory().openSession(); try { return
-	 * sqlsession.selectList(namespace + ".getFullInfo", vo); } finally {
-	 * sqlsession.close(); } }
-	 * 
-	 * public int countMember() { SqlSession sqlsession =
-	 * getSqlSessionFactory().openSession(); try { return
-	 * sqlsession.selectOne(namespace + ".countMember"); } finally {
-	 * sqlsession.close(); } }
-	 * 
-	 * public List<MemberDTO> getDelInfo(PagingVO vo) { SqlSession sqlsession =
-	 * getSqlSessionFactory().openSession(); try { return
-	 * sqlsession.selectList(namespace + ".getDelInfo", vo); } finally {
-	 * sqlsession.close(); } }
-	 * 
-	 * public int countDelMember() { SqlSession sqlsession =
-	 * getSqlSessionFactory().openSession(); try { return
-	 * sqlsession.selectOne(namespace + ".countDelMember"); } finally {
-	 * sqlsession.close(); } }
-	 * 
-	 * public int checkId(String id) { SqlSession sqlsession =
-	 * getSqlSessionFactory().openSession(); try { return
-	 * sqlsession.selectOne(namespace + ".checkId", id); } finally {
-	 * sqlsession.close(); } }
-	 */
-
-
-
-//	public int getArticleCount(String boardid, String category, String sentence) {
-//		SqlSession sqlsession = getSqlSessionFactory().openSession();
-//		try {
-//			map.clear();
-//			map.put("boardid", boardid);
-//			map.put("category", category);
-//			map.put("sentence", sentence);
-//			return sqlsession.selectOne(namespace + ".getArticleCount", map);
-//		} finally {
-//			sqlsession.close();
-//		}
-//	}
 
 }

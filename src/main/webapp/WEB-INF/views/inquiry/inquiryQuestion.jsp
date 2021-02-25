@@ -56,11 +56,11 @@
 				</div>
 
 				<div id="toggleButton5">
-					<a href="#"><h3><b style="color: #6495ED">⑤</b>&nbsp;회원가입 후 개명을 했는데 이름 변경을 어떻게 해야 하나요?</h3></a>
+					<a href="#"><h3><b style="color: #6495ED">⑤</b>&nbsp;회원가입 후 탈퇴를 했는데 가입이 안됩니다.</h3></a>
 				</div>
 				<div id="Menu5" style="display: none">
-					<div class="box">말해주센 회원으로 가입한 이후 개명이 된 경우에는, 회원 로그인 후 마이페이지>
-						회원정보수정 메뉴에서 이름을 변경하시면 됩니다.</div>
+					<div class="box">말해주센 회원으로 가입한 이후 탈퇴시 이전 아이디로 재가입이 불가능하다는 설명을 해드렸습니다.
+					다른 아이디로 가입하시는 것을 권유드립니다.</div>
 				</div>
 				</blockquote> 
 
